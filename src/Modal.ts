@@ -46,10 +46,26 @@ export class Modal {
 
         saveButton.forEach(function (item) {
             item.addEventListener('click', function () {
-                alert("Save button!")
+               self.cookiesManager.injectScripts();
                 self.cookiesManager.hideBanner();
             });
         });
+
+        // Switches
+        this.cookiesManager.getOptions().cookieCategories.forEach((category, index) => {
+
+            var checkbox = document.querySelector(`.cm-switch-${index}`)!;
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    category.checked = true;
+                } else {
+                    category.checked = false;
+                }
+            });
+
+        });
+
+
     }
 
     public injectModal() {
@@ -58,9 +74,9 @@ export class Modal {
         }
     }
 
-    private generateCategoriesBlocks(){
+    private generateCategoriesBlocks() {
         let categoriesBlocks = "";
-        this.cookiesManager.getOptions().cookieCategories.forEach(element => {
+        this.cookiesManager.getOptions().cookieCategories.forEach((element, index) => {
             const disabled = element.required ? "disabled" : "";
             const checked = element.required ? "checked" : "";
             const block = `
@@ -71,7 +87,7 @@ export class Modal {
                     </h2>
                     <div class="header__switch">
                     <label class="switch ${disabled}">
-                        <input ${disabled} ${checked} type="checkbox">
+                        <input ${disabled} checked class="cm-switch-${index}" type="checkbox">
                         <span class="slider round"></span>
                     </label>
                     </div>

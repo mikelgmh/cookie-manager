@@ -5,6 +5,7 @@ export declare class CookiesManager {
     private modalOptions;
     private banner;
     private modal;
+    private acceptAll;
     getBanner(): Banner;
     setBanner(banner: Banner): void;
     getModal(): Modal;
@@ -16,6 +17,8 @@ export declare class CookiesManager {
     acceptAllButton(): void;
     hideBanner(): void;
     hideModal(): void;
+    private injectScript;
+    injectScripts(): void;
 }
 export interface Options {
     cookieCategories: [
@@ -23,13 +26,19 @@ export interface Options {
             title: string;
             description: string;
             required: boolean;
+            checked: boolean;
             scripts: [
                 {
-                    type: string;
+                    type: ScriptType;
                     gtmCode: string;
-                    scriptTag: string;
+                    scriptSrc: string;
+                    async: boolean;
                 }
             ];
         }
     ];
+}
+export declare enum ScriptType {
+    GTM = 0,
+    STANDARD = 1
 }

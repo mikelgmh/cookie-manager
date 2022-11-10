@@ -8,6 +8,8 @@ export class CookiesManager {
     private modalOptions: Options;
     private banner: Banner;
     private modal: Modal;
+    private acceptAll: boolean = false;
+
 
     public getBanner(): Banner {
         return this.banner;
@@ -34,6 +36,9 @@ export class CookiesManager {
         if (options == null) {
             throw new Error("Options cannot be null");
         } else {
+            options.cookieCategories.forEach(category => {
+                category.checked = true;
+            });
             this.modalOptions = options;
         }
 
@@ -50,17 +55,38 @@ export class CookiesManager {
     }
 
     public acceptAllButton() {
-        alert("Accepting all!")
+        this.acceptAll = true;
         this.modal.hide();
+        this.banner.hide();
+        this.injectScripts();
+    }
+
+    public hideBanner() {
         this.banner.hide();
     }
 
-    public hideBanner(){
-        this.banner.hide();
+    public hideModal() {
+        this.modal.hide();
     }
 
-    public hideModal(){
-        this.modal.hide();
+    private injectScript(src: string, async) {
+        var s = document.createElement('script');
+        s.setAttribute('src', src);
+        s.async = async;
+        document.body.appendChild(s);
+    }
+
+    public injectScripts() {
+        this.modalOptions.cookieCategories.forEach(category => {
+
+            if (category.checked || this.acceptAll) {
+                category.scripts.forEach(script => {
+                    console.log("injecting script: " + script.scriptSrc);
+                    this.injectScript(script.scriptSrc, script.async)
+
+                });
+            }
+        });
     }
 
 }
@@ -71,13 +97,20 @@ export interface Options {
             title: string,
             description: string,
             required: boolean,
+            checked: boolean,
             scripts: [
                 {
-                    type: string,
+                    type: ScriptType,
                     gtmCode: string,
-                    scriptTag: string,
+                    scriptSrc: string,
+                    async: boolean,
                 }
             ]
         }
     ]
+}
+
+export enum ScriptType {
+    GTM,
+    STANDARD
 }

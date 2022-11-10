@@ -131,12 +131,9 @@ export class CookiesManager {
 
     public injectScripts() {
         this.modalOptions.cookieCategories.forEach(category => {
-
             if (category.checked || this.acceptAll) {
                 category.scripts.forEach(script => {
-                    console.log("injecting script: " + script.scriptSrc);
                     this.injectScript(script.scriptSrc, script.async)
-
                 });
             }
         });

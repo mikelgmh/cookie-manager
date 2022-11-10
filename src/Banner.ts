@@ -10,8 +10,6 @@ export class Banner {
     constructor(cookiesManager: CookiesManager, options: BannerOptions) {
         this.cookiesManager = cookiesManager;
         this.options = options;
-        console.log("Setting options:")
-        console.log(options)
         this.injectBanner();
         this.setEventListeners();
     }
@@ -63,10 +61,7 @@ export class Banner {
                 `;
     }
     private getAcceptAllButtonText() {
-        console.log("Get banner text")
-
         if (this.options.acceptAllButton.text != undefined) {
-
             // Else return wrapped
             return this.options.acceptAllButton.text;
         }

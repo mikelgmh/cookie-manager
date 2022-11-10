@@ -1,0 +1,19 @@
+{
+  "name": "cookies-banner",
+  "version": "1.0.0",
+  "description": "Cookies banner",
+  "main": "dist/index.js",
+  "source": "src/CookiesManager.ts",
+  "types": "dist/foo.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "microbundle",
+    "dev": "microbundle watch"
+  },
+  "author": "Mikel Granero",
+  "license": "ISC",
+  "devDependencies": {
+    "microbundle": "^0.15.1",
+    "sass": "^1.55.0"
+  }
+}

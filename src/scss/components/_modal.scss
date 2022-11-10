@@ -1,0 +1,321 @@
+/*=============== MODAL ===============*/
+
+.c-cookies-config-modal {
+    font-family: var(--body-font);
+    .modal {
+
+        &__button {
+            display: inline-block;
+            background-color: var(--first-color);
+            color: #FFF;
+            padding: 1rem 1.25rem;
+            border-radius: .5rem;
+            transition: .3s;
+
+            &:hover {
+                background-color: var(--first-color-alt);
+            }
+
+        }
+
+        &__container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: hsla(var(--hue), 18%, 75%, .8);
+            width: 100%;
+            height: 100%;
+            display: grid;
+            align-items: flex-end;
+            overflow: hidden;
+            transition: all .3s;
+            z-index: var(--z-modal);
+            visibility: hidden;
+            opacity: 0;
+
+            /* === Effect 3 === */
+            /* perspective: 1000px; */
+            &.show-modal {
+                visibility: visible;
+                opacity: 1;
+
+                .modal__content {
+                    /* === Effect 1 === */
+                    transform: translateY(0);
+
+                    /* === Effect 2 === */
+                    /* transform: scale(1) translateY(0); */
+
+                    /* === Effect 3 === */
+                    /* transform: rotateX(0) scale(1) translateY(0); */
+                }
+            }
+        }
+
+
+        &__cookie-categories {
+            display: flex;
+            flex-direction: column;
+            max-height: 40vh;
+            padding-right: 20px;
+            overflow: auto;
+            .cookie-category {
+                &:not(:first-child) {
+                    margin-top: 20px;
+                }
+
+                &__header,
+                .header {
+                    margin-bottom: 5px;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    &__title {
+                        font-size: 20px;
+                        font-weight: 500;
+                    }
+
+                    &__switch {
+                        transform: scale(0.7);
+
+                        /* The switch - the box around the slider */
+                        .switch {
+                            position: relative;
+                            display: inline-block;
+                            width: 60px;
+                            height: 34px;
+                            &.disabled {
+                                opacity: 0.6;
+                            }
+                        }
+
+                        /* Hide default HTML checkbox */
+                        .switch input {
+                            opacity: 0;
+                            width: 0;
+                            height: 0;
+                        }
+
+                        /* The slider */
+                        .slider {
+                            position: absolute;
+                            cursor: pointer;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            background-color: #ccc;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                        }
+
+                        .slider:before {
+                            position: absolute;
+                            content: "";
+                            height: 26px;
+                            width: 26px;
+                            left: 4px;
+                            bottom: 4px;
+                            background-color: white;
+                            -webkit-transition: .4s;
+                            transition: .4s;
+                        }
+
+                        input:checked+.slider {
+                            background-color: var(--first-color);
+                        }
+
+                        input:focus+.slider {
+                            box-shadow: 0 0 1px var(--first-color);
+                        }
+
+                        input:checked+.slider:before {
+                            -webkit-transform: translateX(26px);
+                            -ms-transform: translateX(26px);
+                            transform: translateX(26px);
+                        }
+
+                        /* Rounded sliders */
+                        .slider.round {
+                            border-radius: 34px;
+                        }
+
+                        .slider.round:before {
+                            border-radius: 50%;
+                        }
+                    }
+                }
+
+                &__body,
+                .body {
+                    font-size: 14px;
+                }
+            }
+        }
+
+        &__content {
+            
+            position: relative;
+            background-color: var(--container-color);
+            //text-align: center;
+            padding: 3rem 2rem 2rem;
+            border-radius: 1rem 1rem 1rem 1rem;
+            transition: all .3s;
+
+            /* === Effect 1 === */
+            transform: translateY(10%);
+
+            /* === Effect 2 === */
+            /* transform: scale(.5) translateY(10%); */
+
+            /* === Effect 3 === */
+            /* transform-origin: 50% 100%; */
+            /* transform: rotateX(65deg) scale(.75) translateY(10%); */
+
+        }
+
+        &__footer {
+            margin-top: 50px;
+            display: flex;
+        }
+
+        &__img {
+            width: 150px;
+            margin-bottom: .75rem;
+        }
+
+        &__close {
+            display: inline-flex;
+            background-color: var(--first-color);
+            border-radius: .25rem;
+            color: #FFF;
+            font-size: 1.5rem;
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            cursor: pointer;
+
+            img {
+                width: 20px;
+                background-color: white;
+            }
+        }
+
+        &__title {
+            font-size: var(--big-font-size);
+            color: var(--title-color);
+            font-weight: 500;
+        }
+
+        &__description {
+            margin-bottom: 1.5rem;
+        }
+
+        &__button-width {
+            width: 60%;
+        }
+
+        &__button-link {
+            display: block;
+            background-color: transparent;
+            color: var(--first-color);
+            font-weight: 500;
+            width: 40%;
+        }
+    }
+
+    /* Show modal */
+
+    // Scrollbar
+    /* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #272735 #ffffff;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #ffffff;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #272735;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+  }
+
+}
+
+.c-cookies-config-banner {
+    font-family: var(--body-font);
+
+    .banner-container {
+      p{
+       align-self: flex-start;
+      }
+        &__button {
+            display: inline-block;
+            background-color: var(--first-color);
+            color: #FFF;
+            padding: 1rem 1.25rem;
+            border-radius: .5rem;
+            transition: .3s;
+
+            &:hover {
+                background-color: var(--first-color-alt);
+            }
+
+        }
+
+        &__button-link {
+            display: block;
+            background-color: transparent;
+            color: var(--first-color);
+            font-weight: 500;
+            //width: 40%;
+            padding: 1rem 1.25rem;
+        }
+
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: var(--container-color);
+        width: 95%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        transition: all .3s;
+        z-index: 1000;
+        flex-direction: column;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 25px;
+        border-radius: 1em;
+        padding: 30px;
+
+        p {
+            text-align: left;
+        }
+
+        &__buttons {
+            margin-top: 25px;
+            display: flex;
+            width: 100%;
+        }
+    }
+}
+
+.c-cookies-config-wall {
+    background-color: hsla(var(--hue), 18%, 75%, 0.8);
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}

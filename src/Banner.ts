@@ -1,5 +1,5 @@
 import { Modal } from "./Modal";
-import { Utils } from "./utils";
+import { Utils } from './utils';
 import { CookiesManager } from './CookiesManager';
 
 export class Banner {

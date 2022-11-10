@@ -2,6 +2,7 @@
 import { Banner, BannerOptions } from "./Banner";
 import { ModalOptions, Modal } from './Modal';
 import "./scss/styles.scss";
+import { Utils } from './utils';
 export class CookiesManager {
 
     // var isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
@@ -42,6 +43,11 @@ export class CookiesManager {
             this.modalOptions = options;
             // Check options to create banner and modal
 
+            if (localStorage.getItem("cookiesManagerOptions") != null) {
+                this.modalOptions.cookieCategories = this.getCookiesOptions();
+                this.injectScripts();
+            }
+
             // Generate modal
             if (options.modalOptions != null) {
                 this.createModal(options.modalOptions);
@@ -74,7 +80,8 @@ export class CookiesManager {
         this.modal.hide();
         this.banner.hide();
         this.injectScripts();
-        this.setCookie();
+        //this.setCookie();
+        this.saveCookieOptions();
     }
 
     public showModal() {
@@ -102,7 +109,7 @@ export class CookiesManager {
 
     public init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
-            if (this.readCookie() != "true") {
+            if (localStorage.getItem("cookiesManagerOptions") == null) {
                 if (banner) {
                     this.showBanner();
                 }
@@ -118,7 +125,7 @@ export class CookiesManager {
             if (modal) {
                 this.showModal();
             }
-           
+
         }
     }
 
@@ -135,35 +142,21 @@ export class CookiesManager {
         });
     }
 
-    saveButton(){
-        this.setCookie();
+    saveButton() {
+        //this.setCookie();
+        this.saveCookieOptions();
     }
 
-    setCookie(name = "analyticsCookie", value = true, days = 365) {
-        let expires;
-        if (days) {
-            const date = new Date();
-            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-            expires = `; expires=${date.toUTCString()}`;
-        } else {
-            expires = '';
-        }
-        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}${expires}; path=/`;
+    saveCookieOptions() {
+        const base64Options = Utils.encode(JSON.stringify(this.modalOptions.cookieCategories));
+        localStorage.setItem("cookiesManagerOptions", base64Options);
     }
 
-    readCookie(name = "analyticsCookie") {
-        const nameEQ = `${encodeURIComponent(name)}=`;
-        const ca = document.cookie.split(';');
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
-        }
-        return null;
-        // if (readCookie("analyticCookie") === "true") {
-        //     launchAnalytics();
-        // }
+    getCookiesOptions(): any {
+        return JSON.parse(Utils.decode(localStorage.getItem("cookiesManagerOptions")));
     }
+
+
 
 }
 

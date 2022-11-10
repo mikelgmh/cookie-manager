@@ -23,8 +23,8 @@ export declare class CookiesManager {
     init(banner: boolean, modal: boolean): void;
     injectScripts(): void;
     saveButton(): void;
-    setCookie(name?: string, value?: boolean, days?: number): void;
-    readCookie(name?: string): string;
+    saveCookieOptions(): void;
+    getCookiesOptions(): any;
 }
 export interface Options {
     cookieCategories: [

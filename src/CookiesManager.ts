@@ -32,7 +32,6 @@ export class CookiesManager {
         return this.modalOptions;
     }
 
-
     constructor(options: Options) {
         if (options == null) {
             throw new Error("Options cannot be null");

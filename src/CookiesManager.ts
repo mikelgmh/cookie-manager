@@ -40,6 +40,21 @@ export class CookiesManager {
                 category.checked = true;
             });
             this.modalOptions = options;
+            // Check options to create banner and modal
+
+            // Generate modal
+            if (options.modalOptions != null) {
+                this.createModal(options.modalOptions);
+            }
+
+
+            if (options.bannerOptions != null) {
+                if (options.modalOptions != null) {
+                    options.bannerOptions.settingsButton.modal = this.modal; // The modal was already created
+                }
+                this.createBanner(options.bannerOptions);
+            }
+
         }
 
     }
@@ -59,6 +74,15 @@ export class CookiesManager {
         this.modal.hide();
         this.banner.hide();
         this.injectScripts();
+        this.setCookie();
+    }
+
+    public showModal() {
+        this.modal.show();
+    }
+
+    public showBanner() {
+        this.banner.show();
     }
 
     public hideBanner() {
@@ -76,6 +100,28 @@ export class CookiesManager {
         document.body.appendChild(s);
     }
 
+    public init(banner: boolean, modal: boolean) {
+        if (this.modalOptions.askOnce) {
+            if (this.readCookie() != "true") {
+                if (banner) {
+                    this.showBanner();
+                }
+                if (modal) {
+                    this.showModal();
+                }
+            }
+        } else {
+
+            if (banner) {
+                this.showBanner();
+            }
+            if (modal) {
+                this.showModal();
+            }
+           
+        }
+    }
+
     public injectScripts() {
         this.modalOptions.cookieCategories.forEach(category => {
 
@@ -87,6 +133,36 @@ export class CookiesManager {
                 });
             }
         });
+    }
+
+    saveButton(){
+        this.setCookie();
+    }
+
+    setCookie(name = "analyticsCookie", value = true, days = 365) {
+        let expires;
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = `; expires=${date.toUTCString()}`;
+        } else {
+            expires = '';
+        }
+        document.cookie = `${encodeURIComponent(name)}=${encodeURIComponent(value)}${expires}; path=/`;
+    }
+
+    readCookie(name = "analyticsCookie") {
+        const nameEQ = `${encodeURIComponent(name)}=`;
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+        return null;
+        // if (readCookie("analyticCookie") === "true") {
+        //     launchAnalytics();
+        // }
     }
 
 }
@@ -107,7 +183,10 @@ export interface Options {
                 }
             ]
         }
-    ]
+    ],
+    bannerOptions: BannerOptions,
+    modalOptions: ModalOptions,
+    askOnce: boolean,
 }
 
 export enum ScriptType {

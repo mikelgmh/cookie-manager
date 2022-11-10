@@ -15,10 +15,16 @@ export declare class CookiesManager {
     createBanner(options: BannerOptions): Banner;
     createModal(options: ModalOptions): Modal;
     acceptAllButton(): void;
+    showModal(): void;
+    showBanner(): void;
     hideBanner(): void;
     hideModal(): void;
     private injectScript;
+    init(banner: boolean, modal: boolean): void;
     injectScripts(): void;
+    saveButton(): void;
+    setCookie(name?: string, value?: boolean, days?: number): void;
+    readCookie(name?: string): string;
 }
 export interface Options {
     cookieCategories: [
@@ -37,6 +43,9 @@ export interface Options {
             ];
         }
     ];
+    bannerOptions: BannerOptions;
+    modalOptions: ModalOptions;
+    askOnce: boolean;
 }
 export declare enum ScriptType {
     GTM = 0,

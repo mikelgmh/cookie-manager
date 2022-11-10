@@ -48,6 +48,7 @@ export class Modal {
             item.addEventListener('click', function () {
                self.cookiesManager.injectScripts();
                 self.cookiesManager.hideBanner();
+                self.cookiesManager.saveButton();
             });
         });
 

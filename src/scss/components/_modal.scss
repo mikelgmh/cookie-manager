@@ -287,7 +287,7 @@
         left: 0;
         background-color: var(--container-color);
         width: 95%;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;
         overflow: hidden;
@@ -299,7 +299,9 @@
         bottom: 25px;
         border-radius: 1em;
         padding: 30px;
-
+        &.show-banner{
+display: flex;
+        }
         p {
             text-align: left;
         }

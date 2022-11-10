@@ -107,8 +107,8 @@ export class Banner {
         if (!this.options.wallScroll) {
             this.hideScroll();
         }
-        const test = document.querySelector<HTMLElement>(".c-cookies-config-banner")!;
-        test.style.display = "block";
+        const test = document.querySelector<HTMLElement>(".c-cookies-config-banner .banner-container")!;
+        test.classList.add("show-banner");
     }
     public hide() {
         const test = document.querySelector<HTMLElement>(".c-cookies-config-banner")!;

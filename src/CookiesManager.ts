@@ -10,6 +10,7 @@ export class CookiesManager {
     private banner: Banner;
     private modal: Modal;
     private acceptAll: boolean = false;
+    private configChanged: boolean = false;
 
 
     public getBanner(): Banner {
@@ -43,8 +44,19 @@ export class CookiesManager {
             // Check options to create banner and modal
 
             if (localStorage.getItem("cookiesManagerOptions") != null) {
-                this.modalOptions.cookieCategories = this.getCookiesOptions();
-                this.injectScripts();
+                // Prepare the options to compare them.
+                var optionsComparison = Utils.prepareObjectsForComparison(this.modalOptions.cookieCategories, this.getCookiesOptions());
+
+                // Check if the options in localStorage and the options from the constructor are the same
+                if (Utils.objectEquals(optionsComparison.A, optionsComparison.B)) {
+                    // If the options are the same, just inject the scripts
+                    this.modalOptions.cookieCategories = this.getCookiesOptions();
+                    this.injectScripts();
+                } else {
+                    // If the options are different, set the configChanged to true
+                    // We are in the constructor. By setting this to true, it might show the banner and modal if the user has set askOnChange to true
+                    this.configChanged = true;
+                }
             }
 
             // Generate modal
@@ -108,13 +120,21 @@ export class CookiesManager {
 
     public init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
-            if (localStorage.getItem("cookiesManagerOptions") == null) {
+            // TODO ver casuística si askOnChange es false, configChanged es true, se inyectan los scripts? No se intectan si no se muestran los banners Debería haber un else?
+            if (localStorage.getItem("cookiesManagerOptions") == null || (this.modalOptions.askOnChange && this.configChanged)) {
+                var bannerShown = false;
+                var modalShown = false;
                 if (banner) {
                     this.showBanner();
+                    bannerShown = true;
                 }
                 if (modal) {
                     this.showModal();
+                    modalShown = true;
                 }
+                // if(!bannerShown && !modalShown && this.configChanged == true && !this.modalOptions.askOnChange){
+                //     this.injectScripts();
+                // }
             }
         } else {
 
@@ -176,6 +196,7 @@ export interface Options {
     bannerOptions: BannerOptions,
     modalOptions: ModalOptions,
     askOnce: boolean,
+    askOnChange: boolean,
 }
 
 export enum ScriptType {

@@ -6,6 +6,7 @@ export declare class CookiesManager {
     private banner;
     private modal;
     private acceptAll;
+    private configChanged;
     getBanner(): Banner;
     setBanner(banner: Banner): void;
     getModal(): Modal;
@@ -46,6 +47,7 @@ export interface Options {
     bannerOptions: BannerOptions;
     modalOptions: ModalOptions;
     askOnce: boolean;
+    askOnChange: boolean;
 }
 export declare enum ScriptType {
     GTM = 0,

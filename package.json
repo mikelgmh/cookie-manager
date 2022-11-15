@@ -1,10 +1,16 @@
 {
-  "name": "cookies-banner",
+  "name": "cookie-manager",
   "version": "1.0.0",
-  "description": "Cookies banner",
+  "description": "A cookies manager that can inject script dynamically.",
   "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
   "source": "src/CookiesManager.ts",
-  "types": "dist/foo.d.ts",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "require": "./dist/index.js",
+    "default": "./dist/index.modern.mjs"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "microbundle",

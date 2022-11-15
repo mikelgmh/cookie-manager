@@ -112,9 +112,7 @@ export class Modal {
             <div class="modal__close close-modal" title="Close">
               <img class="close-modal-img" src="images/content/close.svg" alt="Webpack 5 Template Boilerplate">
             </div>
-    
-            <img src="assets/img/star-trophy.png" alt="" class="modal__img">
-    
+        
             <h1 class="modal__title">Configuración de cookies</h1>
             <p class="modal__description">Configura aquí tus cookies.</p>
             <div class="modal__cookie-categories">

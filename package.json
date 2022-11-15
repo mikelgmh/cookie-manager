@@ -16,6 +16,9 @@
     "build": "microbundle",
     "dev": "microbundle watch"
   },
+  "files": [
+    "dist/*."
+  ],
   "author": "Mikel Granero",
   "license": "ISC",
   "devDependencies": {

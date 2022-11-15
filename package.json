@@ -9,8 +9,10 @@
   "exports": {
     "types": "./dist/index.d.ts",
     "require": "./dist/index.js",
-    "default": "./dist/index.modern.mjs"
+    "default": "./dist/index.modern.mjs",
+    "style": "./dist/index.css"
   },
+  "style": "dist/index.css",
   "files": [
     "dist"
   ],

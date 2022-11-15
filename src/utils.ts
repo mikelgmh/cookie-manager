@@ -34,9 +34,6 @@ export class Utils {
     }
 
     public static objectEquals(obj1, obj2) {
-        console.log(JSON.stringify(obj1))
-        console.log(JSON.stringify(obj2))
-     
         const JSONstringifyOrder = obj => {
             const keys = {};
             JSON.stringify(obj, (key, value) => {

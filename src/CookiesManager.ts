@@ -118,6 +118,28 @@ export class CookiesManager {
         document.body.appendChild(s);
     }
 
+    private injectGTM(gtmCode: string) {
+        try {
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start': new Date().getTime(),
+                    event: 'gtm.js',
+                });
+                const f = d.getElementsByTagName(s)[0];
+                const j = d.createElement(s) as HTMLInputElement;
+                const
+                    dl = l != 'dataLayer' ? `&l=${l}` : '';
+                //j.async = true;
+                j.src = `https://www.googletagmanager.com/gtm.js?id=${i}${dl}`;
+                f.parentNode!.insertBefore(j, f);
+            }(window, document, 'script', 'dataLayer', gtmCode));
+            (window as any).dataLayer = (window as any).dataLayer || [];
+        } catch (error) {
+            console.log("There was an error loading GTM.")
+        }
+    }
+
     public init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
             // TODO ver casuística si askOnChange es false, configChanged es true, se inyectan los scripts? No se intectan si no se muestran los banners Debería haber un else?
@@ -152,7 +174,11 @@ export class CookiesManager {
         this.modalOptions.cookieCategories.forEach(category => {
             if (category.checked || this.acceptAll) {
                 category.scripts.forEach(script => {
-                    this.injectScript(script.scriptSrc, script.async)
+                    if (script.type == ScriptType.STANDARD || script.type == null) {
+                        this.injectScript(script.scriptSrc, script.async)
+                    } else {
+                        this.injectGTM(script.gtmCode);
+                    }
                 });
             }
         });

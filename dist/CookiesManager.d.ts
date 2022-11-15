@@ -21,6 +21,7 @@ export declare class CookiesManager {
     hideBanner(): void;
     hideModal(): void;
     private injectScript;
+    private injectGTM;
     init(banner: boolean, modal: boolean): void;
     injectScripts(): void;
     saveButton(): void;

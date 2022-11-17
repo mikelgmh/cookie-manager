@@ -6,7 +6,7 @@ export class Utils {
     public static decode(a) {
         return window.atob(a);
     }
-    public static isHTML(str: string) {
+    private static isHTML(str: string) {
         var isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
 
         // test isHTML regex
@@ -14,6 +14,9 @@ export class Utils {
 
     }
     public static wrapString(str: string, tag: string) {
+        if (this.isHTML(str)) {
+            return str;
+        }
         return `<${tag}>${str}</${tag}>`;
     }
 

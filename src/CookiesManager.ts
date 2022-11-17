@@ -223,7 +223,7 @@ export class CookiesManager {
                     show: true,
                 },
                 settingsButton: {
-                    text: 'Configuración',
+                    text: 'Settings',
                     show: true,
                 },
                 acceptRequiredOnlyButton: {

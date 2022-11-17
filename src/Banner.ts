@@ -35,43 +35,30 @@ export class Banner {
     private generateBanner() {
         return `
                 <div class="c-cookies-config-banner">
-            <div class="banner-container">
-            ${this.getBannerText()}
-            <div class="banner-container__buttons">
-                <button class="banner-container__button banner-container__accept-all-btn">${this.getAcceptAllButtonText()}</button>
-                <button class="banner-container__button-link banner-container__config-btn">Configurar</button>
-            </div>
-            </div>
-        </div> 
-        `;
-    }
-    private getBannerText() {
-
-        if (this.options.bannerText != undefined) {
-            if (Utils.isHTML(this.options.bannerText)) {
-                return this.options.bannerText;
-            }
-            // Else return wrapped
-            return Utils.wrapString(this.options.bannerText, "p");
-        }
-        return `
-                <p>Utilizamos cookies propias y de terceros para analizar el tráfico en nuestra web mediante la obtención de los
-                        datos necesarios para estudiar tu navegación. Puedes obtener más información en la Política de Cookies. Puedes
-                        aceptar todas las cookies pulsando el botón “Aceptar" o configurarlas o rechazar su uso pulsando en
-                        "Configurar".</p>
+                    <div class="banner-container">
+                        ${this.getBannerText()}
+                    <div class="banner-container__buttons">
+                       ${this.getAcceptAllButton()}
+                       ${this.getSettingsButton()}
+                    </div>
+                    </div>
+                </div> 
                 `;
     }
-    private getAcceptAllButtonText() {
-        if (this.options.acceptAllButton.text != undefined) {
-            // Else return wrapped
-            return this.options.acceptAllButton.text;
-        }
-        return `Aceptar todo`;
+
+    getAcceptAllButton() {
+        return this.options.acceptAllButton.show ? `<button class="banner-container__button banner-container__accept-all-btn">${this.options.acceptAllButton.text}</button>` : "";
+    }
+    getSettingsButton() {
+        return this.options.settingsButton.show ? `<button class="banner-container__button-link banner-container__config-btn">${this.options.settingsButton.text}</button>` : "";
+    }
+
+    private getBannerText() {
+        return Utils.wrapString(this.options.bannerText, "p");
     }
 
     public injectBanner() {
         if (document.querySelector("body") != null) {
-
             document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateBanner());
         }
     }
@@ -115,6 +102,7 @@ export class Banner {
         // document.querySelector(".c-cookies-config-banner")!.style("display", "none");
         // Array.from(document.querySelector(".c-cookies-config-banner") as unknown as HTMLCollectionOf<HTMLElement>);
     }
+
 }
 
 

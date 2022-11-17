@@ -6,8 +6,9 @@ export declare class Banner {
     constructor(cookiesManager: CookiesManager, options: BannerOptions);
     private setEventListeners;
     private generateBanner;
+    getAcceptAllButton(): string;
+    getSettingsButton(): string;
     private getBannerText;
-    private getAcceptAllButtonText;
     injectBanner(): void;
     showWall(): void;
     hideWall(): void;

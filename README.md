@@ -60,7 +60,7 @@ Here’s an example of the options object. Every option has a default value, so 
     bannerOptions: { // Options for the banner
         wall: true, // Block the background with a semi-transparent wall
         wallScroll: false, // Block the scroll
-				wallBlur: //Blurs the background wall
+        wallBlur: //Blurs the background wall
         bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
         acceptAllButton: {
             text: 'Aceptar todas',

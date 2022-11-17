@@ -4,7 +4,7 @@ export declare class Banner {
     private banner;
     private cookiesManager;
     constructor(cookiesManager: CookiesManager, options: BannerOptions);
-    private setEventListeners;
+    setEventListeners(): void;
     private generateBanner;
     getAcceptAllButton(): string;
     getSettingsButton(): string;
@@ -22,6 +22,7 @@ export interface BannerOptions {
     wall: boolean;
     wallScroll: boolean;
     wallBlur: boolean;
+    inject: boolean;
     acceptAllButton: {
         text: string;
         show: boolean;

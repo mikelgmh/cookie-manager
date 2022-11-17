@@ -11,6 +11,7 @@ export declare class Modal {
     generateModal(): string;
 }
 export interface ModalOptions {
+    inject: boolean;
     acceptAllButton: {
         text: string;
         show: boolean;

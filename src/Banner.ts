@@ -10,11 +10,13 @@ export class Banner {
     constructor(cookiesManager: CookiesManager, options: BannerOptions) {
         this.cookiesManager = cookiesManager;
         this.options = options;
-        this.injectBanner();
+        if (cookiesManager.getOptions().bannerOptions.inject) {
+            this.injectBanner();
+        }
         this.setEventListeners();
     }
 
-    private setEventListeners() {
+    public setEventListeners() {
         let self = this;
         // Accept all button
         document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
@@ -109,6 +111,7 @@ export interface BannerOptions {
     wall: boolean,
     wallScroll: boolean,
     wallBlur: boolean,
+    inject: boolean,
     acceptAllButton: {
         text: string,
         show: boolean,

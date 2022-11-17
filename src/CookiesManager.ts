@@ -67,18 +67,24 @@ export class CookiesManager {
 
             // Generate modal
             if (options.modalOptions != null) {
-                this.createModal(options.modalOptions);
-            }
 
+                this.createModal(options.modalOptions);
+
+            }
 
             if (options.bannerOptions != null) {
                 this.createBanner(options.bannerOptions);
-            }
 
+            }
         }
 
     }
 
+    public setEventListeners() {
+        this.modal.setEventListeners();
+        this.banner.setEventListeners();
+
+    }
 
     public createBanner(options: BannerOptions) {
         this.banner = new Banner(this, options);
@@ -203,6 +209,7 @@ export class CookiesManager {
             askOnce: true,
             askOnChange: true,
             modalOptions: {
+                inject: true,
                 acceptAllButton: {
                     text: 'Accept all',
                     show: true,
@@ -217,6 +224,7 @@ export class CookiesManager {
                 },
             },
             bannerOptions: {
+                inject: true,
                 wall: true,
                 wallScroll: false,
                 wallBlur: true,

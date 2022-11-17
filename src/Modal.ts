@@ -7,7 +7,9 @@ export class Modal {
     constructor(cookiesManager: CookiesManager, options: ModalOptions) {
         this.cookiesManager = cookiesManager;
         this.options = options;
-        this.injectModal();
+        if (cookiesManager.getOptions().modalOptions.inject) {
+            this.injectModal();
+        }
         this.setEventListeners();
     }
 
@@ -126,6 +128,7 @@ export class Modal {
 }
 
 export interface ModalOptions {
+    inject: boolean,
     acceptAllButton: {
         text: string,
         show: boolean,

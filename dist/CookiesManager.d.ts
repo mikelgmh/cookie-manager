@@ -13,6 +13,7 @@ export declare class CookiesManager {
     setModal(modal: Modal): void;
     getOptions(): Options;
     constructor(options: Options);
+    setEventListeners(): void;
     createBanner(options: BannerOptions): Banner;
     createModal(options: ModalOptions): Modal;
     acceptAllButton(): void;

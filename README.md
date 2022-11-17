@@ -148,3 +148,4 @@ cookiesManager.init(true, false);
 - Optional settings / accept and reject button in modal and banner
 - Callbacks when user accepts or rejects cookies
 - Change the text of some of the buttons.
+- Allow to just set the event listeners and let the user use his own HTML.

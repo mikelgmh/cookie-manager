@@ -324,6 +324,7 @@ display: flex;
 }
 
 .c-cookies-config-wall {
+    display: none;
     background-color: hsla(var(--hue), 18%, 75%, 0.8);
     height: 100%;
     position: fixed;
@@ -332,5 +333,8 @@ display: flex;
 
     &--blurred {
         backdrop-filter: blur(5px);
+    }
+    &.wall-show {
+        display: block;
     }
 }

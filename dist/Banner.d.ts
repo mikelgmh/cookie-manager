@@ -10,6 +10,7 @@ export declare class Banner {
     getSettingsButton(): string;
     private getBannerText;
     injectBanner(): void;
+    private generateWall;
     showWall(): void;
     hideWall(): void;
     hideScroll(): void;

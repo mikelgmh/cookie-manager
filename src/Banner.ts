@@ -60,19 +60,22 @@ export class Banner {
 
     public injectBanner() {
         if (document.querySelector("body") != null) {
+            document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateWall());
             document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateBanner());
         }
     }
 
-    public showWall() {
+    private generateWall(){
         const blur = this.options.wallBlur ? "c-cookies-config-wall--blurred" : "";
-        const wall = `<div class="c-cookies-config-wall ${blur}"></div>`;
-        document.querySelector("body")!.insertAdjacentHTML("afterend", wall);
+        return `<div class="c-cookies-config-wall ${blur}"></div>`;
+    }
+
+    public showWall() {
+        document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.add("wall-show");
     }
 
     public hideWall() {
-        const test = document.querySelector<HTMLElement>(".c-cookies-config-wall")!;
-        test.style.display = "none";
+        document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.remove("wall-show");
     }
 
     public hideScroll() {

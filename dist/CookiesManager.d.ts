@@ -27,28 +27,28 @@ export declare class CookiesManager {
     saveButton(): void;
     saveCookieOptions(): void;
     getCookiesOptions(): any;
+    private getDefaults;
 }
 export interface Options {
-    cookieCategories: [
-        {
-            title: string;
-            description: string;
-            required: boolean;
-            checked: boolean;
-            scripts: [
-                {
-                    type: ScriptType;
-                    gtmCode: string;
-                    scriptSrc: string;
-                    async: boolean;
-                }
-            ];
-        }
-    ];
+    cookieCategories: Array<CookieCategory>;
     bannerOptions: BannerOptions;
     modalOptions: ModalOptions;
     askOnce: boolean;
     askOnChange: boolean;
+}
+export interface CookieCategory {
+    title: string;
+    description: string;
+    required: boolean;
+    checked: boolean;
+    scripts: [
+        {
+            type: ScriptType;
+            gtmCode: string;
+            scriptSrc: string;
+            async: boolean;
+        }
+    ];
 }
 export declare enum ScriptType {
     GTM = 0,

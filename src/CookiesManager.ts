@@ -40,6 +40,8 @@ export class CookiesManager {
             options.cookieCategories.forEach(category => {
                 category.checked = true;
             });
+            // Merge the default options with user options
+            options = Utils.mergeRecursively(this.getDefaults(), options);
             this.modalOptions = options;
             // Check options to create banner and modal
 
@@ -66,9 +68,6 @@ export class CookiesManager {
 
 
             if (options.bannerOptions != null) {
-                if (options.modalOptions != null) {
-                    options.bannerOptions.settingsButton.modal = this.modal; // The modal was already created
-                }
                 this.createBanner(options.bannerOptions);
             }
 
@@ -159,14 +158,12 @@ export class CookiesManager {
                 // }
             }
         } else {
-
             if (banner) {
                 this.showBanner();
             }
             if (modal) {
                 this.showModal();
             }
-
         }
     }
 
@@ -198,31 +195,75 @@ export class CookiesManager {
         return JSON.parse(Utils.decode(localStorage.getItem("cookiesManagerOptions")));
     }
 
+    private getDefaults(): Options {
+        return {
+            askOnce: true,
+            askOnChange: true,
+            modalOptions: {
+                acceptAllButton: {
+                    text: 'Accept all',
+                    show: true,
+                },
+                saveButton: {
+                    text: 'Settings',
+                    show: true,
+                },
+                closeButton: {
+                    text: 'Settings',
+                    show: true,
+                },
+            },
+            bannerOptions: {
+                wall: true,
+                wallScroll: false,
+                wallBlur: true,
+                bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
+                acceptAllButton: {
+                    text: 'Accept all',
+                    show: true,
+                },
+                settingsButton: {
+                    text: 'Configuración',
+                    show: true,
+                },
+                acceptRequiredOnlyButton: {
+                    text: 'Configuración',
+                    show: false,
+                },
+                rejectAllButton: {
+                    text: 'Configuración',
+                    show: false,
+                }
+            },
+            cookieCategories: [],
+        }
+    }
+
 
 
 }
 
 export interface Options {
-    cookieCategories: [
-        {
-            title: string,
-            description: string,
-            required: boolean,
-            checked: boolean,
-            scripts: [
-                {
-                    type: ScriptType,
-                    gtmCode: string,
-                    scriptSrc: string,
-                    async: boolean,
-                }
-            ]
-        }
-    ],
+    cookieCategories: Array<CookieCategory>,
     bannerOptions: BannerOptions,
     modalOptions: ModalOptions,
     askOnce: boolean,
     askOnChange: boolean,
+}
+
+export interface CookieCategory {
+    title: string,
+    description: string,
+    required: boolean,
+    checked: boolean,
+    scripts: [
+        {
+            type: ScriptType,
+            gtmCode: string,
+            scriptSrc: string,
+            async: boolean,
+        }
+    ]
 }
 
 export enum ScriptType {

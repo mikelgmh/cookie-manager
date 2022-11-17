@@ -23,7 +23,8 @@ export class Banner {
 
         // Config button
         document.querySelector(".banner-container__config-btn")!.addEventListener("click", function () {
-            self.options.settingsButton.modal.show();
+            //self.options.settingsButton.modal.show();
+            self.cookiesManager.showModal();
         });
 
     }
@@ -76,7 +77,8 @@ export class Banner {
     }
 
     public showWall() {
-        const wall = '<div class="c-cookies-config-wall"></div>';
+        const blur = this.options.wallBlur ? "c-cookies-config-wall--blurred" : "";
+        const wall = `<div class="c-cookies-config-wall ${blur}"></div>`;
         document.querySelector("body")!.insertAdjacentHTML("afterend", wall);
 
     }
@@ -122,6 +124,7 @@ export interface BannerOptions {
     bannerText: string;
     wall: boolean,
     wallScroll: boolean,
+    wallBlur: boolean,
     acceptAllButton: {
         text: string,
         show: boolean,
@@ -129,7 +132,6 @@ export interface BannerOptions {
     settingsButton: {
         text: string,
         show: boolean,
-        modal: Modal,
     },
     acceptRequiredOnlyButton: {
         text: string,

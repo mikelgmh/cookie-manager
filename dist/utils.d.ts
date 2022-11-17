@@ -10,4 +10,5 @@ export declare class Utils {
         A: any;
         B: any;
     };
+    static mergeRecursively(obj1: any, obj2: any): any;
 }

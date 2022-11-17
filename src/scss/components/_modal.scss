@@ -320,4 +320,8 @@ display: flex;
     position: fixed;
     width: 100%;
     top: 0;
+
+    &--blurred {
+        backdrop-filter: blur(5px);
+    }
 }

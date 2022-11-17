@@ -1,4 +1,3 @@
-import { Modal } from "./Modal";
 import { CookiesManager } from './CookiesManager';
 export declare class Banner {
     private options;
@@ -21,6 +20,7 @@ export interface BannerOptions {
     bannerText: string;
     wall: boolean;
     wallScroll: boolean;
+    wallBlur: boolean;
     acceptAllButton: {
         text: string;
         show: boolean;
@@ -28,7 +28,6 @@ export interface BannerOptions {
     settingsButton: {
         text: string;
         show: boolean;
-        modal: Modal;
     };
     acceptRequiredOnlyButton: {
         text: string;

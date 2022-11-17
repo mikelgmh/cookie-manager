@@ -100,7 +100,6 @@ export class CookiesManager {
         this.modal.hide();
         this.banner.hide();
         this.injectScripts();
-        //this.setCookie();
         this.saveCookieOptions();
     }
 

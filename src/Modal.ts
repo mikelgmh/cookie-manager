@@ -80,7 +80,7 @@ export class Modal {
                     <div class="header__switch">
                     <label class="switch ${disabled}">
                         <input ${disabled} checked class="cm-switch-${index}" type="checkbox">
-                        <span class="slider round"></span>
+                        <span class="slider round ${disabled}"></span>
                     </label>
                     </div>
                 </div>

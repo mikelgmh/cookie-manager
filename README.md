@@ -49,10 +49,20 @@ Here’s an example of the options object. Every option has a default value, so 
     askOnChange: true, // Ask again if cookieCategories array is modified. This overrides the askOnce option
     modalOptions: { // Options for the modal
         inject: true, // Inject the HTML of the modal using Javascript. This might cause CSP issues if CSP is on
+        title: "Cookie settings",
+        description: "Change the settings for your cookies here.",
         acceptAllButton: {
-            text: 'Aceptar todo',
+            text: 'Accept all',
             show: true,
-        }
+        },
+        saveButton: {
+            text: 'Save',
+            show: true,
+        },
+        closeButton: {
+            text: 'Close', // Not implemented yet. This shows the X mark in the modal's corner
+            show: true,
+        },
     },
     bannerOptions: { // Options for the banner
         inject: true, // Inject the HTML of the banner using Javascript. This might cause CSP issues if CSP is on
@@ -62,11 +72,11 @@ Here’s an example of the options object. Every option has a default value, so 
         bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
         acceptAllButton: {
             text: 'Aceptar todas',
-            show: true, // Still on development
+            show: true,
         },
         settingsButton: {
-            text: 'Configurar', // Still on development
-            show: true, // Still on development
+            text: 'Configurar',
+            show: true,
         },
     },
     cookieCategories: [ // The cookie categories. These will appear in the cookie modal

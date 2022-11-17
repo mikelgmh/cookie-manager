@@ -209,17 +209,19 @@ export class CookiesManager {
             askOnce: true,
             askOnChange: true,
             modalOptions: {
+                title: "Cookie settings",
+                description: "Change the settings for the cookies here.",
                 inject: true,
                 acceptAllButton: {
                     text: 'Accept all',
                     show: true,
                 },
                 saveButton: {
-                    text: 'Settings',
+                    text: 'Save',
                     show: true,
                 },
                 closeButton: {
-                    text: 'Settings',
+                    text: 'Close',
                     show: true,
                 },
             },

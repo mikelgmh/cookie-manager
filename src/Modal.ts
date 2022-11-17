@@ -75,7 +75,7 @@ export class Modal {
             <div class="cookie-category">
                 <div class="cookie-category__header header">
                     <h2 class="header__title">
-                    ${element.title}
+                        ${element.title}
                     </h2>
                     <div class="header__switch">
                     <label class="switch ${disabled}">
@@ -95,29 +95,31 @@ export class Modal {
 
     }
 
+    getCloseButton() {
+        return this.options.closeButton.show ? `<div class="modal__close close-modal" title="Close"><div class="close-modal-img"></div></div>` : "";
+    }
+    getAcceptAllButton() {
+        return this.options.acceptAllButton.show ? `<button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">${this.options.acceptAllButton.text }</button>` : "";
+    }
+    getSaveButton() {
+        return this.options.saveButton.show ? ` <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn"> ${this.options.saveButton.text } </button>` : "";
+    }
+
     generateModal() {
         return `
         <div class="c-cookies-config-modal">
         <div class="modal__container" id="modal-container">
           <div class="modal__content">
-            <div class="modal__close close-modal" title="Close">
-                <div class="close-modal-img"></div>
-            </div>
-        
-            <h1 class="modal__title">Configuración de cookies</h1>
-            <p class="modal__description">Configura aquí tus cookies.</p>
+            ${this.getCloseButton()}
+            <h1 class="modal__title">${this.options.title}</h1>
+            <p class="modal__description">${this.options.description}</p>
             <div class="modal__cookie-categories">
                 ${this.generateCategoriesBlocks()}
             </div>
     
             <div class="modal__footer">
-              <button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">
-                Aceptar todas
-              </button>
-    
-              <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn">
-                Guardar
-              </button>
+             ${this.getAcceptAllButton()}
+             ${this.getSaveButton()}
             </div>
           </div>
         </div>
@@ -129,6 +131,8 @@ export class Modal {
 
 export interface ModalOptions {
     inject: boolean,
+    title: string,
+    description: string,
     acceptAllButton: {
         text: string,
         show: boolean,

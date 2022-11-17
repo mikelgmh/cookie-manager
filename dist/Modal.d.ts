@@ -8,10 +8,15 @@ export declare class Modal {
     setEventListeners(): void;
     injectModal(): void;
     private generateCategoriesBlocks;
+    getCloseButton(): "<div class=\"modal__close close-modal\" title=\"Close\"><div class=\"close-modal-img\"></div></div>" | "";
+    getAcceptAllButton(): string;
+    getSaveButton(): string;
     generateModal(): string;
 }
 export interface ModalOptions {
     inject: boolean;
+    title: string;
+    description: string;
     acceptAllButton: {
         text: string;
         show: boolean;

@@ -37,10 +37,10 @@ export class Banner {
                 <div class="c-cookies-config-banner">
                     <div class="banner-container">
                         ${this.getBannerText()}
-                    <div class="banner-container__buttons">
-                       ${this.getAcceptAllButton()}
-                       ${this.getSettingsButton()}
-                    </div>
+                        <div class="banner-container__buttons">
+                            ${this.getAcceptAllButton()}
+                            ${this.getSettingsButton()}
+                        </div>
                     </div>
                 </div> 
                 `;
@@ -67,7 +67,6 @@ export class Banner {
         const blur = this.options.wallBlur ? "c-cookies-config-wall--blurred" : "";
         const wall = `<div class="c-cookies-config-wall ${blur}"></div>`;
         document.querySelector("body")!.insertAdjacentHTML("afterend", wall);
-
     }
 
     public hideWall() {
@@ -91,12 +90,10 @@ export class Banner {
         if (!this.options.wallScroll) {
             this.hideScroll();
         }
-        const test = document.querySelector<HTMLElement>(".c-cookies-config-banner .banner-container")!;
-        test.classList.add("show-banner");
+        document.querySelector<HTMLElement>(".c-cookies-config-banner .banner-container")!.classList.add("show-banner");
     }
     public hide() {
-        const test = document.querySelector<HTMLElement>(".c-cookies-config-banner")!;
-        test.style.display = "none";
+        document.querySelector<HTMLElement>(".c-cookies-config-banner")!.style.display = "none";
         this.hideWall();
         this.showScroll();
         // document.querySelector(".c-cookies-config-banner")!.style("display", "none");

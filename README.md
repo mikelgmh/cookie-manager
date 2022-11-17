@@ -51,11 +51,7 @@ Here’s an example of the options object. Every option has a default value, so 
         acceptAllButton: {
             text: 'Aceptar todo',
             show: true,
-        },
-        settingsButton: {
-            text: 'Configuraciónes',
-            show: true,
-        },
+        }
     },
     bannerOptions: { // Options for the banner
         wall: true, // Block the background with a semi-transparent wall

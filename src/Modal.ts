@@ -27,34 +27,26 @@ export class Modal {
     setEventListeners() {
 
         var self = this;
-        // Close modal
+        // Modal close button
         const closeBtn = document.querySelectorAll('.close-modal')
         closeBtn.forEach(c => c.addEventListener('click', this.hide))
 
-        // Accept all btn
-        // Estos listeners deberían settearse en CookiesManager probablemente, porque va a haber que llamar métodos de ahí. O eso o Modal debería tener la instancia de CookiesManager.
-        const acceptAllBtn = document.querySelectorAll('.modal__button-accept-all')
-
-        acceptAllBtn.forEach(function (item) {
-            item.addEventListener('click', function () {
-                self.cookiesManager.acceptAllButton();
-            });
+        // Accept all button
+        const acceptAllBtn = document.querySelector('.cm-modal-accept-all')!;
+        acceptAllBtn.addEventListener('click', function () {
+            self.cookiesManager.acceptAllButton();
         });
 
         // Save button
-        const saveButton = document.querySelectorAll('.modal__button-save-btn')
-
-        saveButton.forEach(function (item) {
-            item.addEventListener('click', function () {
-               self.cookiesManager.injectScripts();
-                self.cookiesManager.hideBanner();
-                self.cookiesManager.saveButton();
-            });
+        const saveButton = document.querySelector('.cm-modal-save')!;
+        saveButton.addEventListener('click', function () {
+            self.cookiesManager.injectScripts();
+            self.cookiesManager.hideBanner();
+            self.cookiesManager.saveButton();
         });
 
         // Switches
         this.cookiesManager.getOptions().cookieCategories.forEach((category, index) => {
-
             var checkbox = document.querySelector(`.cm-switch-${index}`)!;
             checkbox.addEventListener('change', function () {
                 if (this.checked) {
@@ -63,10 +55,7 @@ export class Modal {
                     category.checked = false;
                 }
             });
-
         });
-
-
     }
 
     public injectModal() {
@@ -97,7 +86,7 @@ export class Modal {
                 <p>${element.description}</p>
             </div>
             </div>
-            `
+            `;
             categoriesBlocks += block;
         });
         return categoriesBlocks;
@@ -120,11 +109,11 @@ export class Modal {
             </div>
     
             <div class="modal__footer">
-              <button class="modal__button modal__button-width modal__button-accept-all">
+              <button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">
                 Aceptar todas
               </button>
     
-              <button class="modal__button-link close-modal modal__button-save-btn">
+              <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn">
                 Guardar
               </button>
             </div>

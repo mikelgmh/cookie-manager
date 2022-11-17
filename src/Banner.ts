@@ -17,13 +17,12 @@ export class Banner {
     private setEventListeners() {
         let self = this;
         // Accept all button
-        document.querySelector(".banner-container__accept-all-btn")!.addEventListener("click", function () {
+        document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
             self.cookiesManager.acceptAllButton();
         });
 
         // Config button
-        document.querySelector(".banner-container__config-btn")!.addEventListener("click", function () {
-            //self.options.settingsButton.modal.show();
+        document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
             self.cookiesManager.showModal();
         });
 
@@ -47,10 +46,10 @@ export class Banner {
     }
 
     getAcceptAllButton() {
-        return this.options.acceptAllButton.show ? `<button class="banner-container__button banner-container__accept-all-btn">${this.options.acceptAllButton.text}</button>` : "";
+        return this.options.acceptAllButton.show ? `<button class="banner-container__button banner-container__accept-all-btn cm-banner-accept-all-btn">${this.options.acceptAllButton.text}</button>` : "";
     }
     getSettingsButton() {
-        return this.options.settingsButton.show ? `<button class="banner-container__button-link banner-container__config-btn">${this.options.settingsButton.text}</button>` : "";
+        return this.options.settingsButton.show ? `<button class="banner-container__button-link banner-container__config-btn cm-banner-config-btn">${this.options.settingsButton.text}</button>` : "";
     }
 
     private getBannerText() {

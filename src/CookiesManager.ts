@@ -37,15 +37,19 @@ export class CookiesManager {
         if (options == null) {
             throw new Error("Options cannot be null");
         } else {
+            if (options.cookieCategories == null) {
+                throw new Error("You should provide at least one cookie category");
+            }
+            // Set all cookie categories as checked by default
             options.cookieCategories.forEach(category => {
                 category.checked = true;
             });
-            // Merge the default options with user options
-            options = Utils.mergeRecursively(this.getDefaults(), options);
-            this.modalOptions = options;
-            // Check options to create banner and modal
 
-            if (localStorage.getItem("cookiesManagerOptions") != null) {
+            // Merge the default options with user options
+            options = Utils.mergeRecursively(this.getDefaultOptions(), options);
+            this.modalOptions = options;
+
+            if (localStorage.getItem("cookiesManagerOptions") != null) { // If there's already configuration saved
                 // Prepare the options to compare them.
                 var optionsComparison = Utils.prepareObjectsForComparison(this.modalOptions.cookieCategories, this.getCookiesOptions());
 
@@ -110,7 +114,7 @@ export class CookiesManager {
         this.modal.hide();
     }
 
-    private injectScript(src: string, async) {
+    private injectScript(src: string, async = false) {
         var s = document.createElement('script');
         s.setAttribute('src', src);
         s.async = async;
@@ -141,22 +145,14 @@ export class CookiesManager {
 
     public init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
-            // TODO ver casuística si askOnChange es false, configChanged es true, se inyectan los scripts? No se intectan si no se muestran los banners Debería haber un else?
-            if (localStorage.getItem("cookiesManagerOptions") == null || (this.modalOptions.askOnChange && this.configChanged)) {
-                var bannerShown = false;
-                var modalShown = false;
+            if (localStorage.getItem("cookiesManagerOptions") == null || this.configChanged) {
                 if (banner) {
                     this.showBanner();
-                    bannerShown = true;
                 }
                 if (modal) {
                     this.showModal();
-                    modalShown = true;
                 }
-                // if(!bannerShown && !modalShown && this.configChanged == true && !this.modalOptions.askOnChange){
-                //     this.injectScripts();
-                // }
-            }
+            } // There's no else, as if cookiesManagerOptions was not null, the constructor would do the job.
         } else {
             if (banner) {
                 this.showBanner();
@@ -172,9 +168,17 @@ export class CookiesManager {
             if (category.checked || this.acceptAll) {
                 category.scripts.forEach(script => {
                     if (script.type == ScriptType.STANDARD || script.type == null) {
-                        this.injectScript(script.scriptSrc, script.async)
+                        if (script.scriptSrc != null) {
+                            this.injectScript(script.scriptSrc, script.async)
+                        } else {
+                            throw new Error("You should provide a scriptSrc for the script");
+                        }
                     } else {
-                        this.injectGTM(script.gtmCode);
+                        if (script.gtmCode != null) {
+                            this.injectGTM(script.gtmCode);
+                        } else {
+                            throw new Error("You should provide a gtmCode for the script");
+                        }
                     }
                 });
             }
@@ -182,7 +186,6 @@ export class CookiesManager {
     }
 
     saveButton() {
-        //this.setCookie();
         this.saveCookieOptions();
     }
 
@@ -195,7 +198,7 @@ export class CookiesManager {
         return JSON.parse(Utils.decode(localStorage.getItem("cookiesManagerOptions")));
     }
 
-    private getDefaults(): Options {
+    private getDefaultOptions(): Options {
         return {
             askOnce: true,
             askOnChange: true,

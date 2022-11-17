@@ -27,7 +27,7 @@ export declare class CookiesManager {
     saveButton(): void;
     saveCookieOptions(): void;
     getCookiesOptions(): any;
-    private getDefaults;
+    private getDefaultOptions;
 }
 export interface Options {
     cookieCategories: Array<CookieCategory>;

@@ -46,7 +46,7 @@ Here’s an example of the options object. Every option has a default value, so 
 ```jsx
 {
     askOnce: true, // If the user already accepted the cookies, don't ask again on page reload
-    askOnChange: true, // Ask again if cookieCategories array is modified
+    askOnChange: true, // Ask again if cookieCategories array is modified. This overrides the askOnce option
     modalOptions: { // Options for the modal
         acceptAllButton: {
             text: 'Aceptar todo',

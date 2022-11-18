@@ -1,8 +1,10 @@
 /*=============== MODAL ===============*/
 
 .c-cookies-config-modal {
-    font-family: var(--body-font);
 
+    * {
+        font-family: var(--body-font);
+    }
     .modal {
 
         &__button {
@@ -75,7 +77,6 @@
 
                     &__title {
                         font-size: 20px;
-                        font-family: var(--body-font);
                         font-weight: 500;
                     }
 
@@ -157,7 +158,6 @@
 
                 &__body,
                 .body {
-                    font-family: var(--body-font);
                     font-size: 14px;
                 }
             }
@@ -272,7 +272,9 @@
 }
 
 .c-cookies-config-banner {
-    font-family: var(--body-font);
+    *{
+        font-family: var(--body-font);
+    }
 
     .banner-container {
         p {

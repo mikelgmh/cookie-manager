@@ -175,8 +175,6 @@ export class CookiesManager {
                     if (script.type == ScriptType.STANDARD || script.type == null) {
                         if (script.scriptSrc != null) {
                             this.injectScript(script.scriptSrc, script.async)
-                        } else {
-                            throw new Error("You should provide a scriptSrc for the script");
                         }
                     } else {
                         if (script.gtmCode != null) {

@@ -28,36 +28,40 @@ export class Modal {
 
     setEventListeners() {
 
-        var self = this;
-        // Modal close button
-        const closeBtn = document.querySelectorAll('.close-modal')
-        closeBtn.forEach(c => c.addEventListener('click', this.hide))
+        try {
+            var self = this;
+            // Modal close button
+            const closeBtn = document.querySelectorAll('.close-modal')
+            closeBtn.forEach(c => c.addEventListener('click', this.hide))
 
-        // Accept all button
-        const acceptAllBtn = document.querySelector('.cm-modal-accept-all')!;
-        acceptAllBtn.addEventListener('click', function () {
-            self.cookiesManager.acceptAllButton();
-        });
-
-        // Save button
-        const saveButton = document.querySelector('.cm-modal-save')!;
-        saveButton.addEventListener('click', function () {
-            self.cookiesManager.injectScripts();
-            self.cookiesManager.hideBanner();
-            self.cookiesManager.saveButton();
-        });
-
-        // Switches
-        this.cookiesManager.getOptions().cookieCategories.forEach((category, index) => {
-            var checkbox = document.querySelector(`.cm-switch-${index}`)!;
-            checkbox.addEventListener('change', function () {
-                if (this.checked) {
-                    category.checked = true;
-                } else {
-                    category.checked = false;
-                }
+            // Accept all button
+            const acceptAllBtn = document.querySelector('.cm-modal-accept-all')!;
+            acceptAllBtn.addEventListener('click', function () {
+                self.cookiesManager.acceptAllButton();
             });
-        });
+
+            // Save button
+            const saveButton = document.querySelector('.cm-modal-save')!;
+            saveButton.addEventListener('click', function () {
+                self.cookiesManager.injectScripts();
+                self.cookiesManager.hideBanner();
+                self.cookiesManager.saveButton();
+            });
+
+            // Switches
+            this.cookiesManager.getOptions().cookieCategories.forEach((category, index) => {
+                var checkbox = document.querySelector(`.cm-switch-${index}`)!;
+                checkbox.addEventListener('change', function () {
+                    if (this.checked) {
+                        category.checked = true;
+                    } else {
+                        category.checked = false;
+                    }
+                });
+            });
+        } catch (error) {
+            console.log("Could not set event listeners for cookie modal.")
+        }
     }
 
     public injectModal() {
@@ -99,10 +103,10 @@ export class Modal {
         return this.options.closeButton.show ? `<div class="modal__close close-modal" title="Close"><div class="close-modal-img"></div></div>` : "";
     }
     getAcceptAllButton() {
-        return this.options.acceptAllButton.show ? `<button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">${this.options.acceptAllButton.text }</button>` : "";
+        return this.options.acceptAllButton.show ? `<button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">${this.options.acceptAllButton.text}</button>` : "";
     }
     getSaveButton() {
-        return this.options.saveButton.show ? ` <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn"> ${this.options.saveButton.text } </button>` : "";
+        return this.options.saveButton.show ? ` <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn"> ${this.options.saveButton.text} </button>` : "";
     }
 
     generateModal() {

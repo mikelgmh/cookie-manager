@@ -17,6 +17,7 @@ export class Banner {
     }
 
     public setEventListeners() {
+      try {
         let self = this;
         // Accept all button
         document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
@@ -27,6 +28,9 @@ export class Banner {
         document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
             self.cookiesManager.showModal();
         });
+      } catch (error) {
+        console.log("Can't set the event listener for the cookies modal.")
+      }
 
     }
 

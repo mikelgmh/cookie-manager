@@ -15,10 +15,14 @@ export class Modal {
 
 
     show() {
-        const modalContainer = document.getElementById("modal-container");
-        modalContainer!.classList.add('show-modal');
-        // Hide body scroll
-        document.querySelector("body")!.style.overflow = "hidden";
+        try {
+            const modalContainer = document.getElementById("modal-container");
+            modalContainer!.classList.add('show-modal');
+            // Hide body scroll
+            document.querySelector("body")!.style.overflow = "hidden";
+        } catch (error) {
+            console.log("Could not show cookie modal.")
+        }
     }
     hide() {
         const modalContainer = document.getElementById('modal-container')
@@ -65,8 +69,12 @@ export class Modal {
     }
 
     public injectModal() {
-        if (document.querySelector("body") != null) {
-            document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateModal());
+        try {
+            if (document.querySelector("body") != null) {
+                document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateModal());
+            }
+        } catch (error) {
+            console.log("Could not inject cookie modal.")
         }
     }
 

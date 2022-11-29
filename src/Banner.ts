@@ -17,20 +17,20 @@ export class Banner {
     }
 
     public setEventListeners() {
-      try {
-        let self = this;
-        // Accept all button
-        document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
-            self.cookiesManager.acceptAllButton();
-        });
+        try {
+            let self = this;
+            // Accept all button
+            document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
+                self.cookiesManager.acceptAllButton();
+            });
 
-        // Config button
-        document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
-            self.cookiesManager.showModal();
-        });
-      } catch (error) {
-        console.log("Can't set the event listener for the cookies modal.")
-      }
+            // Config button
+            document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
+                self.cookiesManager.showModal();
+            });
+        } catch (error) {
+            console.log("Can't set the event listener for the cookies modal.")
+        }
 
     }
 
@@ -63,49 +63,74 @@ export class Banner {
     }
 
     public injectBanner() {
-        if (document.querySelector("body") != null) {
-            document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateWall());
-            document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateBanner());
+        try {
+            if (document.querySelector("body") != null) {
+                document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateWall());
+                document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateBanner());
+            }
+        } catch (error) {
+            console.log("Couldn't inject the banner.");
         }
     }
 
-    private generateWall(){
+    private generateWall() {
         const blur = this.options.wallBlur ? "c-cookies-config-wall--blurred" : "";
         return `<div class="c-cookies-config-wall ${blur}"></div>`;
     }
 
     public showWall() {
-        document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.add("wall-show");
+        try {
+            document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.add("wall-show");
+        } catch (error) {
+            console.log("Couldn't apply the background wall.")
+        }
     }
 
     public hideWall() {
-        document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.remove("wall-show");
+        try {
+            document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.remove("wall-show");
+        } catch (error) {
+            console.log("Unable to hide the background wall.")
+        }
     }
 
     public hideScroll() {
-        document.querySelector("body")!.style.overflow = "hidden";
+        try {
+            document.querySelector("body")!.style.overflow = "hidden";
+        } catch (error) {
+            console.log("Unable to hide the scroll.")
+        }
     }
 
     public showScroll() {
-        document.querySelector("body")!.style.overflow = "auto";
+        try {
+            document.querySelector("body")!.style.overflow = "auto";
+        } catch (error) {
+            console.log("Unable to show the scroll.")
+        }
     }
 
     public show() {
-        //document.querySelector<HTMLElement>(".c-cookies-config-banner")!.style("display", "blockxº");
         if (this.options.wall) {
             this.showWall();
         }
         if (!this.options.wallScroll) {
             this.hideScroll();
         }
-        document.querySelector<HTMLElement>(".c-cookies-config-banner .banner-container")!.classList.add("show-banner");
+        try {
+            document.querySelector<HTMLElement>(".c-cookies-config-banner .banner-container")!.classList.add("show-banner");
+        } catch (error) {
+            console.log("Unable to show the banner.")
+        }
     }
     public hide() {
-        document.querySelector<HTMLElement>(".c-cookies-config-banner")!.style.display = "none";
+        try {
+            document.querySelector<HTMLElement>(".c-cookies-config-banner")!.style.display = "none";
+        } catch (error) {
+            console.log("Unable to hide the banner.")
+        }
         this.hideWall();
         this.showScroll();
-        // document.querySelector(".c-cookies-config-banner")!.style("display", "none");
-        // Array.from(document.querySelector(".c-cookies-config-banner") as unknown as HTMLCollectionOf<HTMLElement>);
     }
 
 }

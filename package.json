@@ -1,6 +1,6 @@
 {
   "name": "@mikelgmh/cookie-manager",
-  "version": "1.0.18",
+  "version": "1.0.22",
   "description": "A cookies manager that can inject script dynamically.",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
@@ -15,7 +15,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "microbundle",
     "dev": "microbundle watch",
-    "publish": "npx auto-version --patch && npm publish"
+    "push": "npx auto-version --patch && npm publish"
   },
   "author": "Mikel Granero",
   "license": "ISC",

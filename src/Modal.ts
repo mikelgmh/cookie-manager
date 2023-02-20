@@ -17,10 +17,10 @@ export class Modal {
     async show() {
         try {
             const modal = document.querySelector(".c-cookies-config-modal");
-            modal!.classList.add("show-modal");
+            modal!.classList.add(this.options.showModalClass);
             await new Promise(r => setTimeout(r, 10)); // This is to make the show animation work
             const modalContainer = document.getElementById("modal-container");
-            modalContainer!.classList.add('show-modal');
+            modalContainer!.classList.add(this.options.showModalClass);
             // Hide body scroll
             document.querySelector("body")!.style.overflow = "hidden";
         } catch (error) {
@@ -28,9 +28,9 @@ export class Modal {
             console.error(error)
         }
     }
-    hide() {
+    hide(self?: Modal) { // Destucted object, so we can access this context
         const modalContainer = document.getElementById('modal-container')
-        modalContainer!.classList.remove('show-modal')
+        modalContainer!.classList.remove(this.options.showModalClass)
 
     }
 
@@ -40,7 +40,9 @@ export class Modal {
             var self = this;
             // Modal close button
             const closeBtn = document.querySelectorAll('.close-modal')
-            closeBtn.forEach(c => c.addEventListener('click', this.hide))
+            closeBtn.forEach(c => c.addEventListener('click', ()=>{
+                this.hide(self);
+            }))
 
             // Accept all button
             const acceptAllBtn = document.querySelector('.cm-modal-accept-all')!;
@@ -149,6 +151,7 @@ export interface ModalOptions {
     inject: boolean,
     title: string,
     description: string,
+    showModalClass: string,
     acceptAllButton: {
         text: string,
         show: boolean,

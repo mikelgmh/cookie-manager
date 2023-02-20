@@ -4,7 +4,7 @@ export declare class Modal {
     private cookiesManager;
     constructor(cookiesManager: CookiesManager, options: ModalOptions);
     show(): Promise<void>;
-    hide(): void;
+    hide(self?: Modal): void;
     setEventListeners(): void;
     injectModal(): void;
     private generateCategoriesBlocks;
@@ -17,6 +17,7 @@ export interface ModalOptions {
     inject: boolean;
     title: string;
     description: string;
+    showModalClass: string;
     acceptAllButton: {
         text: string;
         show: boolean;

@@ -225,6 +225,7 @@ export class CookiesManager {
                 title: "Cookie settings",
                 description: "Change the settings for the cookies here.",
                 inject: true,
+                showModalClass: "show-modal",
                 acceptAllButton: {
                     text: 'Accept all',
                     show: true,

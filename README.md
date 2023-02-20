@@ -51,6 +51,7 @@ Here’s an example of the options object. Every option has a default value, so 
     delay: 0, // Sets a timeout to show the banner / modal using the init() method.
     modalOptions: { // Options for the modal
         inject: true, // Inject the HTML of the modal using Javascript. This might cause CSP issues if CSP is on
+        showModalClass: "show-modal", // The clas used to show the modal. Use it along with modal__container
         title: "Cookie settings",
         description: "Change the settings for your cookies here.",
         acceptAllButton: {

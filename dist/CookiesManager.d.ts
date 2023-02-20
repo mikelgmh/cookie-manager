@@ -13,6 +13,7 @@ export declare class CookiesManager {
     setModal(modal: Modal): void;
     getOptions(): Options;
     constructor(options: Options);
+    private constructorInitializationFunction;
     setEventListeners(): void;
     createBanner(options: BannerOptions): Banner;
     createModal(options: ModalOptions): Modal;
@@ -24,6 +25,7 @@ export declare class CookiesManager {
     private injectScript;
     private injectGTM;
     init(banner: boolean, modal: boolean): void;
+    initShow(banner: boolean, modal: boolean): Promise<void>;
     injectScripts(): void;
     saveButton(): void;
     saveCookieOptions(): void;
@@ -32,10 +34,12 @@ export declare class CookiesManager {
 }
 export interface Options {
     cookieCategories: Array<CookieCategory>;
+    initOnDomContentLoaded: boolean;
     bannerOptions: BannerOptions;
     modalOptions: ModalOptions;
     askOnce: boolean;
     askOnChange: boolean;
+    delay: number;
 }
 export interface CookieCategory {
     title: string;

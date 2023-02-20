@@ -1,36 +1,36 @@
 {
-  "name": "@mikelgmh/cookie-manager",
-  "version": "1.0.22",
-  "description": "A cookies manager that can inject scripts dynamically.",
-  "main": "dist/index.js",
-  "umd:main": "dist/index.umd.js",
-  "source": "src/CookiesManager.ts",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist/*.{css,js,map,ts}",
-    "dist/src/*.{css,js,map,ts}",
-    "dist/src/**/*.{css,js,map,ts,svg}"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/mikelgmh/cookie-manager.git"
-  },
-  "homepage": "https://github.com/mikelgmh/cookie-manager#readme",
-  "bugs": {
-    "url": "https://github.com/mikelgmh/cookie-manager/issues",
-    "email": "mikelgmh@gmail.com"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "microbundle",
-    "dev": "microbundle watch",
-    "push": "npx auto-version --patch && npm publish"
-  },
-  "author": "Mikel Granero",
-  "license": "ISC",
-  "devDependencies": {
-    "auto-version-js": "^0.3.10",
-    "microbundle": "^0.15.1",
-    "sass": "^1.55.0"
-  }
+    "name": "@mikelgmh/cookie-manager",
+    "version": "1.0.23",
+    "description": "A cookies manager that can inject scripts dynamically.",
+    "main": "dist/index.js",
+    "umd:main": "dist/index.umd.js",
+    "source": "src/CookiesManager.ts",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/*.{css,js,map,ts}",
+        "dist/src/*.{css,js,map,ts}",
+        "dist/src/**/*.{css,js,map,ts,svg}"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mikelgmh/cookie-manager.git"
+    },
+    "homepage": "https://github.com/mikelgmh/cookie-manager#readme",
+    "bugs": {
+        "url": "https://github.com/mikelgmh/cookie-manager/issues",
+        "email": "mikelgmh@gmail.com"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "microbundle",
+        "dev": "microbundle watch",
+        "push": "npx auto-version --patch && npm publish"
+    },
+    "author": "Mikel Granero",
+    "license": "ISC",
+    "devDependencies": {
+        "auto-version-js": "^0.3.10",
+        "microbundle": "^0.15.1",
+        "sass": "^1.55.0"
+    }
 }

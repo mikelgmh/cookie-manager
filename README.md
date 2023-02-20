@@ -47,6 +47,8 @@ Here’s an example of the options object. Every option has a default value, so 
 {
     askOnce: true, // If the user already accepted the cookies, don't ask again on page reload
     askOnChange: true, // Ask again if cookieCategories array is modified. This overrides the askOnce option
+    initOnDomContentLoaded: true, // Wait for the dom to load before initializing this library.
+    delay: 0, // Sets a timeout to show the banner / modal using the init() method.
     modalOptions: { // Options for the modal
         inject: true, // Inject the HTML of the modal using Javascript. This might cause CSP issues if CSP is on
         title: "Cookie settings",

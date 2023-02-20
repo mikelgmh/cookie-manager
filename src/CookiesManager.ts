@@ -48,36 +48,44 @@ export class CookiesManager {
             // Merge the default options with user options
             options = Utils.mergeRecursively(this.getDefaultOptions(), options);
             this.modalOptions = options;
-
-            if (localStorage.getItem("cookiesManagerOptions") != null) { // If there's already configuration saved
-                // Prepare the options to compare them.
-                var optionsComparison = Utils.prepareObjectsForComparison(this.modalOptions.cookieCategories, this.getCookiesOptions());
-
-                // Check if the options in localStorage and the options from the constructor are the same
-                if (Utils.objectEquals(optionsComparison.A, optionsComparison.B)) {
-                    // If the options are the same, just inject the scripts
-                    this.modalOptions.cookieCategories = this.getCookiesOptions();
-                    this.injectScripts();
-                } else {
-                    // If the options are different, set the configChanged to true
-                    // We are in the constructor. By setting this to true, it might show the banner and modal if the user has set askOnChange to true
-                    this.configChanged = true;
-                }
+            if (options.initOnDomContentLoaded) {
+                window.addEventListener("DOMContentLoaded", () => {
+                    this.constructorInitializationFunction(options);
+                });
+            } else {
+                this.constructorInitializationFunction(options);
             }
+        }
+    }
 
-            // Generate modal
-            if (options.modalOptions != null) {
+    private constructorInitializationFunction(options) {
+        if (localStorage.getItem("cookiesManagerOptions") != null) { // If there's already configuration saved
+            // Prepare the options to compare them.
+            var optionsComparison = Utils.prepareObjectsForComparison(this.modalOptions.cookieCategories, this.getCookiesOptions());
 
-                this.createModal(options.modalOptions);
-
-            }
-
-            if (options.bannerOptions != null) {
-                this.createBanner(options.bannerOptions);
-
+            // Check if the options in localStorage and the options from the constructor are the same
+            if (Utils.objectEquals(optionsComparison.A, optionsComparison.B)) {
+                // If the options are the same, just inject the scripts
+                this.modalOptions.cookieCategories = this.getCookiesOptions();
+                this.injectScripts();
+            } else {
+                // If the options are different, set the configChanged to true
+                // We are in the constructor. By setting this to true, it might show the banner and modal if the user has set askOnChange to true
+                this.configChanged = true;
             }
         }
 
+        // Generate modal
+        if (options.modalOptions != null) {
+
+            this.createModal(options.modalOptions);
+
+        }
+
+        if (options.bannerOptions != null) {
+            this.createBanner(options.bannerOptions);
+
+        }
     }
 
     public setEventListeners() {
@@ -151,20 +159,22 @@ export class CookiesManager {
     public init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
             if (localStorage.getItem("cookiesManagerOptions") == null || this.configChanged) {
-                if (banner) {
-                    this.showBanner();
-                }
-                if (modal) {
-                    this.showModal();
-                }
+                this.initShow(banner, modal)
             } // There's no else, as if cookiesManagerOptions was not null, the constructor would do the job.
         } else {
-            if (banner) {
-                this.showBanner();
-            }
-            if (modal) {
-                this.showModal();
-            }
+            this.initShow(banner, modal)
+        }
+    }
+
+    public async initShow(banner: boolean, modal: boolean) {
+        if (this.modalOptions.delay > 0) {
+            await new Promise(r => setTimeout(r, this.modalOptions.delay)); // This is to make the show animation work
+        }
+        if (banner) {
+            this.showBanner();
+        }
+        if (modal) {
+            this.showModal();
         }
     }
 
@@ -208,7 +218,9 @@ export class CookiesManager {
     private getDefaultOptions(): Options {
         return {
             askOnce: true,
+            delay: 0,
             askOnChange: true,
+            initOnDomContentLoaded: true,
             modalOptions: {
                 title: "Cookie settings",
                 description: "Change the settings for the cookies here.",
@@ -259,10 +271,12 @@ export class CookiesManager {
 
 export interface Options {
     cookieCategories: Array<CookieCategory>,
+    initOnDomContentLoaded: boolean,
     bannerOptions: BannerOptions,
     modalOptions: ModalOptions,
     askOnce: boolean,
     askOnChange: boolean,
+    delay: number,
 }
 
 export interface CookieCategory {

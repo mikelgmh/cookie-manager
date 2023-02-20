@@ -14,14 +14,18 @@ export class Modal {
     }
 
 
-    show() {
+    async show() {
         try {
+            const modal = document.querySelector(".c-cookies-config-modal");
+            modal!.classList.add("show-modal");
+            await new Promise(r => setTimeout(r, 10)); // This is to make the show animation work
             const modalContainer = document.getElementById("modal-container");
             modalContainer!.classList.add('show-modal');
             // Hide body scroll
             document.querySelector("body")!.style.overflow = "hidden";
         } catch (error) {
-            console.log("Could not show cookie modal.")
+            console.error("Could not show cookie modal.")
+            console.error(error)
         }
     }
     hide() {
@@ -64,7 +68,7 @@ export class Modal {
                 });
             });
         } catch (error) {
-            console.log("Could not set event listeners for cookie modal.")
+            console.error("Could not set event listeners for cookie modal.")
         }
     }
 
@@ -74,7 +78,7 @@ export class Modal {
                 document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateModal());
             }
         } catch (error) {
-            console.log("Could not inject cookie modal.")
+            console.error("Could not inject cookie modal.")
         }
     }
 

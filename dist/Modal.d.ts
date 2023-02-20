@@ -3,7 +3,7 @@ export declare class Modal {
     private options;
     private cookiesManager;
     constructor(cookiesManager: CookiesManager, options: ModalOptions);
-    show(): void;
+    show(): Promise<void>;
     hide(): void;
     setEventListeners(): void;
     injectModal(): void;

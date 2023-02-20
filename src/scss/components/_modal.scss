@@ -1,12 +1,17 @@
 /*=============== MODAL ===============*/
 
 .c-cookies-config-modal {
+    display: none;
 
     * {
         font-family: var(--body-font);
     }
-    .modal {
 
+    &.show-modal{
+        display: block;
+    }
+    .modal {
+        
         &__button {
             display: inline-block;
             background-color: var(--first-color);
@@ -14,11 +19,11 @@
             padding: 1rem 1.25rem;
             border-radius: .5rem;
             transition: .3s;
-
+            
             &:hover {
                 background-color: var(--first-color-alt);
             }
-
+            
         }
 
         &__container {
@@ -29,6 +34,7 @@
             width: 100%;
             height: 100%;
             display: grid;
+            //display: none;
             align-items: flex-end;
             overflow: hidden;
             transition: all .3s;

@@ -29,7 +29,7 @@ export class Banner {
                 self.cookiesManager.showModal();
             });
         } catch (error) {
-            console.log("Can't set the event listener for the cookies modal.")
+            console.error("Can't set the event listener for the cookies banner. Can't find the HTML elements.")
         }
 
     }
@@ -69,7 +69,7 @@ export class Banner {
                 document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateBanner());
             }
         } catch (error) {
-            console.log("Couldn't inject the banner.");
+            console.error("Couldn't inject the banner.");
         }
     }
 
@@ -82,7 +82,7 @@ export class Banner {
         try {
             document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.add("wall-show");
         } catch (error) {
-            console.log("Couldn't apply the background wall.")
+            console.error("Couldn't apply the background wall.")
         }
     }
 
@@ -90,7 +90,7 @@ export class Banner {
         try {
             document.querySelector<HTMLElement>(".c-cookies-config-wall")!.classList.remove("wall-show");
         } catch (error) {
-            console.log("Unable to hide the background wall.")
+            console.error("Unable to hide the background wall.")
         }
     }
 
@@ -98,7 +98,7 @@ export class Banner {
         try {
             document.querySelector("body")!.style.overflow = "hidden";
         } catch (error) {
-            console.log("Unable to hide the scroll.")
+            console.error("Unable to hide the scroll.")
         }
     }
 
@@ -106,7 +106,7 @@ export class Banner {
         try {
             document.querySelector("body")!.style.overflow = "auto";
         } catch (error) {
-            console.log("Unable to show the scroll.")
+            console.error("Unable to show the scroll.")
         }
     }
 
@@ -120,14 +120,14 @@ export class Banner {
         try {
             document.querySelector<HTMLElement>(".c-cookies-config-banner .banner-container")!.classList.add("show-banner");
         } catch (error) {
-            console.log("Unable to show the banner.")
+            console.error("Unable to show the banner.")
         }
     }
     public hide() {
         try {
             document.querySelector<HTMLElement>(".c-cookies-config-banner")!.style.display = "none";
         } catch (error) {
-            console.log("Unable to hide the banner.")
+            console.error("Unable to hide the banner.")
         }
         this.hideWall();
         this.showScroll();

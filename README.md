@@ -125,7 +125,7 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
 ```
 ```html
     <div class="c-cookies-config-banner">
-        <div class="banner-container show-banner">
+        <div class="banner-container">
             <p>This website uses cookies to ensure you get the best experience on our website.</p>
             <div class="banner-container__buttons">
                 <button class="banner-container__button banner-container__accept-all-btn cm-banner-accept-all-btn">Accept all</button>

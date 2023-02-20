@@ -35,7 +35,7 @@ export class CookiesManager {
 
     constructor(options: Options) {
         if (options == null) {
-            throw new Error("Options cannot be null");
+            throw new Error("Options for CookiesManager cannot be null.");
         } else {
             if (options.cookieCategories == null) {
                 throw new Error("You should provide at least one cookie category");
@@ -144,7 +144,7 @@ export class CookiesManager {
             }(window, document, 'script', 'dataLayer', gtmCode));
             (window as any).dataLayer = (window as any).dataLayer || [];
         } catch (error) {
-            console.log("There was an error loading GTM.")
+            console.error("Couldn't inject GTM.")
         }
     }
 
@@ -169,23 +169,27 @@ export class CookiesManager {
     }
 
     public injectScripts() {
-        this.modalOptions.cookieCategories.forEach(category => {
-            if (category.checked || this.acceptAll) {
-                category.scripts.forEach(script => {
-                    if (script.type == ScriptType.STANDARD || script.type == null) {
-                        if (script.scriptSrc != null) {
-                            this.injectScript(script.scriptSrc, script.async)
-                        }
-                    } else {
-                        if (script.gtmCode != null) {
-                            this.injectGTM(script.gtmCode);
+        try {
+            this.modalOptions.cookieCategories.forEach(category => {
+                if (category.checked || this.acceptAll) {
+                    category.scripts.forEach(script => {
+                        if (script.type == ScriptType.STANDARD || script.type == null) {
+                            if (script.scriptSrc != null) {
+                                this.injectScript(script.scriptSrc, script.async)
+                            }
                         } else {
-                            throw new Error("You should provide a gtmCode for the script");
+                            if (script.gtmCode != null) {
+                                this.injectGTM(script.gtmCode);
+                            } else {
+                                throw new Error("You should provide a gtmCode for the script");
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        } catch (error) {
+            console.error(`Couldn't inject scripts: ${error}`)
+        }
     }
 
     saveButton() {

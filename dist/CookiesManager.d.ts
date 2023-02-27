@@ -1,17 +1,22 @@
 import { Banner, BannerOptions } from "./Banner";
 import { ModalOptions, Modal } from './Modal';
 import "./scss/styles.scss";
+interface cookieCatergoryCallbackInterface {
+    (CookieCategory: CookieCategory): void;
+}
 export declare class CookiesManager {
     private modalOptions;
     private banner;
     private modal;
     private acceptAll;
     private configChanged;
+    private onCookieCategoryChange;
     getBanner(): Banner;
     setBanner(banner: Banner): void;
     getModal(): Modal;
     setModal(modal: Modal): void;
     getOptions(): Options;
+    on(listener: any, callback: cookieCatergoryCallbackInterface): void;
     constructor(options: Options);
     private constructorInitializationFunction;
     setEventListeners(): void;
@@ -24,7 +29,7 @@ export declare class CookiesManager {
     hideModal(): void;
     private injectScript;
     private injectGTM;
-    init(banner: boolean, modal: boolean): void;
+    init(banner: boolean, modal: boolean): Promise<void>;
     initShow(banner: boolean, modal: boolean): Promise<void>;
     injectScripts(): void;
     saveButton(): void;
@@ -59,3 +64,4 @@ export declare enum ScriptType {
     GTM = 0,
     STANDARD = 1
 }
+export {};

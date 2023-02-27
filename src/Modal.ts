@@ -91,7 +91,7 @@ export class Modal {
             const checked = element.required ? "checked" : "";
             const block = `
             <div class="cookie-category">
-                <div class="cookie-category__header header">
+                <div class="cookie-category__header cc-header">
                     <h2 class="header__title">
                         ${element.title}
                     </h2>

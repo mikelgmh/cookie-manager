@@ -3,6 +3,10 @@ import { Banner, BannerOptions } from "./Banner";
 import { ModalOptions, Modal } from './Modal';
 import "./scss/styles.scss";
 import { Utils } from './utils';
+
+interface cookieCatergoryCallbackInterface {
+    (CookieCategory: CookieCategory): void;
+}
 export class CookiesManager {
 
     // var isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
@@ -11,6 +15,7 @@ export class CookiesManager {
     private modal: Modal;
     private acceptAll: boolean = false;
     private configChanged: boolean = false;
+    private onCookieCategoryChange: cookieCatergoryCallbackInterface;
 
 
     public getBanner(): Banner {
@@ -33,6 +38,12 @@ export class CookiesManager {
         return this.modalOptions;
     }
 
+    public on(listener, callback: cookieCatergoryCallbackInterface) {
+        if (listener == "onCookieCategoryChange") {
+            this.onCookieCategoryChange = callback;
+        }
+    }
+
     constructor(options: Options) {
         if (options == null) {
             throw new Error("Options for CookiesManager cannot be null.");
@@ -48,13 +59,7 @@ export class CookiesManager {
             // Merge the default options with user options
             options = Utils.mergeRecursively(this.getDefaultOptions(), options);
             this.modalOptions = options;
-            if (options.initOnDomContentLoaded) {
-                window.addEventListener("DOMContentLoaded", () => {
-                    this.constructorInitializationFunction(options);
-                });
-            } else {
-                this.constructorInitializationFunction(options);
-            }
+            this.constructorInitializationFunction(options);
         }
     }
 
@@ -67,7 +72,7 @@ export class CookiesManager {
             if (Utils.objectEquals(optionsComparison.A, optionsComparison.B)) {
                 // If the options are the same, just inject the scripts
                 this.modalOptions.cookieCategories = this.getCookiesOptions();
-                this.injectScripts();
+
             } else {
                 // If the options are different, set the configChanged to true
                 // We are in the constructor. By setting this to true, it might show the banner and modal if the user has set askOnChange to true
@@ -156,13 +161,16 @@ export class CookiesManager {
         }
     }
 
-    public init(banner: boolean, modal: boolean) {
+    public async  init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
             if (localStorage.getItem("cookiesManagerOptions") == null || this.configChanged) {
-                this.initShow(banner, modal)
+                await this.initShow(banner, modal)
             } // There's no else, as if cookiesManagerOptions was not null, the constructor would do the job.
         } else {
-            this.initShow(banner, modal)
+           await this.initShow(banner, modal)
+        }
+        if (localStorage.getItem("cookiesManagerOptions") != null) {
+            this.injectScripts();
         }
     }
 
@@ -174,13 +182,19 @@ export class CookiesManager {
             this.showBanner();
         }
         if (modal) {
+            console.log("isthereamodel")
+            console.log(this.modal)
             this.showModal();
         }
     }
 
     public injectScripts() {
         try {
+
             this.modalOptions.cookieCategories.forEach(category => {
+                if (this.onCookieCategoryChange != null) {
+                    this.onCookieCategoryChange(category);
+                }
                 if (category.checked || this.acceptAll) {
                     category.scripts.forEach(script => {
                         if (script.type == ScriptType.STANDARD || script.type == null) {

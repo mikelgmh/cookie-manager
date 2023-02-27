@@ -258,6 +258,24 @@ To start using the library set the inject values to false in both the banner and
     cookiesManager.init(true, false); // This method will automatically add the event listeners
 ```
 
+## Callbacks
+
+You can set a callback function by calling the `on` method.
+
+### Available callbacks
+
+|callback| params | description
+|--|--|--|
+| onCookieCategoryChange() | cookieCategory | This function is called when the user accepted / rejected a cookie Category after pressing the save button or after initializing the library.
+
+```javascript
+    var options = {...};
+    const cookiesManager = new CookiesManager(options);
+    cookiesManager.on('onCookieCategoryChange', (cookieCategory) => {
+        console.log(cookieCategory);
+    });
+    cookiesManager.init(true, false); // This method will automatically add the event listeners
+```
 
 ## Working example
 

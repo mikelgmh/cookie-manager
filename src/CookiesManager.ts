@@ -182,8 +182,6 @@ export class CookiesManager {
             this.showBanner();
         }
         if (modal) {
-            console.log("isthereamodel")
-            console.log(this.modal)
             this.showModal();
         }
     }
@@ -255,6 +253,7 @@ export class CookiesManager {
             },
             bannerOptions: {
                 inject: true,
+                injectWall: true,
                 wall: true,
                 wallScroll: false,
                 wallBlur: true,

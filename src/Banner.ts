@@ -13,6 +13,9 @@ export class Banner {
         if (cookiesManager.getOptions().bannerOptions.inject) {
             this.injectBanner();
         }
+        if (cookiesManager.getOptions().bannerOptions.injectWall){
+            this.injectWall();
+        }
         this.setEventListeners();
     }
 
@@ -62,10 +65,19 @@ export class Banner {
         return Utils.wrapString(this.options.bannerText, "p");
     }
 
-    public injectBanner() {
+    private injectWall(){
         try {
             if (document.querySelector("body") != null) {
                 document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateWall());
+            }
+        } catch (error) {
+            console.error("Couldn't inject the wall.");
+        }
+    }
+
+    public injectBanner() {
+        try {
+            if (document.querySelector("body") != null) {
                 document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateBanner());
             }
         } catch (error) {
@@ -141,6 +153,7 @@ export class Banner {
 export interface BannerOptions {
     bannerText: string;
     wall: boolean,
+    injectWall: boolean,
     wallScroll: boolean,
     wallBlur: boolean,
     inject: boolean,

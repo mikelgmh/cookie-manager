@@ -9,6 +9,7 @@ export declare class Banner {
     getAcceptAllButton(): string;
     getSettingsButton(): string;
     private getBannerText;
+    private injectWall;
     injectBanner(): void;
     private generateWall;
     showWall(): void;
@@ -21,6 +22,7 @@ export declare class Banner {
 export interface BannerOptions {
     bannerText: string;
     wall: boolean;
+    injectWall: boolean;
     wallScroll: boolean;
     wallBlur: boolean;
     inject: boolean;

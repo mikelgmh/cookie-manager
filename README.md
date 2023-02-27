@@ -150,7 +150,7 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
             <div class="modal__cookie-categories">
                 
             <div class="cookie-category">
-                <div class="cookie-category__header header">
+                <div class="cookie-category__header cc-header">
                     <h2 class="header__title">
                     Cookies funcionales
                     </h2>
@@ -167,7 +167,7 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
             </div>
             
             <div class="cookie-category">
-                <div class="cookie-category__header header">
+                <div class="cookie-category__header cc-header">
                     <h2 class="header__title">
                     Cookies de analítica
                     </h2>

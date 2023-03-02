@@ -1,4 +1,4 @@
-import { CookiesManager } from './CookiesManager';
+import { CookieCategory, CookiesManager } from './CookiesManager';
 export class Modal {
 
     private options: ModalOptions;
@@ -16,6 +16,12 @@ export class Modal {
 
     async show() {
         try {
+            // Check if there's already any option saved
+            // if (localStorage.getItem("cookiesManagerOptions") != null) {
+            //     //const options: CookieCategory = this.cookiesManager.getCookiesOptions();
+            //     alert("W")
+            // }
+
             const modal = document.querySelector(".c-cookies-config-modal");
             modal!.classList.add(this.options.showModalClass);
             await new Promise(r => setTimeout(r, 10)); // This is to make the show animation work
@@ -40,7 +46,7 @@ export class Modal {
             var self = this;
             // Modal close button
             const closeBtn = document.querySelectorAll('.close-modal')
-            closeBtn.forEach(c => c.addEventListener('click', ()=>{
+            closeBtn.forEach(c => c.addEventListener('click', () => {
                 this.hide(self);
             }))
 
@@ -86,9 +92,13 @@ export class Modal {
 
     private generateCategoriesBlocks() {
         let categoriesBlocks = "";
-        this.cookiesManager.getOptions().cookieCategories.forEach((element, index) => {
+        let cookieCategories = this.cookiesManager.getOptions().cookieCategories;
+        if (localStorage.getItem("cookiesManagerOptions") != null) {
+            cookieCategories = this.cookiesManager.getCookiesOptions();
+        }
+        cookieCategories.forEach((element, index) => {
             const disabled = element.required ? "disabled" : "";
-            const checked = element.required ? "checked" : "";
+            const checked = element.checked ? "checked" : "";
             const block = `
             <div class="cookie-category">
                 <div class="cookie-category__header cc-header">
@@ -97,7 +107,7 @@ export class Modal {
                     </h2>
                     <div class="header__switch">
                     <label class="switch ${disabled}">
-                        <input ${disabled} checked class="cm-switch-${index}" type="checkbox">
+                        <input ${disabled} ${checked} class="cm-switch-${index}" type="checkbox">
                         <span class="slider round ${disabled}"></span>
                     </label>
                     </div>

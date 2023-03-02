@@ -74,6 +74,7 @@ export class CookiesManager {
                 this.modalOptions.cookieCategories = this.getCookiesOptions();
 
             } else {
+                localStorage.removeItem("cookiesManagerOptions");
                 // If the options are different, set the configChanged to true
                 // We are in the constructor. By setting this to true, it might show the banner and modal if the user has set askOnChange to true
                 this.configChanged = true;
@@ -109,6 +110,9 @@ export class CookiesManager {
     }
 
     public acceptAllButton() {
+        this.getOptions().cookieCategories.forEach((cookieCategory: CookieCategory) => {
+            cookieCategory.checked = true;
+        })
         this.acceptAll = true;
         this.modal.hide();
         this.banner.hide();
@@ -161,13 +165,13 @@ export class CookiesManager {
         }
     }
 
-    public async  init(banner: boolean, modal: boolean) {
+    public async init(banner: boolean, modal: boolean) {
         if (this.modalOptions.askOnce) {
             if (localStorage.getItem("cookiesManagerOptions") == null || this.configChanged) {
                 await this.initShow(banner, modal)
             } // There's no else, as if cookiesManagerOptions was not null, the constructor would do the job.
         } else {
-           await this.initShow(banner, modal)
+            await this.initShow(banner, modal)
         }
         if (localStorage.getItem("cookiesManagerOptions") != null) {
             this.injectScripts();
@@ -224,7 +228,10 @@ export class CookiesManager {
     }
 
     getCookiesOptions(): any {
-        return JSON.parse(Utils.decode(localStorage.getItem("cookiesManagerOptions")));
+        if (localStorage.getItem("cookiesManagerOptions") != null) {
+            return JSON.parse(Utils.decode(localStorage.getItem("cookiesManagerOptions")));
+        }
+        return {};
     }
 
     private getDefaultOptions(): Options {

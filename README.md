@@ -262,6 +262,8 @@ To start using the library set the inject values to false in both the banner and
 
 You can set a callback function by calling the `on` method.
 
+⚠️ It is very important to define the callbacks before calling the init() method ⚠️
+
 ### Available callbacks
 
 |callback| params | description
@@ -274,7 +276,7 @@ You can set a callback function by calling the `on` method.
     cookiesManager.on('onCookieCategoryChange', (cookieCategory) => {
         console.log(cookieCategory);
     });
-    cookiesManager.init(true, false); // This method will automatically add the event listeners
+    cookiesManager.init(true, false);
 ```
 
 ## Working example

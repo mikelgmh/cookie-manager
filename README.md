@@ -87,7 +87,7 @@ Here’s an example of the options object. Every option has a default value, so 
             title: 'Cookies de analíticas',
             description: 'Esta es una descripción chulísima generada a través de la librería.',
             required: true, // These cookies must be accepted
-            scripts: [
+            scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
                 {
                     type: ScriptType.STANDARD, // Standart to inject a regular script. GTM if using GTM.
                     // gtmCode: '', // Set this value if using GTM
@@ -100,7 +100,7 @@ Here’s an example of the options object. Every option has a default value, so 
             title: 'Cookies de analítica',
             description: 'Esta es una descripción chulísima generada a través de la librería.',
             required: false,
-            scripts: [
+            scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
                 {
                     type: ScriptType.STANDARD,
                     // gtmCode: '',

@@ -109,6 +109,7 @@ export class Banner {
     public hideScroll() {
         try {
             document.querySelector("body")!.style.overflow = "hidden";
+            document.querySelector("html")!.style.overflow = "hidden";
         } catch (error) {
             console.error("Unable to hide the scroll.")
         }
@@ -117,6 +118,7 @@ export class Banner {
     public showScroll() {
         try {
             document.querySelector("body")!.style.overflow = "auto";
+            document.querySelector("html")!.style.overflow = "auto";
         } catch (error) {
             console.error("Unable to show the scroll.")
         }

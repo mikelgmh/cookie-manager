@@ -35,8 +35,13 @@ export class Modal {
         }
     }
     hide(self?: Modal) { // Destucted object, so we can access this context
-        const modalContainer = document.getElementById('modal-container')
-        modalContainer!.classList.remove(this.options.showModalClass)
+        const modalContainer = document.getElementById('modal-container');
+        modalContainer!.classList.remove(this.options.showModalClass);
+        // If banner is not shown, show scroll
+        const bannerContainer = document.querySelector(".c-cookies-config-banner .banner-container");
+        if (bannerContainer?.classList.contains("show-banner") == false) {
+            this.cookiesManager.getBanner().showScroll();
+        }
 
     }
 

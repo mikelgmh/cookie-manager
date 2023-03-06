@@ -21,14 +21,27 @@ export class Modal {
             //     //const options: CookieCategory = this.cookiesManager.getCookiesOptions();
             //     alert("W")
             // }
-
             const modal = document.querySelector(".c-cookies-config-modal");
             modal!.classList.add(this.options.showModalClass);
             await new Promise(r => setTimeout(r, 10)); // This is to make the show animation work
+            // Toggle accordions after showing modal
+            var acc = document.getElementsByClassName("cm-accordion");
+            var i;
+            var self = this;
+            for (i = 0; i < acc.length; i++) {
+                if (acc[i].classList.contains("cm-active-on-load")) {
+                    acc[i].classList.remove("cm-active-on-load");
+                    await new Promise(r => setTimeout(r, 100)); // This is to make the show animation work
+                    self.toggleAccordion(acc[i]);
+                }
+                  
+            }
+       
             const modalContainer = document.getElementById("modal-container");
             modalContainer!.classList.add(this.options.showModalClass);
             // Hide body scroll
             document.querySelector("body")!.style.overflow = "hidden";
+            document.querySelector("html")!.style.overflow = "hidden";
         } catch (error) {
             console.error("Could not show cookie modal.")
             console.error(error)
@@ -70,7 +83,7 @@ export class Modal {
             });
 
             // Switches
-            this.cookiesManager.getOptions().cookieCategories.forEach((category, index) => {
+            this.cookiesManager.getOptions().cookieCategories.forEach((category: CookieCategory, index) => {
                 var checkbox = document.querySelector(`.cm-switch-${index}`)!;
                 checkbox.addEventListener('change', function () {
                     if (this.checked) {
@@ -80,8 +93,30 @@ export class Modal {
                     }
                 });
             });
+
+            // Set accordion toggle on click
+            var acc = document.getElementsByClassName("cm-accordion");
+            var i;
+            var self = this;
+            for (i = 0; i < acc.length; i++) {
+                acc[i].addEventListener("click", function () {
+                    self.toggleAccordion(this);
+                });
+            }
+
+
         } catch (error) {
             console.error("Could not set event listeners for cookie modal.")
+        }
+    }
+
+    private async toggleAccordion(element) {
+        element.classList.toggle("cm-active");
+        var panel = element.nextElementSibling;
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
         }
     }
 
@@ -104,22 +139,32 @@ export class Modal {
         cookieCategories.forEach((element, index) => {
             const disabled = element.required ? "disabled" : "";
             const checked = element.checked ? "checked" : "";
+            const accordionClass = element.accordion.enable ? "cm-accordion" : "";
+            const accordionPanel = element.accordion.enable ? "cm-panel" : "";
+            const activeAccordion = element.accordion.active ? "cm-active-on-load" : "";
+            const accordionChevron = element.accordion.enable ? "<div class='cc-header__left'></div>" : "";
+            const boxedHeader = element.boxedHeader ? "cm-boxed" : "";
+            const boxedBody = element.boxedBody ? "cookie-category__body--boxed" : "";
+            // const boxedHeaderMArgin = element.accordion.active ? "" : "no-chevron";
             const block = `
             <div class="cookie-category">
-                <div class="cookie-category__header cc-header">
-                    <h2 class="header__title">
-                        ${element.title}
-                    </h2>
-                    <div class="header__switch">
-                    <label class="switch ${disabled}">
-                        <input ${disabled} ${checked} class="cm-switch-${index}" type="checkbox">
-                        <span class="slider round ${disabled}"></span>
-                    </label>
+                <div class="cookie-category__header cc-header ${accordionClass} ${boxedHeader} ${activeAccordion}">
+                    ${accordionChevron}
+                    <div class="cc-header__right">
+                        <h2 class="header__title">
+                            ${element.title}
+                        </h2>
+                        <div class="header__switch">
+                            <label class="switch ${disabled}">
+                                <input ${disabled} ${checked} class="cm-switch-${index}" type="checkbox">
+                                <span class="slider round ${disabled}"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-            <div class="cookie-category__body body">
-                <p>${element.description}</p>
-            </div>
+                <div class="cookie-category__body body ${boxedBody} ${accordionPanel}">
+                    <p>${element.description}</p>
+                </div>
             </div>
             `;
             categoriesBlocks += block;

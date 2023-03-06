@@ -74,19 +74,25 @@ Here’s an example of the options object. Every option has a default value, so 
         wallBlur: true, //Blurs the background wall
         bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
         acceptAllButton: {
-            text: 'Aceptar todas',
+            text: 'Accept all',
             show: true,
         },
         settingsButton: {
-            text: 'Configurar',
+            text: 'Configure',
             show: true,
         },
     },
     cookieCategories: [ // The cookie categories. These will appear in the cookie modal
         {
-            title: 'Cookies de analíticas',
-            description: 'Esta es una descripción chulísima generada a través de la librería.',
+            title: 'Analytics Cookies',
+            description: 'This is a test description. You can change this in the options object.',
             required: true, // These cookies must be accepted
+            boxedHeader: false, // Puts the category in a Box
+            boxedBody: false, // Adds margins to fit the body in the header's box
+            accordion: {
+                enable: false, // Enables an accordion for the description
+                active: false, // Sets the accordion to active by default
+            },
             scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
                 {
                     type: ScriptType.STANDARD, // Standart to inject a regular script. GTM if using GTM.
@@ -97,8 +103,8 @@ Here’s an example of the options object. Every option has a default value, so 
             ],
         },
         {
-            title: 'Cookies de analítica',
-            description: 'Esta es una descripción chulísima generada a través de la librería.',
+            title: 'Analytics Cookies',
+            description: 'This is a test description. You can change this in the options object.',
             required: false,
             scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
                 {
@@ -162,7 +168,7 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
                     </div>
                 </div>
             <div class="cookie-category__body body">
-                <p>Esta es una descripción chulísima generada a través de la librería.</p>
+                <p>This is a test description. You can change this in the options object.</p>
             </div>
             </div>
             
@@ -179,7 +185,7 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
                     </div>
                 </div>
             <div class="cookie-category__body body">
-                <p>Esta es una descripción chulísima generada a través de la librería.</p>
+                <p>This is a test description. You can change this in the options object.</p>
             </div>
             </div>
             
@@ -289,7 +295,7 @@ var options = {
     cookieCategories: [
         {
             title: 'Cookies funcionales',
-            description: 'Esta es una descripción chulísima generada a través de la librería.',
+            description: 'This is a test description. You can change this in the options object.',
             required: true,
             scripts: [
                 {
@@ -302,7 +308,7 @@ var options = {
         },
         {
             title: 'Cookies de analítica',
-            description: 'Esta es una descripción chulísima generada a través de la librería.',
+            description: 'This is a test description. You can change this in the options object.',
             required: false,
             scripts: [
                 {

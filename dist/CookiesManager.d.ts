@@ -35,6 +35,7 @@ export declare class CookiesManager {
     saveButton(): void;
     saveCookieOptions(): void;
     getCookiesOptions(): any;
+    private getDefaultCookieCategoryOptions;
     private getDefaultOptions;
 }
 export interface Options {
@@ -51,6 +52,9 @@ export interface CookieCategory {
     description: string;
     required: boolean;
     checked: boolean;
+    accordion: Accordion;
+    boxedHeader: boolean;
+    boxedBody: boolean;
     scripts: [
         {
             type: ScriptType;
@@ -58,7 +62,12 @@ export interface CookieCategory {
             scriptSrc: string;
             async: boolean;
         }
-    ];
+    ] | [];
+}
+export interface Accordion {
+    enable: boolean;
+    enableOnDescriptionLength: number;
+    active: boolean;
 }
 export declare enum ScriptType {
     GTM = 0,

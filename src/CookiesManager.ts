@@ -51,11 +51,13 @@ export class CookiesManager {
             if (options.cookieCategories == null) {
                 throw new Error("You should provide at least one cookie category");
             }
-            // Set all cookie categories as checked by default
+            // Set all cookie categories as checked by default. Set default value for cookie category
+            const mergedCategories = new Array<CookieCategory>;
             options.cookieCategories.forEach(category => {
                 category.checked = true;
+                mergedCategories.push(Utils.mergeRecursively(this.getDefaultCookieCategoryOptions(), category));
             });
-
+            options.cookieCategories = mergedCategories;
             // Merge the default options with user options
             options = Utils.mergeRecursively(this.getDefaultOptions(), options);
             this.modalOptions = options;
@@ -199,13 +201,13 @@ export class CookiesManager {
                 }
                 if (category.checked || this.acceptAll) {
                     category.scripts.forEach(script => {
-                        if (script.type == ScriptType.STANDARD || script.type == null) {
-                            if (script.scriptSrc != null) {
-                                this.injectScript(script.scriptSrc, script.async)
+                        if (script["type"] == ScriptType.STANDARD || script["type"] == null) {
+                            if (script["scriptSrc"] != null) {
+                                this.injectScript(script["scriptSrc"], script["async"])
                             }
                         } else {
-                            if (script.gtmCode != null) {
-                                this.injectGTM(script.gtmCode);
+                            if (script["gtmCode"] != null) {
+                                this.injectGTM(script["gtmCode"]);
                             } else {
                                 throw new Error("You should provide a gtmCode for the script");
                             }
@@ -234,6 +236,22 @@ export class CookiesManager {
         return {};
     }
 
+    private getDefaultCookieCategoryOptions(): CookieCategory {
+        return {
+            title: "Cookie Category Example",
+            description: "Cookie category description",
+            required: false,
+            checked: true,
+            accordion: {
+                enable: false,
+                enableOnDescriptionLength: 45,
+                active: false,
+            },
+            boxedHeader: false,
+            boxedBody: false,
+            scripts: []
+        }
+    }
     private getDefaultOptions(): Options {
         return {
             askOnce: true,
@@ -305,6 +323,9 @@ export interface CookieCategory {
     description: string,
     required: boolean,
     checked: boolean,
+    accordion: Accordion,
+    boxedHeader: boolean,
+    boxedBody: boolean,
     scripts: [
         {
             type: ScriptType,
@@ -312,7 +333,13 @@ export interface CookieCategory {
             scriptSrc: string,
             async: boolean,
         }
-    ]
+    ] | []
+}
+
+export interface Accordion {
+    enable: boolean,
+    enableOnDescriptionLength: number,
+    active: boolean,
 }
 
 export enum ScriptType {

@@ -6,6 +6,7 @@ export declare class Modal {
     show(): Promise<void>;
     hide(self?: Modal): void;
     setEventListeners(): void;
+    private toggleAccordion;
     injectModal(): void;
     private generateCategoriesBlocks;
     getCloseButton(): "<div class=\"modal__close close-modal\" title=\"Close\"><div class=\"close-modal-img\"></div></div>" | "";

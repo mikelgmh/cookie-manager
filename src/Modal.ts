@@ -151,9 +151,9 @@ export class Modal {
                 <div class="cookie-category__header cc-header ${accordionClass} ${boxedHeader} ${activeAccordion}">
                     ${accordionChevron}
                     <div class="cc-header__right">
-                        <h2 class="header__title">
+                        <div class="header__title">
                             ${element.title}
-                        </h2>
+                        </div>
                         <div class="header__switch">
                             <label class="switch ${disabled}">
                                 <input ${disabled} ${checked} class="cm-switch-${index}" type="checkbox">
@@ -189,7 +189,7 @@ export class Modal {
         <div class="modal__container" id="modal-container">
           <div class="modal__content">
             ${this.getCloseButton()}
-            <h1 class="modal__title">${this.options.title}</h1>
+            <div class="modal__title">${this.options.title}</div>
             <p class="modal__description">${this.options.description}</p>
             <div class="modal__cookie-categories">
                 ${this.generateCategoriesBlocks()}

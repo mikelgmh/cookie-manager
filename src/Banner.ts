@@ -13,7 +13,7 @@ export class Banner {
         if (cookiesManager.getOptions().bannerOptions.inject) {
             this.injectBanner();
         }
-        if (cookiesManager.getOptions().bannerOptions.injectWall){
+        if (cookiesManager.getOptions().bannerOptions.injectWall) {
             this.injectWall();
         }
         this.setEventListeners();
@@ -65,7 +65,7 @@ export class Banner {
         return Utils.wrapString(this.options.bannerText, "p");
     }
 
-    private injectWall(){
+    private injectWall() {
         try {
             if (document.querySelector("body") != null) {
                 document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateWall());

@@ -114,6 +114,7 @@ export class CookiesManager {
         this.getOptions().cookieCategories.forEach((cookieCategory: CookieCategory) => {
             cookieCategory.checked = true;
         })
+        this.modal.updateSwitchesStatus();
         this.acceptAll = true;
         this.modal.hide();
         this.banner.hide();

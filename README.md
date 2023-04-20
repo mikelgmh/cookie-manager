@@ -84,6 +84,7 @@ Here’s an example of the options object. Every option has a default value, so 
     },
     cookieCategories: [ // The cookie categories. These will appear in the cookie modal
         {
+            id: "my-custom-id-1", // Custom id. Useful to identify the categories on the onCookieCategoryChange callback.
             title: 'Analytics Cookies',
             description: 'This is a test description. You can change this in the options object.',
             required: true, // These cookies must be accepted
@@ -103,6 +104,7 @@ Here’s an example of the options object. Every option has a default value, so 
             ],
         },
         {
+            id: "my-custom-id-2", // Custom id. Useful to identify the categories on the onCookieCategoryChange callback.
             title: 'Analytics Cookies',
             description: 'This is a test description. You can change this in the options object.',
             required: false,

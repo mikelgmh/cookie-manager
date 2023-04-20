@@ -49,6 +49,7 @@ export interface Options {
 }
 export interface CookieCategory {
     title: string;
+    id: string;
     description: string;
     required: boolean;
     checked: boolean;

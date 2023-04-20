@@ -240,6 +240,7 @@ export class CookiesManager {
             title: "Cookie Category Example",
             description: "Cookie category description",
             required: false,
+            id: "",
             checked: true,
             accordion: {
                 enable: false,
@@ -319,6 +320,7 @@ export interface Options {
 
 export interface CookieCategory {
     title: string,
+    id: string,
     description: string,
     required: boolean,
     checked: boolean,

@@ -121,14 +121,18 @@ export class Modal {
     }
 
     private toggleSwitch(toggleIndex: number, checked: boolean) {
-        const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
-        const checkboxInput = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`.cm-switch-${toggleIndex}`)!;
-        if (!checked) {
-            checkboxInput.removeAttribute("checked");
-        } else {
-            checkboxInput.setAttribute("checked", "")
+        try {
+            const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
+            const checkboxInput = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`.cm-switch-${toggleIndex}`)!;
+            if (!checked) {
+                checkboxInput.removeAttribute("checked");
+            } else {
+                checkboxInput.setAttribute("checked", "")
+            }
+            checkboxInput.checked = checked;
+        } catch (error) {
+            console.error(`Could not toggle the switch cm-switch-${toggleIndex}. Do you have equal switches and cookieCategories? If cm-switch-${toggleIndex} does not exist in your dom, probably not.`)
         }
-        checkboxInput.checked = checked;
     }
 
     private async toggleAccordion(element) {

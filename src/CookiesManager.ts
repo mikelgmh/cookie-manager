@@ -92,7 +92,6 @@ export class CookiesManager {
 
         if (options.bannerOptions != null) {
             this.createBanner(options.bannerOptions);
-
         }
     }
 
@@ -280,8 +279,8 @@ export class CookiesManager {
                 inject: true,
                 injectWall: true,
                 wall: true,
-                wallScroll: false,
-                wallBlur: true,
+                wallScroll: true,
+                wallBlur: false,
                 bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
                 acceptAllButton: {
                     text: 'Accept all',

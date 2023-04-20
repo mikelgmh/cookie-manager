@@ -11,6 +11,7 @@ export class Modal {
             this.injectModal();
         }
         this.setEventListeners();
+        this.updateSwitchesStatus();
     }
 
 
@@ -34,14 +35,13 @@ export class Modal {
                     await new Promise(r => setTimeout(r, 100)); // This is to make the show animation work
                     self.toggleAccordion(acc[i]);
                 }
-                  
+
             }
-       
+
             const modalContainer = document.getElementById("modal-container");
             modalContainer!.classList.add(this.options.showModalClass);
             // Hide body scroll
-            document.querySelector("body")!.style.overflow = "hidden";
-            document.querySelector("html")!.style.overflow = "hidden";
+            this.cookiesManager.getBanner().hideScroll();
         } catch (error) {
             console.error("Could not show cookie modal.")
             console.error(error)
@@ -50,10 +50,17 @@ export class Modal {
     hide(self?: Modal) { // Destucted object, so we can access this context
         const modalContainer = document.getElementById('modal-container');
         modalContainer!.classList.remove(this.options.showModalClass);
+
         // If banner is not shown, show scroll
         const bannerContainer = document.querySelector(".c-cookies-config-banner .banner-container");
         if (bannerContainer?.classList.contains("show-banner") == false) {
             this.cookiesManager.getBanner().showScroll();
+        } else {
+            // If the banner is shown, check if the scroll was active. If it was, show the scroll on modal close.
+            const wallScroll = this.cookiesManager.getOptions().bannerOptions.wallScroll;
+            if (wallScroll) {
+                this.cookiesManager.getBanner().showScroll();
+            }
         }
 
     }
@@ -85,11 +92,14 @@ export class Modal {
             // Switches
             this.cookiesManager.getOptions().cookieCategories.forEach((category: CookieCategory, index) => {
                 var checkbox = document.querySelector(`.cm-switch-${index}`)!;
+                const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
                 checkbox.addEventListener('change', function () {
                     if (this.checked) {
                         category.checked = true;
+                        self.toggleSwitch(index, true);
                     } else {
                         category.checked = false;
+                        self.toggleSwitch(index, false);
                     }
                 });
             });
@@ -110,6 +120,17 @@ export class Modal {
         }
     }
 
+    private toggleSwitch(toggleIndex: number, checked: boolean) {
+        const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
+        const checkboxInput = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`.cm-switch-${toggleIndex}`)!;
+        if (!checked) {
+            checkboxInput.removeAttribute("checked");
+        } else {
+            checkboxInput.setAttribute("checked", "")
+        }
+        checkboxInput.checked = checked;
+    }
+
     private async toggleAccordion(element) {
         element.classList.toggle("cm-active");
         var panel = element.nextElementSibling;
@@ -128,6 +149,19 @@ export class Modal {
         } catch (error) {
             console.error("Could not inject cookie modal.")
         }
+    }
+
+    // If we're not injecting the HTML, we need to update the HTML manually after the page is loaded.
+    public updateSwitchesStatus() {
+        //const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
+        let cookieCategories = this.cookiesManager.getOptions().cookieCategories;
+        cookieCategories.forEach((cookieCategory, index) => {
+            try {
+                this.toggleSwitch(index, cookieCategory.checked)
+            } catch (error) {
+                console.error("You have more cookieCategories defined in javascript than in your HTML. Please, use the same number of cookieCategories.")
+            }
+        });
     }
 
     private generateCategoriesBlocks() {

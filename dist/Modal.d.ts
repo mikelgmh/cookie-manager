@@ -6,10 +6,12 @@ export declare class Modal {
     show(): Promise<void>;
     hide(self?: Modal): void;
     setEventListeners(): void;
+    private toggleSwitch;
     private toggleAccordion;
     injectModal(): void;
+    updateSwitchesStatus(): void;
     private generateCategoriesBlocks;
-    getCloseButton(): "<div class=\"modal__close close-modal\" title=\"Close\"><div class=\"close-modal-img\"></div></div>" | "";
+    getCloseButton(): "" | "<div class=\"modal__close close-modal\" title=\"Close\"><div class=\"close-modal-img\"></div></div>";
     getAcceptAllButton(): string;
     getSaveButton(): string;
     generateModal(): string;

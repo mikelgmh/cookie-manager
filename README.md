@@ -70,7 +70,7 @@ Here’s an example of the options object. Every option has a default value, so 
         inject: true, // Inject the HTML of the banner using Javascript. This might cause CSP issues if CSP is on
         wall: true, // Block the background with a semi-transparent wall
         injectWall: true, // Injects the HTML for the wall.  This might cause CSP issues if CSP is on
-        wallScroll: false, // Block the scroll
+        wallScroll: false, // Allow the scroll.
         wallBlur: true, //Blurs the background wall
         bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
         acceptAllButton: {

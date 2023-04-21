@@ -121,7 +121,6 @@ export class Modal {
     }
 
     private updateSwitchDisabledStatus(toggleIndex: number, required: boolean) {
-        console.log("Changing disabled status")
         try {
             const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
             const checkboxInput = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`.cm-switch-${toggleIndex}`)!;

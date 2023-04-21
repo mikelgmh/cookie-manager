@@ -87,7 +87,8 @@ Here’s an example of the options object. Every option has a default value, so 
             id: "my-custom-id-1", // Custom id. Useful to identify the categories on the onCookieCategoryChange callback.
             title: 'Analytics Cookies',
             description: 'This is a test description. You can change this in the options object.',
-            required: true, // These cookies must be accepted
+            required: false, // Set to true to disable the switch
+            checked: false, // Set to true to check the switch
             boxedHeader: false, // Puts the category in a Box
             boxedBody: false, // Adds margins to fit the body in the header's box
             accordion: {

@@ -6,6 +6,7 @@ export declare class Modal {
     show(): Promise<void>;
     hide(self?: Modal): void;
     setEventListeners(): void;
+    private updateSwitchDisabledStatus;
     private toggleSwitch;
     private toggleAccordion;
     injectModal(): void;

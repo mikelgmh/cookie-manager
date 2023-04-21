@@ -54,7 +54,7 @@ export class CookiesManager {
             // Set all cookie categories as checked by default. Set default value for cookie category
             const mergedCategories = new Array<CookieCategory>;
             options.cookieCategories.forEach(category => {
-                category.checked = true;
+                //category.checked = true; // Dont set checked to true. Set checked if checked was set
                 mergedCategories.push(Utils.mergeRecursively(this.getDefaultCookieCategoryOptions(), category));
             });
             options.cookieCategories = mergedCategories;

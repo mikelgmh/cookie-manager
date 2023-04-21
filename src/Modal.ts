@@ -120,6 +120,28 @@ export class Modal {
         }
     }
 
+    private updateSwitchDisabledStatus(toggleIndex: number, required: boolean) {
+        console.log("Changing disabled status")
+        try {
+            const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
+            const checkboxInput = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`.cm-switch-${toggleIndex}`)!;
+            const checkboxSpan = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`.slider`)!;
+            const checkboxLabel = cookieCategoryElements[toggleIndex].querySelector<HTMLInputElement>(`label.switch`)!;
+            if (required) {
+                checkboxInput.setAttribute("disabled", "")
+                checkboxSpan.classList.add("disabled");
+                checkboxLabel.classList.add("disabled");
+            } else {
+                checkboxInput.removeAttribute("disabled");
+                checkboxSpan.classList.remove("disabled");
+                checkboxLabel.classList.remove("disabled");
+            }
+        } catch (error) {
+            console.error(`Could not change the disabled status from switch cm-switch-${toggleIndex}. Do you have equal switches and cookieCategories? If cm-switch-${toggleIndex} does not exist in your DOM, probably not.`)
+
+        }
+    }
+
     private toggleSwitch(toggleIndex: number, checked: boolean) {
         try {
             const cookieCategoryElements = document.querySelectorAll(".c-cookies-config-modal .cookie-category");
@@ -131,7 +153,7 @@ export class Modal {
             }
             checkboxInput.checked = checked;
         } catch (error) {
-            console.error(`Could not toggle the switch cm-switch-${toggleIndex}. Do you have equal switches and cookieCategories? If cm-switch-${toggleIndex} does not exist in your dom, probably not.`)
+            console.error(`Could not toggle the switch cm-switch-${toggleIndex}. Do you have equal switches and cookieCategories? If cm-switch-${toggleIndex} does not exist in your DOM, probably not.`)
         }
     }
 
@@ -162,6 +184,7 @@ export class Modal {
         cookieCategories.forEach((cookieCategory, index) => {
             try {
                 this.toggleSwitch(index, cookieCategory.checked)
+                this.updateSwitchDisabledStatus(index, cookieCategory.required)
             } catch (error) {
                 console.error("You have more cookieCategories defined in javascript than in your HTML. Please, use the same number of cookieCategories.")
             }

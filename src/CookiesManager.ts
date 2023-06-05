@@ -127,7 +127,8 @@ export class CookiesManager {
     public setCookie(cookieName: string, cookieValue: string, expDays = 400, path = '/') {
         try {
             const date = new Date();
-            document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + '; max-age=' + date.setDate(date.getDate() + expDays) + '; path=' + path
+            expDays = date.setDate(date.getDate() + expDays);
+            document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + '; max-age=' + expDays + '; path=' + path
         } catch (error) {
             console.log(`Error setting cookie: ${error}`)
         }

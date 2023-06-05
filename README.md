@@ -1,5 +1,5 @@
 # cookie-manager
-This library allows to inject scripts dynamically according to the cookie preferences chosen in a modal. [GitHub repository](https://github.com/mikelgmh/cookie-manager).
+This library allows to inject scripts dynamically according to the cookie preferences chosen in a modal. You can also set values for cookies automatically for each cookie category. [GitHub repository](https://github.com/mikelgmh/cookie-manager).
 
 
 ![enter image description here](https://i.imgur.com/hxAJYBE.png)

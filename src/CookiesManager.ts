@@ -119,7 +119,7 @@ export class CookiesManager {
                 } else {
                     cookieValue = cookie.valueOnReject;
                 }
-                this.setCookie(cookie.cookieName, cookieValue, cookie.expirationDays);
+                this.setCookie(cookie.cookieName, cookieValue, cookie.expirationDays, "/");
             })
         });
     }

@@ -59,14 +59,14 @@ export class CookiesManager {
             });
             options.cookieCategories = mergedCategories;
             // Merge the default options with user options
-            const clonedCategories = options.cookieCategories;
+            const clonedCategories: CookieCategory[] = options.cookieCategories;
             options = Utils.mergeRecursively(this.getDefaultOptions(), options);
             this.modalOptions = options;
             this.constructorInitializationFunction(options, clonedCategories);
         }
     }
 
-    private constructorInitializationFunction(options, clonedCategories) {
+    private constructorInitializationFunction(options, clonedCategories: CookieCategory[]) {
         if (localStorage.getItem("cookiesManagerOptions") != null) { // If there's already configuration saved
             // Prepare the options to compare them.
             // @audit be careful, this function is comparing two strings. The callback functions are being removed, so we need to set them below.
@@ -75,8 +75,11 @@ export class CookiesManager {
             if (Utils.objectEquals(optionsComparison.A, optionsComparison.B)) {
                 // If the options are the same, just inject the scripts
                 this.modalOptions.cookieCategories = this.getCookiesOptions();
-                // @audit-ok We need to set the categories again, as the callback functions were removed.
-                this.modalOptions.cookieCategories = clonedCategories;
+                // @audit-ok We need to set the categories events again, as the callback functions were removed.
+                this.modalOptions.cookieCategories.forEach((cookieCategory, index) => {
+                    cookieCategory.events = clonedCategories[index].events;
+                });
+                //this.modalOptions.cookieCategories = clonedCategories;
 
             } else {
                 localStorage.removeItem("cookiesManagerOptions");

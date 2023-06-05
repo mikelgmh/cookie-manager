@@ -110,6 +110,32 @@ export class CookiesManager {
         return this.modal;
     }
 
+    public setCookies(): void {
+        this.modalOptions.cookieCategories.forEach(category => {
+            category.events.setCookiesOnChange.forEach(cookie => {
+                let cookieValue;
+                if (category.checked) {
+                    cookieValue = cookie.valueOnAccept;
+                } else {
+                    cookieValue = cookie.valueOnReject;
+                }
+                this.setCookie(cookie.cookieName, cookieValue, cookie.expirationDays);
+            })
+        });
+    }
+
+    public setCookie(cookieName: string, cookieValue: string, expDays = 399, path = '/') {
+        try {
+            const date = new Date();
+            var expires = date.setDate(date.getDate() + expDays);
+            document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + '; max-age=' + 3600 * 24 * 200 + '; path=' + path
+        } catch (error) {
+            console.log(`Error setting cookie: ${error}`)
+        }
+    }
+
+
+
     public acceptAllButton() {
         this.getOptions().cookieCategories.forEach((cookieCategory: CookieCategory) => {
             cookieCategory.checked = true;
@@ -120,6 +146,7 @@ export class CookiesManager {
         this.banner.hide();
         this.injectScripts();
         this.saveCookieOptions();
+        this.setCookies();
     }
 
     public showModal() {
@@ -222,6 +249,7 @@ export class CookiesManager {
 
     saveButton() {
         this.saveCookieOptions();
+        this.setCookies();
     }
 
     saveCookieOptions() {
@@ -243,6 +271,11 @@ export class CookiesManager {
             required: false,
             id: "",
             checked: true,
+            events: {
+                onAccept: () => { },
+                onReject: () => { },
+                setCookiesOnChange: []
+            },
             accordion: {
                 enable: false,
                 enableOnDescriptionLength: 45,
@@ -253,6 +286,7 @@ export class CookiesManager {
             scripts: []
         }
     }
+
     private getDefaultOptions(): Options {
         return {
             askOnce: true,
@@ -308,6 +342,18 @@ export class CookiesManager {
 
 
 }
+export interface Events {
+    onAccept: Function,
+    onReject: Function,
+    setCookiesOnChange: Array<CookieObject>,
+}
+
+export interface CookieObject {
+    cookieName: string,
+    valueOnAccept: string | number,
+    valueOnReject: string | number,
+    expirationDays: number,
+}
 
 export interface Options {
     cookieCategories: Array<CookieCategory>,
@@ -325,6 +371,7 @@ export interface CookieCategory {
     description: string,
     required: boolean,
     checked: boolean,
+    events: Events,
     accordion: Accordion,
     boxedHeader: boolean,
     boxedBody: boolean,

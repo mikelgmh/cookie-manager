@@ -59,21 +59,24 @@ export class CookiesManager {
             });
             options.cookieCategories = mergedCategories;
             // Merge the default options with user options
+            const clonedCategories = options.cookieCategories;
             options = Utils.mergeRecursively(this.getDefaultOptions(), options);
             this.modalOptions = options;
-            this.constructorInitializationFunction(options);
+            this.constructorInitializationFunction(options, clonedCategories);
         }
     }
 
-    private constructorInitializationFunction(options) {
+    private constructorInitializationFunction(options, clonedCategories) {
         if (localStorage.getItem("cookiesManagerOptions") != null) { // If there's already configuration saved
             // Prepare the options to compare them.
+            // @audit be careful, this function is comparing two strings. The callback functions are being removed, so we need to set them below.
             var optionsComparison = Utils.prepareObjectsForComparison(this.modalOptions.cookieCategories, this.getCookiesOptions());
-
             // Check if the options in localStorage and the options from the constructor are the same
             if (Utils.objectEquals(optionsComparison.A, optionsComparison.B)) {
                 // If the options are the same, just inject the scripts
                 this.modalOptions.cookieCategories = this.getCookiesOptions();
+                // @audit-ok We need to set the categories again, as the callback functions were removed.
+                this.modalOptions.cookieCategories = clonedCategories;
 
             } else {
                 localStorage.removeItem("cookiesManagerOptions");
@@ -85,9 +88,7 @@ export class CookiesManager {
 
         // Generate modal
         if (options.modalOptions != null) {
-
             this.createModal(options.modalOptions);
-
         }
 
         if (options.bannerOptions != null) {
@@ -98,7 +99,6 @@ export class CookiesManager {
     public setEventListeners() {
         this.modal.setEventListeners();
         this.banner.setEventListeners();
-
     }
 
     public createBanner(options: BannerOptions) {
@@ -145,6 +145,7 @@ export class CookiesManager {
         this.injectScripts();
         this.saveCookieOptions();
         this.setCookies();
+        this.callIndividualCallbacks();
     }
 
     public showModal() {
@@ -161,6 +162,16 @@ export class CookiesManager {
 
     public hideModal() {
         this.modal.hide();
+    }
+
+    private callIndividualCallbacks() {
+        this.modalOptions.cookieCategories.forEach(category => {
+            if (category.checked || this.acceptAll) {
+                category.events.onAccept();
+            } else if (!category.checked) {
+                category.events.onReject();
+            }
+        });
     }
 
     private injectScript(src: string, async = false) {
@@ -248,6 +259,7 @@ export class CookiesManager {
     saveButton() {
         this.saveCookieOptions();
         this.setCookies();
+        this.callIndividualCallbacks();
     }
 
     saveCookieOptions() {

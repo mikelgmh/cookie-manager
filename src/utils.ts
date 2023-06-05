@@ -48,6 +48,7 @@ export class Utils {
         return JSONstringifyOrder(obj1) === JSONstringifyOrder(obj2);
     }
 
+    // @audit this is removing te callback functions. Watch out!
     public static prepareObjectsForComparison(obj1, obj2) {
         var A = JSON.parse(JSON.stringify(obj1));
         var B = JSON.parse(JSON.stringify(obj2));

@@ -95,6 +95,24 @@ Here’s an example of the options object. Every option has a default value, so 
                 enable: false, // Enables an accordion for the description
                 active: false, // Sets the accordion to active by default
             },
+            events: { // You can defined some callbacks or events easily.
+                onAccept: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
+                onReject: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
+                setCookiesOnChange: [ // This array can be empty []. If you want to change some cookie values, you can follow this example:
+                    {
+                        cookieName: "analyticsCookie",
+                        valueOnAccept: true,
+                        valueOnReject: false,
+                        expirationDays: 365, // Be careful, the limit is 400 days!
+                    },
+                    {
+                        cookieName: "adsCookie",
+                        valueOnAccept: true,
+                        valueOnReject: false,
+                        expirationDays: 365, // Be careful, the limit is 400 days!
+                    }
+                ]
+            },
             scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
                 {
                     type: ScriptType.STANDARD, // Standart to inject a regular script. GTM if using GTM.
@@ -117,6 +135,24 @@ Here’s an example of the options object. Every option has a default value, so 
                     async: true,
                 },
             ],
+            events: { // You can defined some callbacks or events easily.
+                onAccept: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
+                onReject: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
+                setCookiesOnChange: [ // This array can be empty []. If you want to change some cookie values, you can follow this example:
+                    {
+                        cookieName: "analyticsCookie",
+                        valueOnAccept: true,
+                        valueOnReject: false,
+                        expirationDays: 365, // Be careful, the limit is 400 days!
+                    },
+                    {
+                        cookieName: "adsCookie",
+                        valueOnAccept: true,
+                        valueOnReject: false,
+                        expirationDays: 365, // Be careful, the limit is 400 days!
+                    }
+                ]
+            },
         },
     ],
 }
@@ -271,13 +307,13 @@ To start using the library set the inject values to false in both the banner and
 
 You can set a callback function by calling the `on` method.
 
-⚠️ It is very important to define the callbacks before calling the init() method ⚠️
+⚠️ It is very important to define the callbacks before calling the init() method ⚠️ If you want to use more specific callbacks, refer to the `events` object in each `cookieCategory`.
 
 ### Available callbacks
 
 |callback| params | description
 |--|--|--|
-| onCookieCategoryChange() | cookieCategory | This function is called when the user accepted / rejected a cookie Category after pressing the save button or after initializing the library.
+| onCookieCategoryChange() | cookieCategory | This function is called when the user accepted / rejected a cookie Category after pressing the save button or after initializing the library. If you want an specific callback for each category, check the `events` object in `cookieCategory`.
 
 ```javascript
     var options = {...};

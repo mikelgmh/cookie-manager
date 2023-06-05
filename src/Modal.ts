@@ -17,11 +17,7 @@ export class Modal {
 
     async show() {
         try {
-            // Check if there's already any option saved
-            // if (localStorage.getItem("cookiesManagerOptions") != null) {
-            //     //const options: CookieCategory = this.cookiesManager.getCookiesOptions();
-            //     alert("W")
-            // }
+
             const modal = document.querySelector(".c-cookies-config-modal");
             modal!.classList.add(this.options.showModalClass);
             await new Promise(r => setTimeout(r, 10)); // This is to make the show animation work

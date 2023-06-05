@@ -124,11 +124,10 @@ export class CookiesManager {
         });
     }
 
-    public setCookie(cookieName: string, cookieValue: string, expDays = 399, path = '/') {
+    public setCookie(cookieName: string, cookieValue: string, expDays = 400, path = '/') {
         try {
             const date = new Date();
-            var expires = date.setDate(date.getDate() + expDays);
-            document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + '; max-age=' + 3600 * 24 * 200 + '; path=' + path
+            document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + '; max-age=' + date.setDate(date.getDate() + expDays) + '; path=' + path
         } catch (error) {
             console.log(`Error setting cookie: ${error}`)
         }

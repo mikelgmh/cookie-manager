@@ -164,7 +164,7 @@ export class CookiesManager {
         this.modal.hide();
     }
 
-    private callIndividualCallbacks() {
+    public callIndividualCallbacks() {
         this.modalOptions.cookieCategories.forEach(category => {
             if (category.checked || this.acceptAll) {
                 category.events.onAccept();
@@ -213,6 +213,7 @@ export class CookiesManager {
         }
         if (localStorage.getItem("cookiesManagerOptions") != null) {
             this.injectScripts();
+            this.callIndividualCallbacks();
         }
     }
 

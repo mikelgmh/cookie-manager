@@ -29,7 +29,7 @@ export declare class CookiesManager {
     showBanner(): void;
     hideBanner(): void;
     hideModal(): void;
-    private callIndividualCallbacks;
+    callIndividualCallbacks(): void;
     private injectScript;
     private injectGTM;
     init(banner: boolean, modal: boolean): Promise<void>;

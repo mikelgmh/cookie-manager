@@ -83,6 +83,7 @@ export class Modal {
                 self.cookiesManager.injectScripts();
                 self.cookiesManager.hideBanner();
                 self.cookiesManager.saveButton();
+                self.cookiesManager.callIndividualCallbacks();
             });
 
             // Switches

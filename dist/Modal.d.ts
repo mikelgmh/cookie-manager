@@ -14,6 +14,7 @@ export declare class Modal {
     private generateCategoriesBlocks;
     getCloseButton(): "" | "<div class=\"modal__close close-modal\" title=\"Close\"><div class=\"close-modal-img\"></div></div>";
     getAcceptAllButton(): string;
+    getRejectAllButton(): string;
     getSaveButton(): string;
     generateModal(): string;
 }
@@ -25,6 +26,10 @@ export interface ModalOptions {
     acceptAllButton: {
         text: string;
         show: boolean;
+    };
+    rejectAllButton: {
+        show: boolean;
+        text: string;
     };
     saveButton: {
         text: string;

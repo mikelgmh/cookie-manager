@@ -1,6 +1,6 @@
 {
     "name": "@mikelgmh/cookie-manager",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "description": "A cookies manager that can inject scripts dynamically.",
     "main": "dist/index.js",
     "umd:main": "dist/index.umd.js",

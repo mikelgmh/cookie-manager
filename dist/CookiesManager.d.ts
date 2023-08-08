@@ -24,7 +24,7 @@ export declare class CookiesManager {
     createModal(options: ModalOptions): Modal;
     setCookies(): void;
     setCookie(cookieName: string, cookieValue: string, expDays?: number, path?: string): void;
-    acceptAllButton(): void;
+    acceptAllButton(acceptedAll?: boolean): void;
     showModal(): void;
     showBanner(): void;
     hideBanner(): void;

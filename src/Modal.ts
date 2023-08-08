@@ -77,6 +77,12 @@ export class Modal {
                 self.cookiesManager.acceptAllButton();
             });
 
+            // Reject all button
+            const rejectAllBtn = document.querySelector('.cm-modal-reject-all')!;
+            rejectAllBtn.addEventListener('click', function () {
+                self.cookiesManager.acceptAllButton(false);
+            });
+
             // Save button
             const saveButton = document.querySelector('.cm-modal-save')!;
             saveButton.addEventListener('click', function () {
@@ -169,7 +175,7 @@ export class Modal {
                 document.querySelector("body")!.insertAdjacentHTML("afterend", this.generateModal());
             }
         } catch (error) {
-            console.error("Could not inject cookie modal.")
+            console.error("Could not inject cookie modal.");
         }
     }
 
@@ -234,10 +240,13 @@ export class Modal {
         return this.options.closeButton.show ? `<div class="modal__close close-modal" title="Close"><div class="close-modal-img"></div></div>` : "";
     }
     getAcceptAllButton() {
-        return this.options.acceptAllButton.show ? `<button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">${this.options.acceptAllButton.text}</button>` : "";
+        return this.options.acceptAllButton.show ? `<button class="modal__button modal__button-width cm-modal-accept-all footer__button-accept-all">${this.options.acceptAllButton.text}</button>` : "";
+    }
+    getRejectAllButton() {
+        return this.options.rejectAllButton.show ? `<button class="modal__button modal__button-width cm-modal-reject-all footer__button-reject-all">${this.options.rejectAllButton.text}</button>` : "";
     }
     getSaveButton() {
-        return this.options.saveButton.show ? ` <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn"> ${this.options.saveButton.text} </button>` : "";
+        return this.options.saveButton.show ? ` <button class="modal__button-link close-modal cm-modal-save footer__button-save-btn"> ${this.options.saveButton.text} </button>` : "";
     }
 
     generateModal() {
@@ -253,6 +262,7 @@ export class Modal {
             </div>
     
             <div class="modal__footer">
+            ${this.getRejectAllButton()}
              ${this.getAcceptAllButton()}
              ${this.getSaveButton()}
             </div>
@@ -272,6 +282,10 @@ export interface ModalOptions {
     acceptAllButton: {
         text: string,
         show: boolean,
+    },
+    rejectAllButton: {
+        show: boolean,
+        text: string,
     },
     saveButton: {
         text: string,

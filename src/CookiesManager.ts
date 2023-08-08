@@ -137,9 +137,9 @@ export class CookiesManager {
 
 
 
-    public acceptAllButton() {
+    public acceptAllButton(acceptedAll = true) {
         this.getOptions().cookieCategories.forEach((cookieCategory: CookieCategory) => {
-            cookieCategory.checked = true;
+            cookieCategory.checked = acceptedAll;
         })
         this.modal.updateSwitchesStatus();
         this.acceptAll = true;
@@ -316,6 +316,10 @@ export class CookiesManager {
                     text: 'Accept all',
                     show: true,
                 },
+                rejectAllButton: {
+                    text: 'Reject all',
+                    show: true,
+                },
                 saveButton: {
                     text: 'Save',
                     show: true,
@@ -345,8 +349,8 @@ export class CookiesManager {
                     show: false,
                 },
                 rejectAllButton: {
-                    text: 'Configuración',
-                    show: false,
+                    text: 'Rechazar todo',
+                    show: true,
                 }
             },
             cookieCategories: [],

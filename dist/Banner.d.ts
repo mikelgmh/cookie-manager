@@ -7,6 +7,7 @@ export declare class Banner {
     setEventListeners(): void;
     private generateBanner;
     getAcceptAllButton(): string;
+    getRejectAllButton(): string;
     getSettingsButton(): string;
     private getBannerText;
     private injectWall;

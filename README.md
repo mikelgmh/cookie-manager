@@ -57,6 +57,10 @@ Here’s an example of the options object. Every option has a default value, so 
             text: 'Accept all',
             show: true,
         },
+        rejectAllButton: {
+            text: 'Reject all',
+            show: true,
+        },
         saveButton: {
             text: 'Save',
             show: true,
@@ -75,6 +79,10 @@ Here’s an example of the options object. Every option has a default value, so 
         bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
         acceptAllButton: {
             text: 'Accept all',
+            show: true,
+        },
+        rejectAllButton: {
+            text: 'Reject all',
             show: true,
         },
         settingsButton: {
@@ -177,6 +185,7 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
             <p>This website uses cookies to ensure you get the best experience on our website.</p>
             <div class="banner-container__buttons">
                 <button class="banner-container__button banner-container__accept-all-btn cm-banner-accept-all-btn">Accept all</button>
+                <button class="banner-container__button banner-container__reject-all-btn cm-banner-reject-all-btn">Reject all</button>
                 <button class="banner-container__button-link banner-container__config-btn cm-banner-config-btn">Settings</button>
             </div>
         </div>
@@ -231,13 +240,9 @@ This library injects HTML directly to the DOM, so if your CSP configuracion does
             </div>
 
             <div class="modal__footer">
-            <button class="modal__button modal__button-width cm-modal-accept-all modal__button-accept-all">
-                Aceptar todas
-            </button>
-
-            <button class="modal__button-link close-modal cm-modal-save modal__button-save-btn">
-                Guardar
-            </button>
+                <button class="modal__button modal__button-width cm-modal-reject-all footer__button-reject-all">Reject all</button>
+                <button class="modal__button modal__button-width cm-modal-accept-all footer__button-accept-all">Accept all</button>
+                <button class="modal__button-link close-modal cm-modal-save footer__button-save-btn"> Save </button>
             </div>
         </div>
         </div>
@@ -268,6 +273,7 @@ You can create you own banner or modal, you just need to add some classes to you
 - The banner's parent div must have the following class: `c-cookies-config-banner`. This is used to show / hide the banner.
 - Inside the banner there must be an element with the following class:  `banner-container`. This is used to show / hide the banner.
 - The accept all button must have this class: `cm-banner-accept-all-btn`.
+- The reject all button must have this class: `cm-banner-reject-all-btn`.
 - The cookie config button must have this class: `cm-banner-config-btn`.
 
 ### Modal
@@ -277,6 +283,7 @@ You can create you own banner or modal, you just need to add some classes to you
 - The modal's close button must have the following class: `close-modal`
 - The modal's save button must have the following class: `cm-modal-save`
 - The modal's accept all button must have the following class: `cm-modal-accept-all`
+- The modal's reject all button must have the following class: `cm-modal-reject-all`
 - The checkbox inputs for each cookieCategory must use this syntax: `cm-switch-[index]`, where index is the switch number starting from 0.
 - Watch out! The cookie categories (inside the `cookieCategories` array in the `options` object) MUST be in the same order as they're printed on screen.
 
@@ -363,11 +370,3 @@ var options = {
 const cookiesManager = new CookiesManager(options);
 cookiesManager.init(true, false);
 ```
-
-# Upcoming features
-
-- Optional close button in modal
-- Optional settings / accept and reject button in modal and banner
-- Callbacks when user accepts or rejects cookies
-- Change the text of some of the buttons.
-- Allow to just set the event listeners and let the user use his own HTML.

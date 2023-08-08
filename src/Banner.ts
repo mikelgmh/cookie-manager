@@ -27,6 +27,11 @@ export class Banner {
                 self.cookiesManager.acceptAllButton();
             });
 
+            // Reject all button
+            document.querySelector(".cm-banner-reject-all-btn")!.addEventListener("click", function () {
+                self.cookiesManager.acceptAllButton(false);
+            });
+
             // Config button
             document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
                 self.cookiesManager.showModal();
@@ -46,6 +51,7 @@ export class Banner {
                     <div class="banner-container">
                         ${this.getBannerText()}
                         <div class="banner-container__buttons">
+                            ${this.getRejectAllButton()}
                             ${this.getAcceptAllButton()}
                             ${this.getSettingsButton()}
                         </div>
@@ -56,6 +62,9 @@ export class Banner {
 
     getAcceptAllButton() {
         return this.options.acceptAllButton.show ? `<button class="banner-container__button banner-container__accept-all-btn cm-banner-accept-all-btn">${this.options.acceptAllButton.text}</button>` : "";
+    }
+    getRejectAllButton() {
+        return this.options.rejectAllButton.show ? `<button class="banner-container__button banner-container__reject-all-btn cm-banner-reject-all-btn">${this.options.rejectAllButton.text}</button>` : "";
     }
     getSettingsButton() {
         return this.options.settingsButton.show ? `<button class="banner-container__button-link banner-container__config-btn cm-banner-config-btn">${this.options.settingsButton.text}</button>` : "";

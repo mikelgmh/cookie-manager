@@ -72,20 +72,17 @@ export class Modal {
             }))
 
             // Accept all button
-            const acceptAllBtn = document.querySelector('.cm-modal-accept-all')!;
-            acceptAllBtn.addEventListener('click', function () {
+            document.querySelector('.cm-modal-accept-all')!.addEventListener('click', function () {
                 self.cookiesManager.acceptAllButton();
             });
 
             // Reject all button
-            const rejectAllBtn = document.querySelector('.cm-modal-reject-all')!;
-            rejectAllBtn.addEventListener('click', function () {
+            document.querySelector('.cm-modal-reject-all')!.addEventListener('click', function () {
                 self.cookiesManager.acceptAllButton(false);
             });
 
             // Save button
-            const saveButton = document.querySelector('.cm-modal-save')!;
-            saveButton.addEventListener('click', function () {
+            document.querySelector('.cm-modal-save')!.addEventListener('click', function () {
                 self.cookiesManager.injectScripts();
                 self.cookiesManager.hideBanner();
                 self.cookiesManager.saveButton();

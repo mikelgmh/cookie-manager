@@ -79,7 +79,6 @@ export class CookiesManager {
                 this.modalOptions.cookieCategories.forEach((cookieCategory, index) => {
                     cookieCategory.events = clonedCategories[index].events;
                 });
-                //this.modalOptions.cookieCategories = clonedCategories;
 
             } else {
                 localStorage.removeItem("cookiesManagerOptions");
@@ -139,7 +138,11 @@ export class CookiesManager {
 
     public acceptAllButton(acceptedAll = true) {
         this.getOptions().cookieCategories.forEach((cookieCategory: CookieCategory) => {
-            cookieCategory.checked = acceptedAll;
+            if (cookieCategory.required && acceptedAll == false) {
+                cookieCategory.checked = true;
+            } else {
+                cookieCategory.checked = acceptedAll;
+            }
         })
         this.modal.updateSwitchesStatus();
         this.acceptAll = true;
@@ -304,6 +307,7 @@ export class CookiesManager {
     private getDefaultOptions(): Options {
         return {
             askOnce: true,
+            askAgainIfRejectedAfterDays: 30,
             delay: 0,
             askOnChange: true,
             initOnDomContentLoaded: true,
@@ -376,6 +380,7 @@ export interface CookieObject {
 export interface Options {
     cookieCategories: Array<CookieCategory>,
     initOnDomContentLoaded: boolean,
+    askAgainIfRejectedAfterDays: number,
     bannerOptions: BannerOptions,
     modalOptions: ModalOptions,
     askOnce: boolean,

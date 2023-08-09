@@ -55,6 +55,7 @@ export interface CookieObject {
 export interface Options {
     cookieCategories: Array<CookieCategory>;
     initOnDomContentLoaded: boolean;
+    askAgainIfRejectedAfterDays: number;
     bannerOptions: BannerOptions;
     modalOptions: ModalOptions;
     askOnce: boolean;

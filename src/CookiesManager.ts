@@ -118,10 +118,16 @@ export class CookiesManager {
                 let cookieValue;
                 if (category.checked) {
                     cookieValue = cookie.valueOnAccept;
+                    this.setCookie(cookie.cookieName, cookieValue, cookie.expirationDays, "/");
                 } else {
                     cookieValue = cookie.valueOnReject;
+                    if (this.getOptions().askAgainIfRejectedAfterDays != -1) {
+                        this.setCookie(cookie.cookieName, cookieValue, this.getOptions().askAgainIfRejectedAfterDays, "/");
+                    } else {
+                        this.setCookie(cookie.cookieName, cookieValue, cookie.expirationDays, "/");
+                    }
                 }
-                this.setCookie(cookie.cookieName, cookieValue, cookie.expirationDays, "/");
+
             })
         });
     }
@@ -130,11 +136,18 @@ export class CookiesManager {
         try {
             document.cookie = cookieName + '=' + encodeURIComponent(cookieValue) + '; max-age=' + (3600 * (24 * expDays)) + '; path=' + path
         } catch (error) {
-            console.log(`Error setting cookie: ${error}`)
+            console.error(`Error setting cookie: ${error}`)
         }
     }
 
-
+    public getCookie(cookieName) {
+        let cookie = {};
+        document.cookie.split(';').forEach(function (el) {
+            let [key, value] = el.split('=');
+            cookie[key.trim()] = value;
+        })
+        return cookie[cookieName];
+    }
 
     public acceptAllButton(acceptedAll = true) {
         this.getOptions().cookieCategories.forEach((cookieCategory: CookieCategory) => {
@@ -213,7 +226,42 @@ export class CookiesManager {
         if (this.modalOptions.askOnce) {
             if (localStorage.getItem("cookiesManagerOptions") == null || this.configChanged) {
                 await this.initShow(banner, modal)
-            } // There's no else, as if cookiesManagerOptions was not null, the constructor would do the job.
+            } else {
+                let initDone = false;
+                const cookieOptions: CookieCategory[] = this.getCookiesOptions(); // Cookie options from localStorage
+                // Check for the cookies
+                for (let [categoryIndex, category] of this.modalOptions.cookieCategories.entries()) {
+                    if (initDone) break;
+                    for (let [cookieObjectIndex, cookieObject] of category.events.setCookiesOnChange.entries()) {
+
+                        // If the cookie exists
+                        if (this.getCookie(cookieObject.cookieName)) {
+                            // If the cookie has different values than the set ones, ask again
+                            if (![cookieObject.valueOnAccept.toString(), cookieObject.valueOnReject.toString()].includes(this.getCookie(cookieObject.cookieName))) {
+                                this.initShow(banner, modal);
+                                initDone = true;
+                                break;
+                            } else {
+                                // Los valores son correctos. Comprobar si el usuario ha cambiado la cookie desde devTools
+                                // Probablemente haya que meter esto en try catch
+                                if (category.checked) {
+                                    const savedLocalStorageCookieValue = cookieOptions[categoryIndex].events.setCookiesOnChange[cookieObjectIndex].valueOnAccept; // Valor de la cookie en localstorage
+                                    const realCookieValue = this.getCookie(cookieOptions[categoryIndex].events.setCookiesOnChange[cookieObjectIndex].cookieName)
+                                    if (savedLocalStorageCookieValue.toString() != realCookieValue) {
+                                        this.initShow(banner, modal);
+                                        break;
+                                    }
+                                }
+
+                            }
+                        } else {
+                            this.initShow(banner, modal)
+                            initDone = true;
+                            break;
+                        }
+                    }
+                }
+            }
         } else {
             await this.initShow(banner, modal)
         }
@@ -307,7 +355,7 @@ export class CookiesManager {
     private getDefaultOptions(): Options {
         return {
             askOnce: true,
-            askAgainIfRejectedAfterDays: 30,
+            askAgainIfRejectedAfterDays: -1,
             delay: 0,
             askOnChange: true,
             initOnDomContentLoaded: true,
@@ -319,18 +367,22 @@ export class CookiesManager {
                 acceptAllButton: {
                     text: 'Accept all',
                     show: true,
+                    onClick: () => { },
                 },
                 rejectAllButton: {
                     text: 'Reject all',
                     show: true,
+                    onClick: () => { },
                 },
                 saveButton: {
                     text: 'Save',
                     show: true,
+                    onClick: () => { },
                 },
                 closeButton: {
                     text: 'Close',
                     show: true,
+                    onClick: () => { },
                 },
             },
             bannerOptions: {
@@ -343,18 +395,22 @@ export class CookiesManager {
                 acceptAllButton: {
                     text: 'Accept all',
                     show: true,
+                    onClick: () => { },
                 },
                 settingsButton: {
                     text: 'Settings',
                     show: true,
+                    onClick: () => { },
                 },
                 acceptRequiredOnlyButton: {
                     text: 'Configuración',
                     show: false,
+                    onClick: () => { },
                 },
                 rejectAllButton: {
                     text: 'Rechazar todo',
                     show: true,
+                    onClick: () => { },
                 }
             },
             cookieCategories: [],

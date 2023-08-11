@@ -31,7 +31,6 @@ export class Modal {
                     await new Promise(r => setTimeout(r, 100)); // This is to make the show animation work
                     self.toggleAccordion(acc[i]);
                 }
-
             }
 
             const modalContainer = document.getElementById("modal-container");
@@ -58,7 +57,6 @@ export class Modal {
                 this.cookiesManager.getBanner().showScroll();
             }
         }
-
     }
 
     setEventListeners() {
@@ -74,11 +72,13 @@ export class Modal {
             // Accept all button
             document.querySelector('.cm-modal-accept-all')!.addEventListener('click', function () {
                 self.cookiesManager.acceptAllButton();
+                self.cookiesManager.getOptions().modalOptions.acceptAllButton.onClick();
             });
 
             // Reject all button
             document.querySelector('.cm-modal-reject-all')!.addEventListener('click', function () {
                 self.cookiesManager.acceptAllButton(false);
+                self.cookiesManager.getOptions().modalOptions.rejectAllButton.onClick();
             });
 
             // Save button
@@ -87,6 +87,7 @@ export class Modal {
                 self.cookiesManager.hideBanner();
                 self.cookiesManager.saveButton();
                 self.cookiesManager.callIndividualCallbacks();
+                self.cookiesManager.getOptions().modalOptions.saveButton.onClick();
             });
 
             // Switches
@@ -259,7 +260,7 @@ export class Modal {
             </div>
     
             <div class="modal__footer">
-            ${this.getRejectAllButton()}
+             ${this.getRejectAllButton()}
              ${this.getAcceptAllButton()}
              ${this.getSaveButton()}
             </div>
@@ -279,17 +280,21 @@ export interface ModalOptions {
     acceptAllButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
     rejectAllButton: {
         show: boolean,
         text: string,
+        onClick: Function,
     },
     saveButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
     closeButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
 }

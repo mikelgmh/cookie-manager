@@ -25,16 +25,19 @@ export class Banner {
             // Accept all button
             document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
                 self.cookiesManager.acceptAllButton();
+                self.options.acceptAllButton.onClick();
             });
 
             // Reject all button
             document.querySelector(".cm-banner-reject-all-btn")!.addEventListener("click", function () {
                 self.cookiesManager.acceptAllButton(false);
+                self.options.rejectAllButton.onClick();
             });
 
             // Config button
             document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
                 self.cookiesManager.showModal();
+                self.options.settingsButton.onClick();
             });
         } catch (error) {
             console.error("Can't set the event listener for the cookies banner. Can't find the HTML elements.")
@@ -171,17 +174,21 @@ export interface BannerOptions {
     acceptAllButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
     settingsButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
     acceptRequiredOnlyButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
     rejectAllButton: {
         text: string,
         show: boolean,
+        onClick: Function,
     },
 }

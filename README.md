@@ -47,6 +47,7 @@ Here’s an example of the options object. Every option has a default value, so 
 {
     askOnce: true, // If the user already accepted the cookies, don't ask again on page reload
     askOnChange: true, // Ask again if cookieCategories array is modified. This overrides the askOnce option
+    askAgainIfRejectedAfterDays: -1, // -1 to disable, set to 30 to ask after 30 days if the user rejected any cookie
     delay: 0, // Sets a timeout to show the banner / modal using the init() method.
     modalOptions: { // Options for the modal
         inject: true, // Inject the HTML of the modal using Javascript. This might cause CSP issues if CSP is on
@@ -56,14 +57,17 @@ Here’s an example of the options object. Every option has a default value, so 
         acceptAllButton: {
             text: 'Accept all',
             show: true,
+            onClick: () => { },
         },
         rejectAllButton: {
             text: 'Reject all',
             show: true,
+            onClick: () => { },
         },
         saveButton: {
             text: 'Save',
             show: true,
+            onClick: () => { },
         },
         closeButton: {
             text: 'Close', // Not implemented yet. This shows the X mark in the modal's corner
@@ -80,14 +84,17 @@ Here’s an example of the options object. Every option has a default value, so 
         acceptAllButton: {
             text: 'Accept all',
             show: true,
+            onClick: () => { },
         },
         rejectAllButton: {
             text: 'Reject all',
             show: true,
+            onClick: () => { },
         },
         settingsButton: {
             text: 'Configure',
             show: true,
+            onClick: () => { },
         },
     },
     cookieCategories: [ // The cookie categories. These will appear in the cookie modal

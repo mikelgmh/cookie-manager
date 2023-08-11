@@ -30,17 +30,21 @@ export interface BannerOptions {
     acceptAllButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
     settingsButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
     acceptRequiredOnlyButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
     rejectAllButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
 }

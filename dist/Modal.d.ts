@@ -26,17 +26,21 @@ export interface ModalOptions {
     acceptAllButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
     rejectAllButton: {
         show: boolean;
         text: string;
+        onClick: Function;
     };
     saveButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
     closeButton: {
         text: string;
         show: boolean;
+        onClick: Function;
     };
 }

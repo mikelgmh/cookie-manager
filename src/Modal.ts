@@ -70,25 +70,34 @@ export class Modal {
             }))
 
             // Accept all button
-            document.querySelector('.cm-modal-accept-all')!.addEventListener('click', function () {
-                self.cookiesManager.acceptAllButton();
-                self.cookiesManager.getOptions().modalOptions.acceptAllButton.onClick();
-            });
+            const acceptAllButton = document.querySelector('.cm-modal-accept-all')!;
+            if (acceptAllButton) {
+                acceptAllButton.addEventListener('click', function () {
+                    self.cookiesManager.acceptAllButton();
+                    self.cookiesManager.getOptions().modalOptions.acceptAllButton.onClick();
+                });
+            }
 
             // Reject all button
-            document.querySelector('.cm-modal-reject-all')!.addEventListener('click', function () {
-                self.cookiesManager.acceptAllButton(false);
-                self.cookiesManager.getOptions().modalOptions.rejectAllButton.onClick();
-            });
+            const rejectAllButton = document.querySelector('.cm-modal-reject-all')!;
+            if (rejectAllButton) {
+                rejectAllButton.addEventListener('click', function () {
+                    self.cookiesManager.acceptAllButton(false);
+                    self.cookiesManager.getOptions().modalOptions.rejectAllButton.onClick();
+                });
+            }
 
             // Save button
-            document.querySelector('.cm-modal-save')!.addEventListener('click', function () {
-                self.cookiesManager.injectScripts();
-                self.cookiesManager.hideBanner();
-                self.cookiesManager.saveButton();
-                self.cookiesManager.callIndividualCallbacks();
-                self.cookiesManager.getOptions().modalOptions.saveButton.onClick();
-            });
+            const saveButton = document.querySelector('.cm-modal-save')!;
+            if (saveButton) {
+                saveButton.addEventListener('click', function () {
+                    self.cookiesManager.injectScripts();
+                    self.cookiesManager.hideBanner();
+                    self.cookiesManager.saveButton();
+                    self.cookiesManager.callIndividualCallbacks();
+                    self.cookiesManager.getOptions().modalOptions.saveButton.onClick();
+                });
+            }
 
             // Switches
             this.cookiesManager.getOptions().cookieCategories.forEach((category: CookieCategory, index) => {

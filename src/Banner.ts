@@ -23,22 +23,31 @@ export class Banner {
         try {
             let self = this;
             // Accept all button
-            document.querySelector(".cm-banner-accept-all-btn")!.addEventListener("click", function () {
-                self.cookiesManager.acceptAllButton();
-                self.options.acceptAllButton.onClick();
-            });
+            const acceptAllButton = document.querySelector(".cm-banner-accept-all-btn")!;
+            if (acceptAllButton) {
+                acceptAllButton.addEventListener("click", function () {
+                    self.cookiesManager.acceptAllButton();
+                    self.options.acceptAllButton.onClick();
+                });
+            }
 
             // Reject all button
-            document.querySelector(".cm-banner-reject-all-btn")!.addEventListener("click", function () {
-                self.cookiesManager.acceptAllButton(false);
-                self.options.rejectAllButton.onClick();
-            });
+            const rejectAllButton = document.querySelector(".cm-banner-reject-all-btn")!;
+            if (rejectAllButton) {
+                rejectAllButton.addEventListener("click", function () {
+                    self.cookiesManager.acceptAllButton(false);
+                    self.options.rejectAllButton.onClick();
+                });
+            }
 
             // Config button
-            document.querySelector(".cm-banner-config-btn")!.addEventListener("click", function () {
-                self.cookiesManager.showModal();
-                self.options.settingsButton.onClick();
-            });
+            const configButton = document.querySelector(".cm-banner-config-btn")!;
+            if (configButton) {
+                configButton.addEventListener("click", function () {
+                    self.cookiesManager.showModal();
+                    self.options.settingsButton.onClick();
+                });
+            }
         } catch (error) {
             console.error("Can't set the event listener for the cookies banner. Can't find the HTML elements.")
         }

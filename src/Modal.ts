@@ -94,7 +94,7 @@ export class Modal {
                     self.cookiesManager.injectScripts();
                     self.cookiesManager.hideBanner();
                     self.cookiesManager.saveButton();
-                    self.cookiesManager.callIndividualCallbacks();
+                    // self.cookiesManager.callIndividualCallbacks();
                     self.cookiesManager.getOptions().modalOptions.saveButton.onClick();
                 });
             }

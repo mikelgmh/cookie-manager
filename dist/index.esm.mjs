@@ -1,2 +1,530 @@
-function e(e,t){(null==t||t>e.length)&&(t=e.length);for(var o=0,n=new Array(t);o<t;o++)n[o]=e[o];return n}function t(t,o){var n="undefined"!=typeof Symbol&&t[Symbol.iterator]||t["@@iterator"];if(n)return(n=n.call(t)).next.bind(n);if(Array.isArray(t)||(n=function(t,o){if(t){if("string"==typeof t)return e(t,o);var n=Object.prototype.toString.call(t).slice(8,-1);return"Object"===n&&t.constructor&&(n=t.constructor.name),"Map"===n||"Set"===n?Array.from(t):"Arguments"===n||/^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)?e(t,o):void 0}}(t))||o&&t&&"number"==typeof t.length){n&&(t=n);var i=0;return function(){return i>=t.length?{done:!0}:{done:!1,value:t[i++]}}}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")}var o=/*#__PURE__*/function(){function e(){}return e.encode=function(e){return window.btoa(e)},e.decode=function(e){return window.atob(e)},e.isHTML=function(e){var t=RegExp.prototype.test.bind(/(<([^>]+)>)/i);return e.match(t)},e.wrapString=function(e,t){return this.isHTML(e)?e:"<"+t+">"+e+"</"+t+">"},e.deepEqual=function(e,t){var o=this,n=Object.keys,i=typeof e;return e&&t&&"object"===i&&i===typeof t?n(e).length===n(t).length&&n(e).every(function(n){return o.deepEqual(e[n],t[n])}):e===t},e.compareObjects=function(e,t){var o=function e(t){return Object.entries(t).sort().map(function(t){return t[1]instanceof Object&&(t[1]=e(t[1])),t})};return JSON.stringify(o(e))===JSON.stringify(o(t))},e.objectEquals=function(e,t){var o=function(e){var t={};return JSON.stringify(e,function(e,o){return t[e]=null,o}),JSON.stringify(e,Object.keys(t).sort())};return o(e)===o(t)},e.prepareObjectsForComparison=function(e,t){var o=JSON.parse(JSON.stringify(e)),n=JSON.parse(JSON.stringify(t));return o.forEach(function(e){e.checked=!0}),n.forEach(function(e){e.checked=!0}),{A:o,B:n}},e.mergeRecursively=function(e,t){for(var o in t)try{e[o]=t[o].constructor==Object?this.mergeRecursively(e[o],t[o]):t[o]}catch(n){e[o]=t[o]}return e},e}(),n=/*#__PURE__*/function(){function e(e,t){this.options=void 0,this.banner=void 0,this.cookiesManager=void 0,this.cookiesManager=e,this.options=t,e.getOptions().bannerOptions.inject&&this.injectBanner(),e.getOptions().bannerOptions.injectWall&&this.injectWall(),this.setEventListeners()}var t=e.prototype;return t.setEventListeners=function(){try{var e=this,t=document.querySelector(".cm-banner-accept-all-btn");t&&t.addEventListener("click",function(){e.cookiesManager.acceptAllButton(),e.options.acceptAllButton.onClick()});var o=document.querySelector(".cm-banner-reject-all-btn");o&&o.addEventListener("click",function(){e.cookiesManager.acceptAllButton(!1),e.options.rejectAllButton.onClick()});var n=document.querySelector(".cm-banner-config-btn");n&&n.addEventListener("click",function(){e.cookiesManager.showModal(),e.options.settingsButton.onClick()})}catch(e){console.error("Can't set the event listener for the cookies banner. Can't find the HTML elements.")}},t.generateBanner=function(){return'\n                <div class="c-cookies-config-banner">\n                    <div class="banner-container">\n                        '+this.getBannerText()+'\n                        <div class="banner-container__buttons">\n                            '+this.getRejectAllButton()+"\n                            "+this.getAcceptAllButton()+"\n                            "+this.getSettingsButton()+"\n                        </div>\n                    </div>\n                </div> \n                "},t.getAcceptAllButton=function(){return this.options.acceptAllButton.show?'<button class="banner-container__button banner-container__accept-all-btn cm-banner-accept-all-btn">'+this.options.acceptAllButton.text+"</button>":""},t.getRejectAllButton=function(){return this.options.rejectAllButton.show?'<button class="banner-container__button banner-container__reject-all-btn cm-banner-reject-all-btn">'+this.options.rejectAllButton.text+"</button>":""},t.getSettingsButton=function(){return this.options.settingsButton.show?'<button class="banner-container__button-link banner-container__config-btn cm-banner-config-btn">'+this.options.settingsButton.text+"</button>":""},t.getBannerText=function(){return o.wrapString(this.options.bannerText,"p")},t.injectWall=function(){try{null!=document.querySelector("body")&&document.querySelector("body").insertAdjacentHTML("afterend",this.generateWall())}catch(e){console.error("Couldn't inject the wall.")}},t.injectBanner=function(){try{null!=document.querySelector("body")&&document.querySelector("body").insertAdjacentHTML("afterend",this.generateBanner())}catch(e){console.error("Couldn't inject the banner.")}},t.generateWall=function(){return'<div class="c-cookies-config-wall '+(this.options.wallBlur?"c-cookies-config-wall--blurred":"")+'"></div>'},t.showWall=function(){try{document.querySelector(".c-cookies-config-wall").classList.add("wall-show")}catch(e){console.error("Couldn't apply the background wall.")}},t.hideWall=function(){try{document.querySelector(".c-cookies-config-wall").classList.remove("wall-show")}catch(e){console.error("Unable to hide the background wall.")}},t.hideScroll=function(){try{document.querySelector("body").style.overflow="hidden",document.querySelector("html").style.overflow="hidden"}catch(e){console.error("Unable to hide the scroll.")}},t.showScroll=function(){try{document.querySelector("body").style.overflow="auto",document.querySelector("html").style.overflow="auto"}catch(e){console.error("Unable to show the scroll.")}},t.show=function(){this.options.wall&&this.showWall(),this.options.wallScroll||this.hideScroll();try{document.querySelector(".c-cookies-config-banner .banner-container").classList.add("show-banner")}catch(e){console.error("Unable to show the banner.")}},t.hide=function(){try{document.querySelector(".c-cookies-config-banner").style.display="none"}catch(e){console.error("Unable to hide the banner.")}this.hideWall(),this.showScroll()},e}();function i(e,t,o){if(!e.s){if(o instanceof c){if(!o.s)return void(o.o=i.bind(null,e,t));1&t&&(t=o.s),o=o.v}if(o&&o.then)return void o.then(i.bind(null,e,t),i.bind(null,e,2));e.s=t,e.v=o;const n=e.o;n&&n(e)}}var c=/*#__PURE__*/function(){function e(){}return e.prototype.then=function(t,o){var n=new e,c=this.s;if(c){var r=1&c?t:o;if(r){try{i(n,1,r(this.v))}catch(e){i(n,2,e)}return n}return this}return this.o=function(e){try{var c=e.v;1&e.s?i(n,1,t?t(c):c):o?i(n,1,o(c)):i(n,2,c)}catch(e){i(n,2,e)}},n},e}();function r(e){return e instanceof c&&1&e.s}var s,a=/*#__PURE__*/function(){function e(e,t){this.options=void 0,this.cookiesManager=void 0,this.cookiesManager=e,this.options=t,e.getOptions().modalOptions.inject&&this.injectModal(),this.setEventListeners(),this.updateSwitchesStatus()}var t=e.prototype;return t.show=function(){try{var e=this;return Promise.resolve(function(t,o){try{var n=(document.querySelector(".c-cookies-config-modal").classList.add(e.options.showModalClass),Promise.resolve(new Promise(function(e){return setTimeout(e,10)})).then(function(){function t(){document.getElementById("modal-container").classList.add(e.options.showModalClass),e.cookiesManager.getBanner().hideScroll()}var o,n=document.getElementsByClassName("cm-accordion"),s=e;o=0;var a=function(e,t,o){for(var n;;){var s=e();if(r(s)&&(s=s.v),!s)return a;if(s.then){n=0;break}var a=o();if(a&&a.then){if(!r(a)){n=1;break}a=a.s}if(t){var l=t();if(l&&l.then&&!r(l)){n=2;break}}}var u=new c,d=i.bind(null,u,2);return(0===n?s.then(f):1===n?a.then(h):l.then(g)).then(void 0,d),u;function h(n){a=n;do{if(t&&(l=t())&&l.then&&!r(l))return void l.then(g).then(void 0,d);if(!(s=e())||r(s)&&!s.v)return void i(u,1,a);if(s.then)return void s.then(f).then(void 0,d);r(a=o())&&(a=a.v)}while(!a||!a.then);a.then(h).then(void 0,d)}function f(e){e?(a=o())&&a.then?a.then(h).then(void 0,d):h(a):i(u,1,a)}function g(){(s=e())?s.then?s.then(f).then(void 0,d):f(s):i(u,1,a)}}(function(){return o<n.length},function(){return o++},function(){var e=function(){if(n[o].classList.contains("cm-active-on-load"))return n[o].classList.remove("cm-active-on-load"),Promise.resolve(new Promise(function(e){return setTimeout(e,100)})).then(function(){s.toggleAccordion(n[o])})}();if(e&&e.then)return e.then(function(){})});return a&&a.then?a.then(t):t()}))}catch(e){return o(e)}return n&&n.then?n.then(void 0,o):n}(0,function(e){console.error("Could not show cookie modal."),console.error(e)}))}catch(e){return Promise.reject(e)}},t.hide=function(e){document.getElementById("modal-container").classList.remove(this.options.showModalClass);var t=document.querySelector(".c-cookies-config-banner .banner-container");(0==(null==t?void 0:t.classList.contains("show-banner"))||this.cookiesManager.getOptions().bannerOptions.wallScroll)&&this.cookiesManager.getBanner().showScroll()},t.setEventListeners=function(){var e=this;try{var t=this;document.querySelectorAll(".close-modal").forEach(function(o){return o.addEventListener("click",function(){e.hide(t)})});var o=document.querySelector(".cm-modal-accept-all");o&&o.addEventListener("click",function(){t.cookiesManager.acceptAllButton(),t.cookiesManager.getOptions().modalOptions.acceptAllButton.onClick()});var n=document.querySelector(".cm-modal-reject-all");n&&n.addEventListener("click",function(){t.cookiesManager.acceptAllButton(!1),t.cookiesManager.getOptions().modalOptions.rejectAllButton.onClick()});var i=document.querySelector(".cm-modal-save");i&&i.addEventListener("click",function(){t.cookiesManager.injectScripts(),t.cookiesManager.hideBanner(),t.cookiesManager.saveButton(),t.cookiesManager.getOptions().modalOptions.saveButton.onClick()}),this.cookiesManager.getOptions().cookieCategories.forEach(function(e,o){var n=document.querySelector(".cm-switch-"+o);document.querySelectorAll(".c-cookies-config-modal .cookie-category"),n.addEventListener("change",function(){this.checked?(e.checked=!0,t.toggleSwitch(o,!0)):(e.checked=!1,t.toggleSwitch(o,!1))})});var c,r=document.getElementsByClassName("cm-accordion");for(t=this,c=0;c<r.length;c++)r[c].addEventListener("click",function(){t.toggleAccordion(this)})}catch(e){console.error("Could not set event listeners for cookie modal.")}},t.updateSwitchDisabledStatus=function(e,t){try{var o=document.querySelectorAll(".c-cookies-config-modal .cookie-category"),n=o[e].querySelector(".cm-switch-"+e),i=o[e].querySelector(".slider"),c=o[e].querySelector("label.switch");t?(n.setAttribute("disabled",""),i.classList.add("disabled"),c.classList.add("disabled")):(n.removeAttribute("disabled"),i.classList.remove("disabled"),c.classList.remove("disabled"))}catch(t){console.error("Could not change the disabled status from switch cm-switch-"+e+". Do you have equal switches and cookieCategories? If cm-switch-"+e+" does not exist in your DOM, probably not.")}},t.toggleSwitch=function(e,t){try{var o=document.querySelectorAll(".c-cookies-config-modal .cookie-category")[e].querySelector(".cm-switch-"+e);t?o.setAttribute("checked",""):o.removeAttribute("checked"),o.checked=t}catch(t){console.error("Could not toggle the switch cm-switch-"+e+". Do you have equal switches and cookieCategories? If cm-switch-"+e+" does not exist in your DOM, probably not.")}},t.toggleAccordion=function(e){try{e.classList.toggle("cm-active");var t=e.nextElementSibling;return t.style.maxHeight=t.style.maxHeight?null:t.scrollHeight+"px",Promise.resolve()}catch(e){return Promise.reject(e)}},t.injectModal=function(){try{null!=document.querySelector("body")&&document.querySelector("body").insertAdjacentHTML("afterend",this.generateModal())}catch(e){console.error("Could not inject cookie modal.")}},t.updateSwitchesStatus=function(){var e=this;this.cookiesManager.getOptions().cookieCategories.forEach(function(t,o){try{e.toggleSwitch(o,t.checked),e.updateSwitchDisabledStatus(o,t.required)}catch(e){console.error("You have more cookieCategories defined in javascript than in your HTML. Please, use the same number of cookieCategories.")}})},t.generateCategoriesBlocks=function(){var e="",t=this.cookiesManager.getOptions().cookieCategories;return null!=localStorage.getItem("cookiesManagerOptions")&&(t=this.cookiesManager.getCookiesOptions()),t.forEach(function(t,o){var n=t.required?"disabled":"";e+='\n            <div class="cookie-category">\n                <div class="cookie-category__header cc-header '+(t.accordion.enable?"cm-accordion":"")+" "+(t.boxedHeader?"cm-boxed":"")+" "+(t.accordion.active?"cm-active-on-load":"")+'">\n                    '+(t.accordion.enable?"<div class='cc-header__left'></div>":"")+'\n                    <div class="cc-header__right">\n                        <div class="header__title">\n                            '+t.title+'\n                        </div>\n                        <div class="header__switch">\n                            <label class="switch '+n+'">\n                                <input '+n+" "+(t.checked?"checked":"")+' class="cm-switch-'+o+'" type="checkbox">\n                                <span class="slider round '+n+'"></span>\n                            </label>\n                        </div>\n                    </div>\n                </div>\n                <div class="cookie-category__body body '+(t.boxedBody?"cookie-category__body--boxed":"")+" "+(t.accordion.enable?"cm-panel":"")+'">\n                    <p>'+t.description+"</p>\n                </div>\n            </div>\n            "}),e},t.getCloseButton=function(){return this.options.closeButton.show?'<div class="modal__close close-modal" title="Close"><div class="close-modal-img"></div></div>':""},t.getAcceptAllButton=function(){return this.options.acceptAllButton.show?'<button class="modal__button modal__button-width cm-modal-accept-all footer__button-accept-all">'+this.options.acceptAllButton.text+"</button>":""},t.getRejectAllButton=function(){return this.options.rejectAllButton.show?'<button class="modal__button modal__button-width cm-modal-reject-all footer__button-reject-all">'+this.options.rejectAllButton.text+"</button>":""},t.getSaveButton=function(){return this.options.saveButton.show?' <button class="modal__button-link close-modal cm-modal-save footer__button-save-btn"> '+this.options.saveButton.text+" </button>":""},t.generateModal=function(){return'\n        <div class="c-cookies-config-modal">\n        <div class="modal__container" id="modal-container">\n          <div class="modal__content">\n            '+this.getCloseButton()+'\n            <div class="modal__title">'+this.options.title+'</div>\n            <p class="modal__description">'+this.options.description+'</p>\n            <div class="modal__cookie-categories">\n                '+this.generateCategoriesBlocks()+'\n            </div>\n    \n            <div class="modal__footer">\n             '+this.getRejectAllButton()+"\n             "+this.getAcceptAllButton()+"\n             "+this.getSaveButton()+"\n            </div>\n          </div>\n        </div>\n      </div>\n        "},e}(),l=/*#__PURE__*/function(){var e=i.prototype;function i(e){var t=this;if(this.modalOptions=void 0,this.banner=void 0,this.modal=void 0,this.acceptAll=!1,this.configChanged=!1,this.onCookieCategoryChange=void 0,null==e)throw new Error("Options for CookiesManager cannot be null.");if(null==e.cookieCategories)throw new Error("You should provide at least one cookie category");var n=new Array;e.cookieCategories.forEach(function(e){n.push(o.mergeRecursively(t.getDefaultCookieCategoryOptions(),e))}),e.cookieCategories=n;var i=e.cookieCategories;e=o.mergeRecursively(this.getDefaultOptions(),e),this.modalOptions=e,this.constructorInitializationFunction(e,i)}return e.getBanner=function(){return this.banner},e.setBanner=function(e){this.banner=e},e.getModal=function(){return this.modal},e.setModal=function(e){this.modal=e},e.getOptions=function(){return this.modalOptions},e.on=function(e,t){"onCookieCategoryChange"==e&&(this.onCookieCategoryChange=t)},e.constructorInitializationFunction=function(e,t){if(null!=localStorage.getItem("cookiesManagerOptions")){var n=o.prepareObjectsForComparison(this.modalOptions.cookieCategories,this.getCookiesOptions());o.objectEquals(n.A,n.B)?(this.modalOptions.cookieCategories=this.getCookiesOptions(),this.modalOptions.cookieCategories.forEach(function(e,o){e.events=t[o].events})):(localStorage.removeItem("cookiesManagerOptions"),this.configChanged=!0)}null!=e.modalOptions&&this.createModal(e.modalOptions),null!=e.bannerOptions&&this.createBanner(e.bannerOptions)},e.setEventListeners=function(){this.modal.setEventListeners(),this.banner.setEventListeners()},e.createBanner=function(e){return this.banner=new n(this,e),this.banner},e.createModal=function(e){return this.modal=new a(this,e),this.modal},e.setCookies=function(){var e=this;this.modalOptions.cookieCategories.forEach(function(t){t.events.setCookiesOnChange.forEach(function(o){var n;t.checked?e.setCookie(o.cookieName,n=o.valueOnAccept,o.expirationDays,"/"):(n=o.valueOnReject,-1!=e.getOptions().askAgainIfRejectedAfterDays?e.setCookie(o.cookieName,n,e.getOptions().askAgainIfRejectedAfterDays,"/"):e.setCookie(o.cookieName,n,o.expirationDays,"/"))})})},e.setCookie=function(e,t,o,n){void 0===o&&(o=400),void 0===n&&(n="/");try{document.cookie=e+"="+encodeURIComponent(t)+"; max-age="+24*o*3600+"; path="+n}catch(e){console.error("Error setting cookie: "+e)}},e.getCookie=function(e){var t={};return document.cookie.split(";").forEach(function(e){var o=e.split("="),n=o[1];t[o[0].trim()]=n}),t[e]},e.acceptAllButton=function(e){void 0===e&&(e=!0),this.getOptions().cookieCategories.forEach(function(t){t.checked=!(!t.required||0!=e)||e}),this.modal.updateSwitchesStatus(),this.acceptAll=!0,this.modal.hide(),this.banner.hide(),this.injectScripts(),this.saveCookieOptions(),this.setCookies(),this.callIndividualCallbacks()},e.showModal=function(){this.modal.show()},e.showBanner=function(){this.banner.show()},e.hideBanner=function(){this.banner.hide()},e.hideModal=function(){this.modal.hide()},e.callIndividualCallbacks=function(){var e=this;this.modalOptions.cookieCategories.forEach(function(t){t.checked||e.acceptAll?t.events.onAccept():t.checked||t.events.onReject()})},e.injectScript=function(e,t){void 0===t&&(t=!1);var o=document.createElement("script");o.setAttribute("src",e),o.async=t,document.body.appendChild(o)},e.injectGTM=function(e){try{!function(e,t,o,n,i){e[n]=e[n]||[],e[n].push({"gtm.start":(new Date).getTime(),event:"gtm.js"});var c=t.getElementsByTagName(o)[0],r=t.createElement(o);r.src="https://www.googletagmanager.com/gtm.js?id="+i,c.parentNode.insertBefore(r,c)}(window,document,"script","dataLayer",e),window.dataLayer=window.dataLayer||[]}catch(e){console.error("Couldn't inject GTM.")}},e.init=function(e,o){try{var n=function(){null!=localStorage.getItem("cookiesManagerOptions")&&(i.injectScripts(),i.callIndividualCallbacks())},i=this,c=function(){if(!i.modalOptions.askOnce)return Promise.resolve(i.initShow(e,o)).then(function(){});var n=function(){if(null==localStorage.getItem("cookiesManagerOptions")||i.configChanged)return Promise.resolve(i.initShow(e,o)).then(function(){});for(var n,c=!1,r=i.getCookiesOptions(),s=t(i.modalOptions.cookieCategories.entries());!(n=s()).done;){var a=n.value,l=a[0],u=a[1];if(c)break;for(var d,h=t(u.events.setCookiesOnChange.entries());!(d=h()).done;){var f=d.value,g=f[0],v=f[1];if(!i.getCookie(v.cookieName)){i.initShow(e,o),c=!0;break}if(![v.valueOnAccept.toString(),v.valueOnReject.toString()].includes(i.getCookie(v.cookieName))){i.initShow(e,o),c=!0;break}if(u.checked){var m=r[l].events.setCookiesOnChange[g].valueOnAccept,p=i.getCookie(r[l].events.setCookiesOnChange[g].cookieName);if(m.toString()!=p){i.initShow(e,o);break}}}}}();return n&&n.then?n.then(function(){}):void 0}();return Promise.resolve(c&&c.then?c.then(n):n())}catch(e){return Promise.reject(e)}},e.initShow=function(e,t){try{var o=function(){e&&n.showBanner(),t&&n.showModal()},n=this,i=function(){if(n.modalOptions.delay>0)return Promise.resolve(new Promise(function(e){return setTimeout(e,n.modalOptions.delay)})).then(function(){})}();return Promise.resolve(i&&i.then?i.then(o):o())}catch(e){return Promise.reject(e)}},e.injectScripts=function(){var e=this;try{this.modalOptions.cookieCategories.forEach(function(t){null!=e.onCookieCategoryChange&&e.onCookieCategoryChange(t),(t.checked||e.acceptAll)&&t.scripts.forEach(function(t){if(t.type==s.STANDARD||null==t.type)null!=t.scriptSrc&&e.injectScript(t.scriptSrc,t.async);else{if(null==t.gtmCode)throw new Error("You should provide a gtmCode for the script");e.injectGTM(t.gtmCode)}})})}catch(e){console.error("Couldn't inject scripts: "+e)}},e.saveButton=function(){this.saveCookieOptions(),this.setCookies(),this.callIndividualCallbacks()},e.saveCookieOptions=function(){var e=o.encode(JSON.stringify(this.modalOptions.cookieCategories));localStorage.setItem("cookiesManagerOptions",e)},e.getCookiesOptions=function(){return null!=localStorage.getItem("cookiesManagerOptions")?JSON.parse(o.decode(localStorage.getItem("cookiesManagerOptions"))):{}},e.getDefaultCookieCategoryOptions=function(){return{title:"Cookie Category Example",description:"Cookie category description",required:!1,id:"",checked:!0,events:{onAccept:function(){},onReject:function(){},setCookiesOnChange:[]},accordion:{enable:!1,enableOnDescriptionLength:45,active:!1},boxedHeader:!1,boxedBody:!1,scripts:[]}},e.getDefaultOptions=function(){return{askOnce:!0,askAgainIfRejectedAfterDays:-1,delay:0,askOnChange:!0,initOnDomContentLoaded:!0,modalOptions:{title:"Cookie settings",description:"Change the settings for the cookies here.",inject:!0,showModalClass:"show-modal",acceptAllButton:{text:"Accept all",show:!0,onClick:function(){}},rejectAllButton:{text:"Reject all",show:!0,onClick:function(){}},saveButton:{text:"Save",show:!0,onClick:function(){}},closeButton:{text:"Close",show:!0,onClick:function(){}}},bannerOptions:{inject:!0,injectWall:!0,wall:!0,wallScroll:!0,wallBlur:!1,bannerText:"This website uses cookies to ensure you get the best experience on our website.",acceptAllButton:{text:"Accept all",show:!0,onClick:function(){}},settingsButton:{text:"Settings",show:!0,onClick:function(){}},acceptRequiredOnlyButton:{text:"Configuración",show:!1,onClick:function(){}},rejectAllButton:{text:"Rechazar todo",show:!0,onClick:function(){}}},cookieCategories:[]}},i}();!function(e){e[e.GTM=0]="GTM",e[e.STANDARD=1]="STANDARD"}(s||(s={}));export{l as CookiesManager,s as ScriptType};
-//# sourceMappingURL=index.esm.mjs.map
+//#region src/constants.ts
+function e() {
+	return {
+		id: "",
+		title: "Cookie Category Example",
+		description: "Cookie category description",
+		required: !1,
+		checked: !0,
+		boxedHeader: !1,
+		boxedBody: !1,
+		accordion: {
+			enable: !1,
+			enableOnDescriptionLength: 45,
+			active: !1
+		},
+		events: {
+			onAccept: () => {},
+			onReject: () => {},
+			setCookiesOnChange: []
+		},
+		scripts: []
+	};
+}
+function t() {
+	return {
+		cookieCategories: [],
+		askOnce: !0,
+		askOnChange: !0,
+		askAgainIfRejectedAfterDays: -1,
+		delay: 0,
+		initOnDomContentLoaded: !0,
+		bannerOptions: {
+			inject: !0,
+			injectWall: !0,
+			wall: !0,
+			wallScroll: !0,
+			wallBlur: !1,
+			bannerText: "This website uses cookies to ensure you get the best experience on our website.",
+			acceptAllButton: {
+				text: "Accept all",
+				show: !0,
+				onClick: () => {}
+			},
+			rejectAllButton: {
+				text: "Reject all",
+				show: !0,
+				onClick: () => {}
+			},
+			settingsButton: {
+				text: "Configure",
+				show: !0,
+				onClick: () => {}
+			},
+			acceptRequiredOnlyButton: {
+				text: "Configure",
+				show: !1,
+				onClick: () => {}
+			}
+		},
+		modalOptions: {
+			inject: !0,
+			title: "Cookie settings",
+			description: "Change the settings for your cookies here.",
+			showModalClass: "show-modal",
+			acceptAllButton: {
+				text: "Accept all",
+				show: !0,
+				onClick: () => {}
+			},
+			rejectAllButton: {
+				text: "Reject all",
+				show: !0,
+				onClick: () => {}
+			},
+			saveButton: {
+				text: "Save",
+				show: !0,
+				onClick: () => {}
+			},
+			closeButton: {
+				text: "Close",
+				show: !0,
+				onClick: () => {}
+			}
+		}
+	};
+}
+//#endregion
+//#region src/utils.ts
+function n(e) {
+	return btoa(e);
+}
+function r(e) {
+	return atob(e);
+}
+function i(e) {
+	return /<([^>]+)>/i.test(e);
+}
+function a(e, t) {
+	return i(e) ? e : `<${t}>${e}</${t}>`;
+}
+function o(e, t) {
+	let n = (e) => {
+		let t = {};
+		return JSON.stringify(e, (e, n) => (t[e] = null, n)), JSON.stringify(e, Object.keys(t).sort());
+	};
+	return n(e) === n(t);
+}
+function s(e) {
+	return JSON.parse(JSON.stringify(e)).map((e) => ({
+		...e,
+		checked: !0
+	}));
+}
+function c(e, t) {
+	let n = { ...e };
+	for (let r in t) if (Object.prototype.hasOwnProperty.call(t, r)) {
+		let i = t[r];
+		typeof i == "object" && i && !Array.isArray(i) ? n[r] = c(e[r] ?? {}, i) : i !== void 0 && (n[r] = i);
+	}
+	return n;
+}
+//#endregion
+//#region src/store.ts
+function l(e) {
+	let t = { ...e }, n = /* @__PURE__ */ new Set();
+	function r() {
+		n.forEach((e) => e());
+	}
+	return {
+		get(e) {
+			return t[e];
+		},
+		set(e, n) {
+			t = {
+				...t,
+				[e]: n
+			}, r();
+		},
+		update(e, n) {
+			t = {
+				...t,
+				[e]: n(t[e])
+			}, r();
+		},
+		subscribe(e) {
+			return n.add(e), () => {
+				n.delete(e);
+			};
+		},
+		snapshot() {
+			return { ...t };
+		}
+	};
+}
+//#endregion
+//#region src/storage.ts
+var u = "cookiesManagerOptions";
+function d(e) {
+	let t = n(JSON.stringify(e));
+	localStorage.setItem(u, t);
+}
+function f() {
+	let e = localStorage.getItem(u);
+	if (!e) return null;
+	try {
+		return JSON.parse(r(e));
+	} catch {
+		return null;
+	}
+}
+function p() {
+	localStorage.removeItem(u);
+}
+function m() {
+	return localStorage.getItem(u) !== null;
+}
+//#endregion
+//#region src/cookies.ts
+function h(e, t, n, r = "/", i, a, o) {
+	try {
+		let s = Math.round(n) * 86400, c = `${encodeURIComponent(e)}=${encodeURIComponent(String(t))}; max-age=${s}; path=${r}`;
+		o && (c += `; domain=${o}`), a && (c += `; samesite=${a}`), i && (c += "; secure"), document.cookie = c;
+	} catch (e) {
+		console.error(`Error setting cookie: ${e}`);
+	}
+}
+function g(e) {
+	let t = document.cookie.split(";").map((e) => e.trim());
+	for (let n of t) {
+		let t = n.indexOf("=");
+		if (t !== -1 && n.slice(0, t).trim() === e) return decodeURIComponent(n.slice(t + 1).trim());
+	}
+}
+function _(e, t) {
+	for (let n of e) for (let e of n.events.setCookiesOnChange) {
+		let r = n.checked ? e.valueOnAccept : e.valueOnReject, i = !n.checked && t !== -1 ? t : e.expirationDays;
+		h(e.cookieName, r, i, "/", e.secure, e.sameSite, e.domain);
+	}
+}
+//#endregion
+//#region src/types.ts
+var v = /* @__PURE__ */ function(e) {
+	return e[e.GTM = 0] = "GTM", e[e.STANDARD = 1] = "STANDARD", e;
+}({}), y = /* @__PURE__ */ new Set();
+function b() {
+	y.clear();
+}
+function x(e, t) {
+	if (y.has(e)) return;
+	y.add(e);
+	let n = document.createElement("script");
+	n.setAttribute("src", e), n.async = t;
+	try {
+		document.body.appendChild(n);
+	} catch {}
+}
+function S(e) {
+	if (!y.has(e)) {
+		y.add(e);
+		try {
+			let t = window;
+			t.dataLayer = t.dataLayer ?? [], t.dataLayer.push({
+				"gtm.start": (/* @__PURE__ */ new Date()).getTime(),
+				event: "gtm.js"
+			});
+			let n = document.getElementsByTagName("script")[0], r = document.createElement("script");
+			r.src = `https://www.googletagmanager.com/gtm.js?id=${e}`, n?.parentNode ? n.parentNode.insertBefore(r, n) : document.head.appendChild(r);
+		} catch {
+			console.error("Couldn't inject GTM.");
+		}
+	}
+}
+function C(e) {
+	let t = document.createElement("script");
+	Array.from(e.attributes).forEach((e) => {
+		e.name !== "type" && e.name !== "data-cookie-category" && t.setAttribute(e.name, e.value);
+	}), t.setAttribute("type", "text/javascript"), e.innerHTML && (t.innerHTML = e.innerHTML), e.parentNode?.replaceChild(t, e);
+}
+function w(e, t) {
+	for (let n of e) {
+		if (!n.checked && !t) continue;
+		let e = `script[type="text/plain"][data-cookie-category="${n.id}"]`;
+		document.querySelectorAll(e).forEach((e) => {
+			C(e);
+		});
+	}
+}
+function T(e, t, n) {
+	for (let r of e) if (n && n(r), !(!r.checked && !t)) for (let e of r.scripts) if (e.type === v.STANDARD || e.type == null) e.scriptSrc && x(e.scriptSrc, e.async);
+	else if (e.gtmCode) S(e.gtmCode);
+	else throw Error("You should provide a gtmCode for the script");
+	w(e, t);
+}
+//#endregion
+//#region src/banner.ts
+function E(e) {
+	let t = (t, n) => e[t] && e[t].show ? `<button class="banner-container__button ${n}">${e[t].text}</button>` : "";
+	return `
+    <div class="c-cookies-config-banner">
+      <div class="banner-container">
+        ${a(e.bannerText, "p")}
+        <div class="banner-container__buttons">
+          ${t("rejectAllButton", "banner-container__reject-all-btn cm-banner-reject-all-btn")}
+          ${t("acceptRequiredOnlyButton", "banner-container__accept-required-btn cm-banner-accept-required-btn")}
+          ${t("acceptAllButton", "banner-container__accept-all-btn cm-banner-accept-all-btn")}
+          ${t("settingsButton", "banner-container__config-btn cm-banner-config-btn")}
+        </div>
+      </div>
+    </div>`;
+}
+function D(e) {
+	return `<div class="c-cookies-config-wall ${e.wallBlur ? "c-cookies-config-wall--blurred" : ""}"></div>`;
+}
+function O(e, t) {
+	let n = !1;
+	function r(e) {
+		n ||= (e.querySelector(".cm-banner-accept-all-btn")?.addEventListener("click", t.onAcceptAll), e.querySelector(".cm-banner-reject-all-btn")?.addEventListener("click", t.onRejectAll), e.querySelector(".cm-banner-accept-required-btn")?.addEventListener("click", t.onAcceptRequiredOnly), e.querySelector(".cm-banner-config-btn")?.addEventListener("click", t.onOpenSettings), !0);
+	}
+	function i() {
+		e.inject && !document.querySelector(".c-cookies-config-banner") && (document.body?.insertAdjacentHTML("afterend", E(e)), e.injectWall && !document.querySelector(".c-cookies-config-wall") && document.body?.insertAdjacentHTML("afterend", D(e)));
+		let t = document.querySelector(".c-cookies-config-banner");
+		t && (t.style.display = "", r(t)), e.wall && document.querySelector(".c-cookies-config-wall")?.classList.add("wall-show"), e.wallScroll || (document.body.style.overflow = "hidden", document.documentElement.style.overflow = "hidden"), document.querySelector(".c-cookies-config-banner .banner-container")?.classList.add("show-banner");
+	}
+	function a() {
+		let e = document.querySelector(".c-cookies-config-banner");
+		e && (e.style.display = "none"), document.querySelector(".c-cookies-config-wall")?.classList.remove("wall-show"), document.body.style.overflow = "", document.documentElement.style.overflow = "";
+	}
+	return {
+		show: i,
+		hide: a
+	};
+}
+//#endregion
+//#region src/modal.ts
+function k(e) {
+	return e.replace(/"/g, "&quot;");
+}
+function A(e, t) {
+	let n = e.required ? "disabled" : "", r = e.checked ? "checked" : "", i = e.accordion.enable ? "cm-accordion" : "", a = e.accordion.enable ? "cm-panel" : "", o = e.accordion.active ? "cm-active-on-load" : "", s = e.accordion.enable ? "<div class='cc-header__left'></div>" : "", c = e.boxedHeader ? "cm-boxed" : "", l = e.boxedBody ? "cookie-category__body--boxed" : "";
+	return `
+    <div class="cookie-category">
+      <div class="cookie-category__header cc-header ${i} ${c} ${o}">
+        ${s}
+        <div class="cc-header__right">
+          <div class="header__title">${k(e.title)}</div>
+          <div class="header__switch">
+            <label class="switch ${n}">
+              <input ${n} ${r} class="cm-switch-${t}" type="checkbox">
+              <span class="slider round ${n}"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="cookie-category__body body ${l} ${a}">
+        <p>${k(e.description)}</p>
+      </div>
+    </div>`;
+}
+function j(e, t) {
+	return `
+    <div class="c-cookies-config-modal">
+      <div class="modal__container" id="modal-container">
+        <div class="modal__content">
+          ${e.closeButton.show ? "<div class=\"modal__close close-modal\" title=\"Close\"><div class=\"close-modal-img\"></div></div>" : ""}
+          <div class="modal__title">${k(e.title)}</div>
+          <p class="modal__description">${k(e.description)}</p>
+          <div class="modal__cookie-categories">
+            ${t.map((e, t) => A(e, t)).join("\n")}
+          </div>
+          <div class="modal__footer">
+            ${e.rejectAllButton.show ? `<button class="modal__button modal__button-width cm-modal-reject-all footer__button-reject-all">${k(e.rejectAllButton.text)}</button>` : ""}
+            ${e.acceptAllButton.show ? `<button class="modal__button modal__button-width cm-modal-accept-all footer__button-accept-all">${k(e.acceptAllButton.text)}</button>` : ""}
+            ${e.saveButton.show ? `<button class="modal__button-link close-modal cm-modal-save footer__button-save-btn">${k(e.saveButton.text)}</button>` : ""}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+function M(e, t, n) {
+	let r = [...t], i = !1;
+	function a() {
+		let e = document.querySelector(".c-cookies-config-modal");
+		if (!e) return r;
+		let t = e.querySelectorAll("[class^=\"cm-switch-\"]"), n = [...r];
+		return t.forEach((e) => {
+			let t = e.className.match(/cm-switch-(\d+)/);
+			if (t) {
+				let r = Number(t[1]);
+				n[r] = {
+					...n[r],
+					checked: e.checked
+				};
+			}
+		}), n;
+	}
+	function o(e, t) {
+		let n = document.querySelector(".c-cookies-config-modal");
+		if (!n) return;
+		let r = n.querySelector(`.cm-switch-${e}`);
+		r && (r.checked = t, t ? r.setAttribute("checked", "") : r.removeAttribute("checked"));
+	}
+	function s(e, t) {
+		let n = document.querySelector(".c-cookies-config-modal");
+		if (!n) return;
+		let r = n.querySelectorAll(".cookie-category"), i = r[e]?.querySelector(`.cm-switch-${e}`), a = r[e]?.querySelector(".slider"), o = r[e]?.querySelector("label.switch");
+		i && (t ? (i.disabled = !0, a?.classList.add("disabled"), o?.classList.add("disabled")) : (i.disabled = !1, a?.classList.remove("disabled"), o?.classList.remove("disabled")));
+	}
+	function c(e) {
+		i ||= (e.querySelectorAll(".close-modal").forEach((e) => e.addEventListener("click", () => {
+			u(), n.onClose?.();
+		})), e.querySelector(".cm-modal-accept-all")?.addEventListener("click", n.onAcceptAll), e.querySelector(".cm-modal-reject-all")?.addEventListener("click", n.onRejectAll), e.querySelector(".cm-modal-save")?.addEventListener("click", () => {
+			n.onSave(a());
+		}), e.querySelectorAll("[class^=\"cm-switch-\"]").forEach((e) => {
+			let t = e.className.match(/cm-switch-(\d+)/);
+			if (!t) return;
+			let n = Number(t[1]);
+			e.addEventListener("change", function() {
+				o(n, this.checked);
+			});
+		}), e.querySelectorAll(".cm-accordion").forEach((e) => {
+			e.addEventListener("click", function() {
+				this.classList.toggle("cm-active");
+				let e = this.nextElementSibling;
+				e && (e.style.maxHeight = e.style.maxHeight ? "" : `${e.scrollHeight}px`);
+			});
+		}), !0);
+	}
+	function l() {
+		e.inject && !document.querySelector(".c-cookies-config-modal") && document.body?.insertAdjacentHTML("afterend", j(e, r));
+		let t = document.querySelector(".c-cookies-config-modal");
+		t && (c(t), d(r), t.classList.add(e.showModalClass), t.querySelector("#modal-container")?.classList.add(e.showModalClass)), document.body.style.overflow = "hidden", document.documentElement.style.overflow = "hidden", setTimeout(() => {
+			document.querySelector(".c-cookies-config-modal")?.querySelectorAll(".cm-accordion.cm-active-on-load").forEach((e) => {
+				e.classList.remove("cm-active-on-load"), setTimeout(() => {
+					e.click();
+				}, 100);
+			});
+		}, 10);
+	}
+	function u() {
+		let t = document.querySelector(".c-cookies-config-modal");
+		t && (t.classList.remove(e.showModalClass), t.querySelector("#modal-container")?.classList.remove(e.showModalClass)), document.body.style.overflow = "", document.documentElement.style.overflow = "";
+	}
+	function d(e) {
+		r = [...e], document.querySelector(".c-cookies-config-modal") && e.forEach((e, t) => {
+			o(t, e.checked), s(t, e.required);
+		});
+	}
+	return d(t), {
+		show: l,
+		hide: u,
+		updateSwitches: d
+	};
+}
+//#endregion
+//#region src/createCookiesManager.ts
+function N(e) {
+	document.readyState === "complete" || document.readyState === "interactive" ? e() : document.addEventListener("DOMContentLoaded", e);
+}
+function P(n = {}) {
+	if (!n.cookieCategories?.length) throw Error("You should provide at least one cookie category");
+	let r = n.cookieCategories.map((t) => c(e(), t)), i = r.map((e) => e.events), a = c(t(), {
+		...n,
+		cookieCategories: r
+	}), u = l({
+		cookieCategories: a.cookieCategories,
+		acceptedAll: !1
+	}), h = !1, v = f();
+	if (v) if (o(s(u.get("cookieCategories")), s(v))) {
+		let e = v.map((e, t) => ({
+			...e,
+			events: i[t] ?? e.events
+		}));
+		u.set("cookieCategories", e);
+	} else p(), h = !0;
+	let y;
+	function x(e, t) {
+		for (let n of e) n.checked || t ? n.events.onAccept() : n.events.onReject();
+	}
+	let S;
+	a.bannerOptions && (S = O(a.bannerOptions, {
+		onAcceptAll: () => {
+			w.acceptAll(), a.bannerOptions.acceptAllButton?.onClick?.();
+		},
+		onRejectAll: () => {
+			w.rejectAll(), a.bannerOptions.rejectAllButton?.onClick?.();
+		},
+		onAcceptRequiredOnly: () => {
+			w.rejectAll(), a.bannerOptions.acceptRequiredOnlyButton?.onClick?.();
+		},
+		onOpenSettings: () => {
+			w.showModal(), a.bannerOptions.settingsButton?.onClick?.();
+		}
+	}));
+	let C;
+	a.modalOptions && (C = M(a.modalOptions, u.get("cookieCategories"), {
+		onAcceptAll: () => {
+			w.acceptAll(), a.modalOptions.acceptAllButton?.onClick?.();
+		},
+		onRejectAll: () => {
+			w.rejectAll(), a.modalOptions.rejectAllButton?.onClick?.();
+		},
+		onSave: (e) => {
+			u.set("cookieCategories", e), w.save(), a.modalOptions.saveButton?.onClick?.();
+		},
+		onClose: () => {
+			a.modalOptions.closeButton?.onClick?.();
+		}
+	})), u.subscribe(() => {
+		let e = u.get("cookieCategories");
+		C?.updateSwitches(e);
+	});
+	let w = {
+		init: async (e) => {
+			let t = e?.banner ?? !1, n = e?.modal ?? !1, r = () => {
+				if (!a.askOnce || h || !m()) return !0;
+				let e = u.get("cookieCategories"), t = f();
+				if (!t) return !0;
+				for (let n of e) for (let [e, r] of n.events.setCookiesOnChange.entries()) {
+					let i = g(r.cookieName);
+					if (i === void 0 || ![String(r.valueOnAccept), String(r.valueOnReject)].includes(i)) return !0;
+					if (n.checked) {
+						let n = t[e]?.events?.setCookiesOnChange?.[e]?.valueOnAccept;
+						if (n !== void 0 && String(n) !== i) return !0;
+					}
+				}
+				return !1;
+			}, i = async () => {
+				r() && (a.delay > 0 && await new Promise((e) => setTimeout(e, a.delay)), t && S?.show(), n && C?.show()), m() && (T(u.get("cookieCategories"), !1, y), x(u.get("cookieCategories"), !1));
+			};
+			a.initOnDomContentLoaded ? await new Promise((e) => {
+				N(() => {
+					i().then(e);
+				});
+			}) : await i();
+		},
+		onCategoryChange: (e) => {
+			y = e;
+		},
+		showBanner: () => S?.show(),
+		hideBanner: () => S?.hide(),
+		showModal: () => C?.show(),
+		hideModal: () => C?.hide(),
+		acceptAll: () => {
+			let e = u.get("cookieCategories").map((e) => ({
+				...e,
+				checked: !0
+			}));
+			u.set("cookieCategories", e), u.set("acceptedAll", !0), C?.hide(), S?.hide(), T(e, !0, y), d(e), _(e, a.askAgainIfRejectedAfterDays), x(e, !0);
+		},
+		rejectAll: () => {
+			let e = u.get("cookieCategories").map((e) => ({
+				...e,
+				checked: !!e.required
+			}));
+			u.set("cookieCategories", e), u.set("acceptedAll", !1), C?.hide(), S?.hide(), T(e, !1, y), d(e), _(e, a.askAgainIfRejectedAfterDays), x(e, !1);
+		},
+		save: () => {
+			let e = u.get("cookieCategories");
+			d(e), _(e, a.askAgainIfRejectedAfterDays), x(e, !1);
+		},
+		getOptions: () => ({ ...a }),
+		destroy: () => {
+			document.querySelector(".c-cookies-config-banner")?.remove(), document.querySelector(".c-cookies-config-wall")?.remove(), document.querySelector(".c-cookies-config-modal")?.remove(), b();
+		}
+	};
+	return w;
+}
+//#endregion
+export { v as ScriptType, P as createCookiesManager };

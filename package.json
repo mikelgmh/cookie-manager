@@ -2,14 +2,20 @@
     "name": "@mikelgmh/cookie-manager",
     "version": "1.2.8",
     "description": "A cookies manager that can inject scripts dynamically.",
-    "main": "dist/index.js",
-    "umd:main": "dist/index.umd.js",
-    "source": "src/CookiesManager.ts",
+    "type": "module",
+    "main": "dist/index.cjs",
+    "module": "dist/index.esm.mjs",
     "types": "dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.esm.mjs",
+            "require": "./dist/index.cjs"
+        },
+        "./dist/index.css": "./dist/index.css"
+    },
     "files": [
-        "dist/*.{css,js,map,ts}",
-        "dist/src/*.{css,js,map,ts}",
-        "dist/src/**/*.{css,js,map,ts,svg}"
+        "dist"
     ],
     "repository": {
         "type": "git",
@@ -21,16 +27,18 @@
         "email": "mikelgmh@gmail.com"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "microbundle",
-        "dev": "microbundle watch",
-        "version": "npx auto-version --patch"
+        "build": "vite build",
+        "dev": "vite build --watch",
+        "test": "vitest run",
+        "test:watch": "vitest"
     },
     "author": "Mikel Granero",
     "license": "ISC",
     "devDependencies": {
-        "auto-version-js": "^0.3.10",
-        "microbundle": "^0.15.1",
-        "sass": "^1.55.0"
+        "happy-dom": "^20.10.6",
+        "sass": "^1.101.0",
+        "vite": "^8",
+        "vite-plugin-dts": "^4",
+        "vitest": "^4.1.9"
     }
 }

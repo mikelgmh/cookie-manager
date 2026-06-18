@@ -1,3 +1,5 @@
+@use '../config/variables' as v;
+
 /*=============== MODAL ===============*/
 
 .c-cookies-config-modal {
@@ -271,7 +273,7 @@
             margin-top: 50px;
             display: flex;
             gap: 12px;
-            @media screen and (max-width: 767px) {
+            @media screen and (max-width: v.$mobile) {
                 flex-direction: column;
                 button {
                     width: 100%;
@@ -432,11 +434,11 @@
             display: flex;
             width: 100%;
             gap: 12px;
-            @media screen and (max-width: $mobile) {
+            @media screen and (max-width: v.$mobile) {
                 flex-direction: column;
             }
         }
-        @media screen and (max-width: $mobile) {
+        @media screen and (max-width: v.$mobile) {
             &__accept-all-btn {
                 order: 1;
             }

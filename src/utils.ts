@@ -1,82 +1,54 @@
+export function encode(str: string): string {
+  return btoa(str)
+}
 
-export class Utils {
-    public static encode(str) {
-        return window.btoa(str);
+export function decode(str: string): string {
+  return atob(str)
+}
+
+export function isHtml(str: string): boolean {
+  return /<([^>]+)>/i.test(str)
+}
+
+export function wrapString(str: string, tag: string): string {
+  return isHtml(str) ? str : `<${tag}>${str}</${tag}>`
+}
+
+export function objectEquals(a: unknown, b: unknown): boolean {
+  const sortKeys = (obj: unknown): string => {
+    const keys: Record<string, null> = {}
+    JSON.stringify(obj, (key, value) => {
+      keys[key] = null
+      return value
+    })
+    return JSON.stringify(obj, Object.keys(keys).sort())
+  }
+  return sortKeys(a) === sortKeys(b)
+}
+
+export function prepareForComparison(categories: { checked: boolean }[]): { checked: boolean }[] {
+  return JSON.parse(JSON.stringify(categories)).map(
+    (c: { checked: boolean }) => ({ ...c, checked: true }),
+  )
+}
+
+export function deepMerge<T extends object, S extends object>(
+  target: T,
+  source: S,
+): T & S {
+  const out = { ...target } as any
+  for (const key in source) {
+    if (Object.prototype.hasOwnProperty.call(source, key)) {
+      const val = (source as any)[key]
+      if (val !== undefined && val !== null && typeof val === 'object' && !Array.isArray(val)) {
+        out[key] = deepMerge(
+          (target as any)[key] ?? {},
+          val as any,
+        )
+      } else if (val !== undefined) {
+        out[key] = val
+      }
     }
-    public static decode(a) {
-        return window.atob(a);
-    }
-    private static isHTML(str: string) {
-        var isHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
-
-        // test isHTML regex
-        return str.match(isHTML);
-
-    }
-    public static wrapString(str: string, tag: string) {
-        if (this.isHTML(str)) {
-            return str;
-        }
-        return `<${tag}>${str}</${tag}>`;
-    }
-
-    public static deepEqual(x, y) {
-        const ok = Object.keys, tx = typeof x, ty = typeof y;
-        return x && y && tx === 'object' && tx === ty ? (
-            ok(x).length === ok(y).length &&
-            ok(x).every(key => this.deepEqual(x[key], y[key]))
-        ) : (x === y);
-    }
-
-    public static compareObjects(a, b) {
-        let s = (o) => Object.entries(o).sort().map(i => {
-            if (i[1] instanceof Object) i[1] = s(i[1]);
-            return i
-        })
-        return JSON.stringify(s(a)) === JSON.stringify(s(b))
-    }
-
-    public static objectEquals(obj1, obj2) {
-        const JSONstringifyOrder = obj => {
-            const keys = {};
-            JSON.stringify(obj, (key, value) => {
-                keys[key] = null;
-                return value;
-            });
-            return JSON.stringify(obj, Object.keys(keys).sort());
-        };
-        return JSONstringifyOrder(obj1) === JSONstringifyOrder(obj2);
-    }
-
-    // @audit this is removing te callback functions. Watch out!
-    public static prepareObjectsForComparison(obj1, obj2) {
-        var A = JSON.parse(JSON.stringify(obj1));
-        var B = JSON.parse(JSON.stringify(obj2));
-
-
-        A.forEach(element => {
-            element.checked = true;
-        });
-        B.forEach(element => {
-            element.checked = true;
-        });
-        return { A, B }
-    }
-
-    public static mergeRecursively(obj1, obj2) {
-        for (var p in obj2) {
-            try {
-                // Property in destination object set; update its value.
-                if (obj2[p].constructor == Object) {
-                    obj1[p] = this.mergeRecursively(obj1[p], obj2[p]);
-                } else {
-                    obj1[p] = obj2[p];
-                }
-            } catch (e) {
-                // Property in destination object not set; create it and set its value.
-                obj1[p] = obj2[p];
-            }
-        }
-        return obj1;
-    }
+  }
+  return out as T & S
 }

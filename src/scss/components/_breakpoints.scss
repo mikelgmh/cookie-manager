@@ -1,6 +1,6 @@
-/*=============== BREAKPOINTS ===============*/
-/* For small devices */
-@media screen and (min-width: $mobile){
+@use '../config/variables' as v;
+
+@media screen and (min-width: v.$mobile){
     .modal{
         &__content{
             margin: auto;

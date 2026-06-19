@@ -1,379 +1,292 @@
-# cookie-manager
-This library allows to inject scripts dynamically according to the cookie preferences chosen in a modal. You can also set values for cookies automatically for each cookie category. [GitHub repository](https://github.com/mikelgmh/cookie-manager).
+# @mikelgmh/cookie-manager
 
+[![npm version](https://img.shields.io/npm/v/@mikelgmh/cookie-manager.svg)](https://www.npmjs.com/package/@mikelgmh/cookie-manager)
+[![CI Status](https://github.com/mikelgmh/cookie-manager/actions/workflows/ci.yml/badge.svg)](https://github.com/mikelgmh/cookie-manager/actions/workflows/ci.yml)
+[![NPM downloads](https://img.shields.io/npm/dm/@mikelgmh/cookie-manager.svg)](https://www.npmjs.com/package/@mikelgmh/cookie-manager)
+[![license](https://img.shields.io/npm/l/@mikelgmh/cookie-manager.svg)](https://github.com/mikelgmh/cookie-manager/blob/master/LICENSE)
 
-![enter image description here](https://i.imgur.com/hxAJYBE.png)
+A modern, highly customizable, and lightweight vanilla JavaScript/TypeScript cookie consent manager. It injects script tags dynamically, executes declarative HTML-based scripts, manages cookie values, and supports advanced cookie attributes like `SameSite`, `Secure`, and custom domains.
+
+Built with a modern functional architecture (no classes), fully reactive store-driven UI state, and zero-dependency dynamic script injection with deduplication support.
+
+---
 
 ## Installation
 
+Install using Bun:
+```bash
+bun add @mikelgmh/cookie-manager
+```
+
+Or using npm:
 ```bash
 npm install @mikelgmh/cookie-manager
 ```
 
-## Get started
+---
 
-```jsx
-import { CookiesManager, ScriptType } from '@mikelgmh/cookie-manager';
-import '@mikelgmh/cookie-manager/dist/index.css'; // Optional. Default styles.
+## Quick Start
 
-const cookiesManager = new CookiesManager(options); // Check the options object below
-cookiesManager.init(true, false); // The first value shows the banner on load, the second value shows the modal on load
+Import the manager, its types, and default styles:
 
-// You can manually open or close both
-// OPEN
-cookiesManager.showBanner();
-cookiesManager.showModal();
+```typescript
+import { createCookiesManager, ScriptType } from '@mikelgmh/cookie-manager';
+import '@mikelgmh/cookie-manager/dist/index.css'; // Optional: Import default themes
 
-// CLOSE
-cookiesManager.hideBanner();
-cookiesManager.hideModal();
+// 1. Create the manager instance
+const manager = createCookiesManager({
+  cookieCategories: [
+    {
+      id: 'essential',
+      title: 'Essential Cookies',
+      description: 'These cookies are required for the website to function properly.',
+      required: true,
+      checked: true,
+    },
+    {
+      id: 'analytics',
+      title: 'Analytics Cookies',
+      description: 'Used to understand how visitors interact with our website.',
+      required: false,
+      checked: false,
+      scripts: [
+        {
+          type: ScriptType.GTM,
+          gtmCode: 'GTM-XXXXXXX',
+        }
+      ],
+      events: {
+        onAccept: () => console.log('Analytics accepted!'),
+        onReject: () => console.log('Analytics rejected!'),
+        setCookiesOnChange: [
+          {
+            cookieName: 'analytics_allowed',
+            valueOnAccept: 'true',
+            valueOnReject: 'false',
+            expirationDays: 365,
+            sameSite: 'lax',
+            secure: true,
+          }
+        ]
+      }
+    }
+  ]
+});
+
+// 2. Register callbacks BEFORE calling init()
+manager.onCategoryChange((category) => {
+  console.log(`Category ${category.id} status is now: ${category.checked}`);
+});
+
+// 3. Initialize the manager (triggers banner/modal dynamically if needed)
+await manager.init({ banner: true, modal: false });
 ```
 
-## Styling
+---
 
-You can optionally import the **default styles**. 
+## API Methods
 
-```jsx
-import '@mikelgmh/cookie-manager/dist/index.css'; // Optional. Default styles.
-```
+The `createCookiesManager` factory returns a `CookiesManagerAPI` object with the following methods:
 
-If you want to use your own styles you can **customize the default template** by importing [this SCSS file](https://github.com/mikelgmh/cookie-manager/blob/master/src/scss/components/_modal.scss) to your project.
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| `init` | `(options?: InitOptions) => Promise<void>` | Initializes saved state, handles DOMContentLoaded delays, and shows the banner/modal if consent is required. |
+| `onCategoryChange` | `(callback: CategoryChangeCallback) => void` | Subscribes to category preference changes. **Must be called before `init()`**. |
+| `showBanner` | `() => void` | Programmatically displays the consent banner. |
+| `hideBanner` | `() => void` | Hides the consent banner. |
+| `showModal` | `() => void` | Programmatically displays the detailed settings modal. |
+| `hideModal` | `() => void` | Hides the settings modal. |
+| `acceptAll` | `() => void` | Accepts all categories, stores state, sets cookies, triggers scripts, and runs callbacks. |
+| `rejectAll` | `() => void` | Rejects all non-required categories, sets rejection cookies/state, and closes UI. |
+| `save` | `() => void` | Saves the preferences currently configured in the modal checkboxes. |
+| `getOptions` | `() => Options` | Returns the merged options object. |
+| `destroy` | `() => void` | Removes banner, modal, and wall elements from the DOM and clears the script loading cache. |
 
-## Options
+---
 
-Here’s an example of the options object. Every option has a default value, so the only required option is the `cookieCategories` array.
+## Options Configuration
 
-```jsx
-{
-    askOnce: true, // If the user already accepted the cookies, don't ask again on page reload
-    askOnChange: true, // Ask again if cookieCategories array is modified. This overrides the askOnce option
-    askAgainIfRejectedAfterDays: -1, // -1 to disable, set to 30 to ask after 30 days if the user rejected any cookie
-    delay: 0, // Sets a timeout to show the banner / modal using the init() method.
-    modalOptions: { // Options for the modal
-        inject: true, // Inject the HTML of the modal using Javascript. This might cause CSP issues if CSP is on
-        showModalClass: "show-modal", // The clas used to show the modal. Use it along with modal__container
-        title: "Cookie settings",
-        description: "Change the settings for your cookies here.",
-        acceptAllButton: {
-            text: 'Accept all',
-            show: true,
-            onClick: () => { },
-        },
-        rejectAllButton: {
-            text: 'Reject all',
-            show: true,
-            onClick: () => { },
-        },
-        saveButton: {
-            text: 'Save',
-            show: true,
-            onClick: () => { },
-        },
-        closeButton: {
-            text: 'Close', // Not implemented yet. This shows the X mark in the modal's corner
-            show: true,
-        },
-    },
-    bannerOptions: { // Options for the banner
-        inject: true, // Inject the HTML of the banner using Javascript. This might cause CSP issues if CSP is on
-        wall: true, // Block the background with a semi-transparent wall
-        injectWall: true, // Injects the HTML for the wall.  This might cause CSP issues if CSP is on
-        wallScroll: true, // Allow the scroll.
-        wallBlur: false, //Blurs the background wall
-        bannerText: 'This website uses cookies to ensure you get the best experience on our website.',
-        acceptAllButton: {
-            text: 'Accept all',
-            show: true,
-            onClick: () => { },
-        },
-        rejectAllButton: {
-            text: 'Reject all',
-            show: true,
-            onClick: () => { },
-        },
-        settingsButton: {
-            text: 'Configure',
-            show: true,
-            onClick: () => { },
-        },
-    },
-    cookieCategories: [ // The cookie categories. These will appear in the cookie modal
-        {
-            id: "my-custom-id-1", // Custom id. Useful to identify the categories on the onCookieCategoryChange callback.
-            title: 'Analytics Cookies',
-            description: 'This is a test description. You can change this in the options object.',
-            required: false, // Set to true to disable the switch
-            checked: false, // Set to true to check the switch
-            boxedHeader: false, // Puts the category in a Box
-            boxedBody: false, // Adds margins to fit the body in the header's box
-            accordion: {
-                enable: false, // Enables an accordion for the description
-                active: false, // Sets the accordion to active by default
-            },
-            events: { // You can defined some callbacks or events easily.
-                onAccept: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
-                onReject: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
-                setCookiesOnChange: [ // This array can be empty []. If you want to change some cookie values, you can follow this example:
-                    {
-                        cookieName: "analyticsCookie",
-                        valueOnAccept: true,
-                        valueOnReject: false,
-                        expirationDays: 365, // Be careful, the limit is 400 days!
-                    },
-                    {
-                        cookieName: "adsCookie",
-                        valueOnAccept: true,
-                        valueOnReject: false,
-                        expirationDays: 365, // Be careful, the limit is 400 days!
-                    }
-                ]
-            },
-            scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
-                {
-                    type: ScriptType.STANDARD, // Standart to inject a regular script. GTM if using GTM.
-                    // gtmCode: '', // Set this value if using GTM
-                    scriptSrc: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js',
-                    async: true,
-                },
-            ],
-        },
-        {
-            id: "my-custom-id-2", // Custom id. Useful to identify the categories on the onCookieCategoryChange callback.
-            title: 'Analytics Cookies',
-            description: 'This is a test description. You can change this in the options object.',
-            required: false,
-            scripts: [ // The scripts array can have an empty value [] if you don't want to inject scripts
-                {
-                    type: ScriptType.STANDARD,
-                    // gtmCode: '',
-                    scriptSrc: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js',
-                    async: true,
-                },
-            ],
-            events: { // You can defined some callbacks or events easily.
-                onAccept: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
-                onReject: () => { }, // Callback function. This method is called when the user accepted this cookieCategory when the user presses the save button.
-                setCookiesOnChange: [ // This array can be empty []. If you want to change some cookie values, you can follow this example:
-                    {
-                        cookieName: "analyticsCookie",
-                        valueOnAccept: true,
-                        valueOnReject: false,
-                        expirationDays: 365, // Be careful, the limit is 400 days!
-                    },
-                    {
-                        cookieName: "adsCookie",
-                        valueOnAccept: true,
-                        valueOnReject: false,
-                        expirationDays: 365, // Be careful, the limit is 400 days!
-                    }
-                ]
-            },
-        },
-    ],
+The configuration options object supports the following properties:
+
+```typescript
+interface Options {
+  cookieCategories: CookieCategory[];      // Detailed below
+  askOnce?: boolean;                       // If true, doesn't ask again if consent is stored (default: true)
+  askOnChange?: boolean;                   // Prompts again if cookieCategories definitions change (default: true)
+  askAgainIfRejectedAfterDays?: number;    // Prompts user again after X days if any category was rejected (default: -1, disabled)
+  delay?: number;                          // Delay in milliseconds before showing UI (default: 0)
+  initOnDomContentLoaded?: boolean;        // Wait for DOMContentLoaded before executing init DOM logic (default: true)
+  bannerOptions?: BannerOptions;           // Banner options
+  modalOptions?: ModalOptions;             // Modal options
 }
 ```
 
-## Order of scripts
+### Cookie Category Options (`CookieCategory`)
+Each category in `cookieCategories` has the following properties:
 
-You can change the order of script injection by moving the objects in the `scripts` array up or down.
+| Option | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | `string` | `""` | Unique identifier for the category. |
+| `title` | `string` | `"Cookie Category Example"` | Title shown in the modal settings. |
+| `description` | `string` | `"Cookie category description"` | Detailed explanation shown under the category header. |
+| `required` | `boolean` | `false` | If true, the switch is checked, disabled, and cannot be turned off. |
+| `checked` | `boolean` | `true` | Initial state of the checkbox switch if no saved preferences exist. |
+| `boxedHeader` | `boolean` | `false` | Render header in a card box style. |
+| `boxedBody` | `boolean` | `false` | Renders body padding matching the header card box. |
+| `accordion` | `Accordion` | `{ enable: false, ... }` | Collapse description under an accordion toggle. |
+| `events` | `Events` | `{ onAccept, onReject, setCookiesOnChange }` | Callbacks and cookie writers triggered on status change. |
+| `scripts` | `Script[]` | `[]` | Dynamic scripts loaded when category is accepted. |
 
-## Using it together with CSP
+### Cookie Objects (`CookieObject`)
+Configure cookies that will be automatically written to the user's browser under `events.setCookiesOnChange`:
+```typescript
+interface CookieObject {
+  cookieName: string;
+  valueOnAccept: string | number | boolean;
+  valueOnReject: string | number | boolean;
+  expirationDays: number;                 // Expiration (max 400 days)
+  secure?: boolean;                       // Sets Secure flag (HTTPS only)
+  sameSite?: 'lax' | 'strict' | 'none';   // Sets SameSite attribute
+  domain?: string;                        // Optional domain scope (e.g. '.example.com')
+}
+```
 
-This library injects HTML directly to the DOM, so if your CSP configuracion does not allow this, you can manually add the HTML to your project. To get it to work, you need to set the inject value to false in bannerOptions and modalOptions.
+### Banner Options (`BannerOptions`)
+```typescript
+interface BannerOptions {
+  inject?: boolean;                        // Injects default HTML banner dynamically (default: true)
+  injectWall?: boolean;                    // Injects backdrop overlay (default: true)
+  wall?: boolean;                          // Shows overlay under banner (default: true)
+  wallScroll?: boolean;                    // Allow page scroll when banner is active (default: true)
+  wallBlur?: boolean;                      // Applies blur filter to overlay backdrop (default: false)
+  bannerText?: string;                     // Text text displayed on the banner
+  acceptAllButton?: ButtonOptions;         // "Accept All" button configurations
+  rejectAllButton?: ButtonOptions;         // "Reject All" button configurations
+  settingsButton?: ButtonOptions;          // "Configure Settings" button configurations
+  acceptRequiredOnlyButton?: ButtonOptions; // GDPR-compliant "Accept Necessary Only" button (default: show: false)
+}
+```
 
-1. Copy and paste the HTML elements to your projects:
+### Modal Options (`ModalOptions`)
+```typescript
+interface ModalOptions {
+  inject?: boolean;                        // Injects default HTML modal dynamically (default: true)
+  title?: string;                          // Header title (default: "Cookie settings")
+  description?: string;                    // Subheader description (default: "Change the settings for your cookies here.")
+  showModalClass?: string;                 // CSS class applied when displaying modal (default: "show-modal")
+  acceptAllButton?: ButtonOptions;         // Accept all button options
+  rejectAllButton?: ButtonOptions;         // Reject all button options
+  saveButton?: ButtonOptions;              // Save button options
+  closeButton?: ButtonOptions;             // Close 'X' button options
+}
+```
+
+### Button Options (`ButtonOptions`)
+Buttons in the banner and modal can execute custom actions besides consent calculations:
+```typescript
+interface ButtonOptions {
+  text: string;
+  show: boolean;
+  onClick?: () => void;                    // Callback executed when the button is clicked
+}
+```
+
+---
+
+## Script Blocking & Execution
+
+The library supports two main methods for handling third-party scripts (e.g. Google Analytics, Facebook Pixel, Ads):
+
+### 1. Dynamic Script Injection (JavaScript Options)
+Specify the scripts directly inside the JS category configuration. They are loaded dynamically once the user accepts the category:
+```typescript
+{
+  id: 'analytics',
+  // ...,
+  scripts: [
+    {
+      type: ScriptType.STANDARD,
+      scriptSrc: 'https://example.com/analytics.js',
+      async: true
+    },
+    {
+      type: ScriptType.GTM,
+      gtmCode: 'GTM-XXXXXXX' // Automatic GTM dataLayer initialization
+    }
+  ]
+}
+```
+
+### 2. Declarative Script Injection (HTML Markup)
+Instead of configuring scripts in JavaScript, write them directly in your HTML markup, blocked by setting `type="text/plain"` and specifying the target category ID in `data-cookie-category`:
 
 ```html
-<div class="c-cookies-config-wall"></div>
-```
-```html
-    <div class="c-cookies-config-banner">
-        <div class="banner-container">
-            <p>This website uses cookies to ensure you get the best experience on our website.</p>
-            <div class="banner-container__buttons">
-                <button class="banner-container__button banner-container__accept-all-btn cm-banner-accept-all-btn">Accept all</button>
-                <button class="banner-container__button banner-container__reject-all-btn cm-banner-reject-all-btn">Reject all</button>
-                <button class="banner-container__button-link banner-container__config-btn cm-banner-config-btn">Settings</button>
-            </div>
-        </div>
-    </div>
-```
-```html
-    <div class="c-cookies-config-modal">
-        <div class="modal__container" id="modal-container">
-        <div class="modal__content">
-            <div class="modal__close close-modal" title="Close">
-                <div class="close-modal-img"></div>
-            </div>
-        
-            <h1 class="modal__title">Configuración de cookies</h1>
-            <p class="modal__description">Configura aquí tus cookies.</p>
-            <div class="modal__cookie-categories">
-                
-            <div class="cookie-category">
-                <div class="cookie-category__header cc-header">
-                    <h2 class="header__title">
-                    Cookies funcionales
-                    </h2>
-                    <div class="header__switch">
-                    <label class="switch disabled">
-                        <input disabled="" checked="" class="cm-switch-0" type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                    </div>
-                </div>
-            <div class="cookie-category__body body">
-                <p>This is a test description. You can change this in the options object.</p>
-            </div>
-            </div>
-            
-            <div class="cookie-category">
-                <div class="cookie-category__header cc-header">
-                    <h2 class="header__title">
-                    Cookies de analítica
-                    </h2>
-                    <div class="header__switch">
-                    <label class="switch ">
-                        <input checked="" class="cm-switch-1" type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                    </div>
-                </div>
-            <div class="cookie-category__body body">
-                <p>This is a test description. You can change this in the options object.</p>
-            </div>
-            </div>
-            
-            </div>
+<!-- This script won't run by default -->
+<script type="text/plain" data-cookie-category="analytics" src="https://example.com/analytics.js" async></script>
 
-            <div class="modal__footer">
-                <button class="modal__button modal__button-width cm-modal-reject-all footer__button-reject-all">Reject all</button>
-                <button class="modal__button modal__button-width cm-modal-accept-all footer__button-accept-all">Accept all</button>
-                <button class="modal__button-link close-modal cm-modal-save footer__button-save-btn"> Save </button>
-            </div>
-        </div>
-        </div>
-    </div>
+<!-- Inline scripts are also supported -->
+<script type="text/plain" data-cookie-category="marketing">
+  console.log('Marketing pixel initialized!');
+  fbq('track', 'PageView');
+</script>
 ```
 
-2. Call the init method:
-```javascript
-    // First, set the inject value to false in the banner and modal options
-    var options = {
-        cookieCategories: [...],
-        bannerOptions: {
-            inject: false,
-        },
-        modalOptions: {
-            inject: false
-        }
-    };
+When consent is granted, the manager scans the DOM, replaces the script tags with `type="text/javascript"`, removes the block indicators, and triggers their execution in the browser automatically.
 
-    const cookiesManager = new CookiesManager(options);
-    cookiesManager.init(true, false); // This method will automatically add the event listeners
-```
+---
 
-## Custom HTML
-You can create you own banner or modal, you just need to add some classes to your inputs or buttons. Your components should respect these rules
-### Banner
+## CSP Compliance & Custom Markup
 
-- The banner's parent div must have the following class: `c-cookies-config-banner`. This is used to show / hide the banner.
-- Inside the banner there must be an element with the following class:  `banner-container`. This is used to show / hide the banner.
-- The accept all button must have this class: `cm-banner-accept-all-btn`.
-- The reject all button must have this class: `cm-banner-reject-all-btn`.
-- The cookie config button must have this class: `cm-banner-config-btn`.
+If you have a strict Content Security Policy (CSP) that prevents dynamic HTML injection (`inject: true`), set `inject: false` in both `bannerOptions` and `modalOptions` and write the HTML manually in your page markup. 
 
-### Modal
-
-- The modal's parent div must have the following class: `c-cookies-config-modal`. This is used to show / hide the modal.
-- Inside the modal there must be an element with the following class:  `modal__container`. This is used to show / hide the modal.
-- The modal's close button must have the following class: `close-modal`
-- The modal's save button must have the following class: `cm-modal-save`
-- The modal's accept all button must have the following class: `cm-modal-accept-all`
-- The modal's reject all button must have the following class: `cm-modal-reject-all`
-- The checkbox inputs for each cookieCategory must use this syntax: `cm-switch-[index]`, where index is the switch number starting from 0.
-- Watch out! The cookie categories (inside the `cookieCategories` array in the `options` object) MUST be in the same order as they're printed on screen.
-
-### Wall
-
-- The wall must have this class: `c-cookies-config-wall`
-- The wall on its blurred variant also has this class: `c-cookies-config-wall--blurred`
-
-To start using the library set the inject values to false in both the banner and modal.
+The library will automatically locate the elements by class name and bind all click events, accordions, and checkbox states securely:
 
 ```javascript
-    // First, set the inject value to false in the banner and modal options
-    var options = {
-        cookieCategories: [...],
-        bannerOptions: {
-            inject: false,
-        },
-        modalOptions: {
-            inject: false
-        }
-    };
-
-    const cookiesManager = new CookiesManager(options);
-    cookiesManager.init(true, false); // This method will automatically add the event listeners
+const manager = createCookiesManager({
+  bannerOptions: { inject: false },
+  modalOptions: { inject: false },
+  cookieCategories: [ ... ]
+});
+await manager.init({ banner: true });
 ```
 
-## Callbacks
+### Required CSS Classes for Custom HTML:
 
-You can set a callback function by calling the `on` method.
+* **Banner Container**: `.c-cookies-config-banner` (with inner `.banner-container`)
+* **Accept All Banner Button**: `.cm-banner-accept-all-btn`
+* **Reject All Banner Button**: `.cm-banner-reject-all-btn`
+* **Accept Necessary Banner Button**: `.cm-banner-accept-required-btn`
+* **Open Settings Banner Button**: `.cm-banner-config-btn`
+* **Modal Container**: `.c-cookies-config-modal` (with inner `#modal-container`)
+* **Checkbox Switches**: `.cm-switch-[index]` (where `[index]` corresponds to the zero-based category index in the array, e.g. `.cm-switch-0`, `.cm-switch-1`)
+* **Save Modal Button**: `.cm-modal-save`
+* **Accept All Modal Button**: `.cm-modal-accept-all`
+* **Reject All Modal Button**: `.cm-modal-reject-all`
+* **Close Modal Buttons**: `.close-modal`
+* **Wall Overlay**: `.c-cookies-config-wall` (with optional `.c-cookies-config-wall--blurred`)
 
-⚠️ It is very important to define the callbacks before calling the init() method ⚠️ If you want to use more specific callbacks, refer to the `events` object in each `cookieCategory`.
+---
 
-### Available callbacks
+## Styling and Customization
 
-|callback| params | description
-|--|--|--|
-| onCookieCategoryChange() | cookieCategory | This function is called when the user accepted / rejected a cookie Category after pressing the save button or after initializing the library. If you want an specific callback for each category, check the `events` object in `cookieCategory`.
-
-```javascript
-    var options = {...};
-    const cookiesManager = new CookiesManager(options);
-    cookiesManager.on('onCookieCategoryChange', (cookieCategory) => {
-        console.log(cookieCategory);
-    });
-    cookiesManager.init(true, false);
-```
-
-## Working example
-
-```jsx
+You can import the default compiled stylesheet directly:
+```typescript
 import '@mikelgmh/cookie-manager/dist/index.css';
-import { CookiesManager, ScriptType } from '@mikelgmh/cookie-manager';
-
-var options = {
-    cookieCategories: [
-        {
-            title: 'Cookies funcionales',
-            description: 'This is a test description. You can change this in the options object.',
-            required: true,
-            scripts: [
-                {
-                    type: ScriptType.STANDARD,
-                    // gtmCode: '',
-                    scriptSrc: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js',
-                    async: true,
-                },
-            ],
-        },
-        {
-            title: 'Cookies de analítica',
-            description: 'This is a test description. You can change this in the options object.',
-            required: false,
-            scripts: [
-                {
-                    type: ScriptType.GTM,
-                    gtmCode: 'GTM-XXXXXXX',
-                    async: true,
-                },
-            ],
-        },
-    ],
-};
-
-const cookiesManager = new CookiesManager(options);
-cookiesManager.init(true, false);
 ```
+
+Alternatively, copy and customize the variables and mixins in your own SCSS files using Dart Sass (`@use` modern syntax):
+
+```scss
+@use '@mikelgmh/cookie-manager/src/scss/config/variables' as vars with (
+  $first-color: #3f51b5,       // Override themes colors
+  $title-color: #212121
+);
+@use '@mikelgmh/cookie-manager/src/scss/base/base';
+@use '@mikelgmh/cookie-manager/src/scss/components/modal';
+```
+
+---
+
+## License
+
+This library is licensed under the [ISC License](file:///c:/Users/mikel/Documents/cookie-manager/LICENSE).
